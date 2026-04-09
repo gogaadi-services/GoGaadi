@@ -1,0 +1,201 @@
+/**
+ * Auth Interfaces
+ * Shared between Frontend and Backend
+ */
+
+export enum UserRole {
+  ADMIN = 'admin',
+  USER = 'user',
+  CAPTAIN = 'captain',
+  CONSULTANT = 'consultant',
+}
+
+export enum UserStatus {
+  PENDING_APPROVAL = 'pending_approval',
+  INVITED = 'invited',
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  DEACTIVATED = 'deactivated',
+  REJECTED = 'rejected',
+  EXPIRED = 'expired',
+}
+
+export enum UserSource {
+  SIGNUP = 'signup',
+  ADMIN = 'admin',
+  TICKET = 'ticket',
+  AD = 'ad',
+}
+
+export enum RoleRequestStatus {
+  PENDING = 'pending_approval',
+  APPROVED = 'active',
+  REJECTED = 'rejected',
+}
+
+export interface IAuthUser {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  name: string;
+  phone: string | null;
+  customUserId: string | null;
+  businessUnit: string | null;
+  employeeId: string | null;
+  dateOfBirth: string | null;
+  profilePicture: string | null;
+  reasonForAccess: string | null;
+  role: UserRole;
+  requestedRole: string | null;
+  status: string | null;
+  reviewedBy: number | null;
+  reviewedAt: string | null;
+  adminNotes: string | null;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  // Extended fields
+  accessFromDate: string | null;
+  accessToDate: string | null;
+  application: string | null;
+  applicationLead: string | null;
+  captainProfileUpdated: boolean;
+  mustResetPassword: boolean;
+  gender: string | null;
+  city: string | null;
+  source: string | null;
+  draftExpiresAt: string | null;
+  lastActivityAt: string | null;
+  lastLoginAt?: string | null;
+  failedLoginAttempts?: number | null;
+  lockedUntil?: string | null;
+  passwordChangedAt?: string | null;
+  attachments?: string | null; // JSON array of { name, url, size }
+  // Creator info (populated when admin creates the user; null for self-signup)
+  createdByName?: string | null;
+  createdByEmail?: string | null;
+  createdByPhone?: string | null;
+  createdByRef?: string | null;
+}
+
+export interface IUserChangeLog {
+  id: number;
+  userId: number;
+  changeType: string;
+  fieldName: string | null;
+  previousValue: string | null;
+  newValue: string | null;
+  changedBy: number;
+  changedByName: string;
+  reasonCode: string | null;
+  reasonNotes: string | null;
+  createdAt: string;
+}
+
+export interface ICaptainProfile {
+  id: number;
+  userId: number;
+  application: string;
+  captainRole: string | null;
+  slaWorkingCalendar: string | null;
+  slaExceptionCalendar: string | null;
+  leadCaptain: string | null;
+  applicationManager: string | null;
+  isPocLead: boolean;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ICaptainRole {
+  id: number;
+  application: string;
+  roleName: string;
+  description: string | null;
+  createdAt: string;
+}
+
+export type AuthAction =
+  | 'signin'
+  | 'signup'
+  | 'check-availability'
+  | 'forgot-password'
+  | 'verify-otp'
+  | 'reset-password'
+  | 'change-password'
+  | 'get-my-profile'
+  | 'update-my-profile'
+  | 'get-role-requests'
+  | 'get-pending-role-requests'
+  | 'approve-role-request'
+  | 'reject-role-request'
+  | 'get-all-users'
+  | 'get-user'
+  | 'update-user'
+  | 'delete-user'
+  | 'unlock-user'
+  | 'create-user'
+  | 'create-pending-user'
+  | 'approve-pending-user'
+  | 'generate-temp-password'
+  | 'reset-user-password'
+  | 'get-change-log'
+  | 'get-captain-profiles'
+  | 'create-captain-profile'
+  | 'update-captain-profile'
+  | 'get-captain-roles'
+  | 'create-captain-role'
+  | 'update-captain-role'
+  | 'delete-captain-role'
+  | 'get-login-logs'
+  | 'deactivate-user'
+  | 'activate-user'
+  | 'get-driver-hire-requests'
+  | 'match-driver-hire'
+  | 'reject-driver-hire'
+  | 'get-vehicle-rental-requests'
+  | 'assign-vehicle-rental'
+  | 'reject-vehicle-rental'
+  | 'get-mechanic-hire-requests'
+  | 'assign-mechanic-hire'
+  | 'reject-mechanic-hire'
+  | 'get-parcel-requests'
+  | 'dispatch-parcel'
+  | 'reject-parcel'
+  | 'get-customer-onboardings'
+  | 'create-customer-onboarding'
+  | 'update-customer-onboarding'
+  | 'create-management-request'
+  | 'get-management-drafts'
+  | 'save-draft'
+  | 'load-draft'
+  | 'delete-draft'
+  | 'get-logistics-shipments'
+  | 'dispatch-logistics-shipment'
+  | 'reject-logistics-shipment'
+  // Mobile-specific actions
+  | 'refresh-token'
+  | 'register-device'
+  | 'unregister-device'
+  | 'logout';
+
+export interface IAuthActionRequest {
+  action: AuthAction;
+  [key: string]: unknown;
+}
+
+export interface ISignInInput {
+  email: string;
+  password: string;
+}
+
+export interface ISignInResponse {
+  message: string;
+  data: {
+    user: IAuthUser;
+    token: string;
+    adminApproved: boolean;
+    adminRequestPending: boolean;
+  };
+}

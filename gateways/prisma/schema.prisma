@@ -1,0 +1,251 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Auth Models
+
+// UserStatus: pending_approval | invited | active | inactive | deactivated | rejected | expired
+// UserSource:  signup | admin | ticket | ad
+
+model User {
+  id              Int       @id @default(autoincrement())
+  firstName       String
+  lastName        String
+  email           String    @unique
+  password        String
+  phone           String?
+  reasonForAccess String?
+  customUserId    String?   @unique
+  employeeId      String?
+  businessUnit    String?
+  dateOfBirth     String?
+  gender          String?
+  city            String?
+  profilePicture  String?
+  name            String
+  role            String    @default("user")
+  requestedRole   String?
+  // lifecycle status
+  status          String    @default("pending_approval")
+  source          String    @default("signup")        // signup | admin | ticket | ad
+  // approval
+  reviewedBy      Int?
+  reviewedAt      DateTime?
+  adminNotes      String?
+  // invitation
+  invitationToken  String?
+  invitationExpiry DateTime?
+  // password management
+  mustResetPassword       Boolean   @default(false)
+  otp                     String?
+  otpExpiresAt            DateTime?
+  otpIsUsed               Boolean   @default(false)
+  failedLoginAttempts     Int       @default(0)
+  lockedUntil             DateTime?
+  lastLoginAt             DateTime?
+  passwordChangedAt       DateTime?
+  // access control
+  isActive                Boolean   @default(false)
+  accessFromDate          DateTime?
+  accessToDate            DateTime?
+  firstActivationDate     DateTime?
+  lastDeactivationDate    DateTime?
+  // tracking
+  lastActivityAt          DateTime?
+  // captain fields
+  captainProfileUpdated Boolean  @default(false)
+  application              String?
+  applicationLead          String?
+  attachments              String?   // JSON array of { name, url, size }
+  // timestamps
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+}
+
+model UserChangeLog {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  changeType    String   // field_update | role_change | access_approved | access_created | password_reset | activation | deactivation | rejection
+  fieldName     String?
+  previousValue String?
+  newValue      String?
+  changedBy     Int
+  changedByName String
+  reasonCode    String?
+  reasonNotes   String?
+  createdAt     DateTime @default(now())
+}
+
+model CaptainProfile {
+  id                   Int      @id @default(autoincrement())
+  userId               Int      @unique
+  application          String
+  captainRole       String?
+  slaWorkingCalendar   String?
+  slaExceptionCalendar String?
+  leadCaptain       String?
+  applicationManager   String?
+  isPocLead            Boolean  @default(false)
+  isActive             Boolean  @default(true)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model CaptainRole {
+  id          Int      @id @default(autoincrement())
+  application String
+  roleName    String
+  description String?
+  createdAt   DateTime @default(now())
+}
+
+model LoginLog {
+  id         Int       @id @default(autoincrement())
+  userId     Int
+  loginTime  DateTime  @default(now())
+  logoutTime DateTime?
+  ipAddress  String?
+  device     String?
+  userAgent  String?
+  platform   String?   // 'web' | 'android' | 'ios'
+  deviceId   String?   // unique device identifier from mobile app
+}
+
+// Stores FCM (Android) / APNS (iOS) push notification tokens per device
+model DeviceToken {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  token     String   @unique  // FCM or APNS push token
+  platform  String            // 'android' | 'ios' | 'web'
+  deviceId  String?           // optional device fingerprint
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ManagementDraft {
+  id          Int      @id @default(autoincrement())
+  createdBy   Int      // admin user id
+  type        String   // 'admin' | 'consultant'
+  formData    String   // JSON blob of all form fields
+  expiresAt   DateTime // 1 week from last save
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([createdBy, type])
+}
+
+model CustomerOnboarding {
+  id              Int       @id @default(autoincrement())
+  customerId      String?   @unique   // e.g. MOBIL00001 | LOGST00001 | USER00001
+
+  // Personal Info
+  firstName          String
+  lastName           String
+  gender             String?   // male | female | other | prefer_not_to_say
+  phone              String
+  emergencyContact   String?   // optional emergency contact number
+  email              String?
+  city               String
+  area               String?   // locality / area within the city
+  pincode            String?   // 6-digit postal code
+
+  // Service & Vehicle
+  serviceCategory String    // mobility | logistics | user
+  vehicleType     String?   // bike | auto | cab | shuttle | tata_ace | dcm | lorry (null for platform users)
+  vehicleSubType  String?
+  fuelType        String?
+  tripPreference  String?   // local | outstation | both | local_delivery | outstation_delivery
+
+  // Vehicle
+  vehicleNumber   String?
+
+  // RC
+  rcNumber        String?
+  rcExpiry        String?
+
+  // Insurance (required)
+  insuranceNumber String?
+  insuranceExpiry String?
+
+  // PUC (recommended)
+  pucNumber       String?
+  pucExpiry       String?
+
+  // Fitness Certificate (commercial vehicles only)
+  fitnessNumber   String?
+  fitnessExpiry   String?
+
+  // Permit (commercial vehicles only)
+  permitNumber    String?
+  permitExpiry    String?
+
+  // Driving License
+  dlNumber        String?
+  dlExpiry        String?
+
+  // Identity Proof
+  idProofType     String?   // aadhaar | pan
+  idProofNumber   String?
+  idProofExpiry   String?
+
+  // Registration / Created By
+  createdByName      String?
+  createdByEmail     String?
+  createdByPhone     String?
+  isSelfRegistered   Boolean   @default(false)
+
+  // Uploaded document file keys (JSON array e.g. ["rcFront","rcBack","dlFront"])
+  uploadedFiles        String?
+
+  // Bundle Options (optional — captain may apply one or more bundles)
+  // bundleTypes: JSON array e.g. ["rental","driver_hire","parcel_combo"]
+  bundleTypes          String?   // JSON
+  bundleDiscount       Float?    // calculated % commission discount
+
+  // Rent & Ride Bundle
+  rentalVehiclePref    String?   // preferred vehicle type to rent
+  rentalDuration       String?   // daily | weekly | monthly
+  rentalPickupZone     String?
+
+  // Driver Hire Bundle
+  driverHireCount      String?   // 1–5 drivers needed
+  driverHireShift      String?   // day | night | both
+  driverHireBudget     String?
+
+  // Multi-Vehicle Bundle
+  additionalVehicles   String?   // JSON: [{vehicleType,vehicleNumber,fuelType}]
+
+  // Parcel + Ride Combo Bundle (bike / auto / cab only)
+  // Captain accepts a small parcel delivery while on a passenger trip
+  parcelComboTypes     String?   // JSON: ["documents","food","general","fragile"]
+  parcelMaxWeight      String?   // '2kg' | '5kg' | '10kg' | '15kg'
+  parcelRadiusPref     String?   // '0.5km' | '1km' | '1.5km' | '2km'
+
+  // Cargo Co-Ride Bundle (lorry / tata_ace / dcm only)
+  // Captain accepts a co-passenger on an outstation cargo trip
+  cargoCoRideMax       String?   // 1 or 2 co-passengers max
+  cargoCoRideHaulPref  String?   // 'short' | 'medium' | 'long'
+  cargoCoRideRatePref  String?   // 'platform_suggested' | 'negotiable'
+
+  // Platform Access Window (set by admin after approval)
+  accessFromDate  DateTime?
+  accessToDate    DateTime?
+
+  // Status
+  status          String    @default("pending")
+  adminNotes      String?
+  reviewedAt      DateTime?
+  submittedAt     DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+
