@@ -1,4 +1,4 @@
-# gogaadi — Mobility Platform
+# Go Gaadi — Mobility Platform
 
 A full-stack ride-hailing and mobility platform similar to **Uber, Rapido, and Ola** — built as a monorepo with React (Admin Web), Express backend, shared TypeScript interfaces, and multi-role support.
 
@@ -10,9 +10,9 @@ A full-stack ride-hailing and mobility platform similar to **Uber, Rapido, and O
 
 ---
 
-## What is gogaadi?
+## What is Go Gaadi?
 
-gogaadi is a mobility-as-a-service platform where:
+Go Gaadi is a mobility-as-a-service platform where:
 
 - **Users** request rides, hire drivers, or rent vehicles
 - **Captains** are verified drivers who fulfill ride and service requests

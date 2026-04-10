@@ -3,10 +3,10 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { LazyMenuItems } from './routes';
-import { constants } from '@bandi/utils';
-import { ErrorBoundary, MainContent } from '@bandi/component';
-import { useAuth } from '@bandi/hooks';
-import { AppRoleContext } from '@bandi/theme';
+import { constants } from '@gogaadi/utils';
+import { ErrorBoundary, MainContent } from '@gogaadi/component';
+import { useAuth } from '@gogaadi/hooks';
+import { AppRoleContext } from '@gogaadi/theme';
 
 const {
   // Admin layout

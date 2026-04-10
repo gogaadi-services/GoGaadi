@@ -3,83 +3,83 @@ import { lazy } from 'react';
 // Lazy-loaded pages
 export const LazyMenuItems = {
   // Admin layout
-  AdminHeaderPage: lazy(() => import('@bandi/pages/admin/Header')),
-  AdminSideNavPage: lazy(() => import('@bandi/pages/admin/SideNav')),
+  AdminHeaderPage: lazy(() => import('@gogaadi/pages/admin/Header')),
+  AdminSideNavPage: lazy(() => import('@gogaadi/pages/admin/SideNav')),
 
   // Team pages
-  AdminUserDetailPage: lazy(() => import('@bandi/pages/admin/UserDetail')),
-  AdminCustomerDetailPage: lazy(() => import('@bandi/pages/admin/CustomerDetail')),
-  AdminAccessRequestsPage: lazy(() => import('@bandi/pages/admin/AccessRequests')),
-  AdminCustomerApprovalsPage: lazy(() => import('@bandi/pages/admin/CustomerApprovals')),
+  AdminUserDetailPage: lazy(() => import('@gogaadi/pages/admin/UserDetail')),
+  AdminCustomerDetailPage: lazy(() => import('@gogaadi/pages/admin/CustomerDetail')),
+  AdminAccessRequestsPage: lazy(() => import('@gogaadi/pages/admin/AccessRequests')),
+  AdminCustomerApprovalsPage: lazy(() => import('@gogaadi/pages/admin/CustomerApprovals')),
 
   // Governance pages
-  AdminDashboardPage: lazy(() => import('@bandi/pages/admin/Dashboard')),
-  AdminAccessManagementPage: lazy(() => import('@bandi/pages/admin/AccessManagement')),
-  AdminAuditTrailsPage: lazy(() => import('@bandi/pages/admin/AuditTrails')),
-  AdminEventsPage: lazy(() => import('@bandi/pages/admin/Events')),
+  AdminDashboardPage: lazy(() => import('@gogaadi/pages/admin/Dashboard')),
+  AdminAccessManagementPage: lazy(() => import('@gogaadi/pages/admin/AccessManagement')),
+  AdminAuditTrailsPage: lazy(() => import('@gogaadi/pages/admin/AuditTrails')),
+  AdminEventsPage: lazy(() => import('@gogaadi/pages/admin/Events')),
 
   // Administration pages
-  AdminUsersPage: lazy(() => import('@bandi/pages/admin/Users')),
-  AdminSubscriptionsPage: lazy(() => import('@bandi/pages/admin/Subscriptions')),
-  AdminCollectionsPage: lazy(() => import('@bandi/pages/admin/Collections')),
-  AdminCategoriesPage: lazy(() => import('@bandi/pages/admin/Categories')),
-  AdminTagsPage: lazy(() => import('@bandi/pages/admin/FastTag')),
-  AdminUserManagementPage: lazy(() => import('@bandi/pages/admin/UserManagement')),
-  AdminSettingsPage: lazy(() => import('@bandi/pages/admin/Settings')),
+  AdminUsersPage: lazy(() => import('@gogaadi/pages/admin/Users')),
+  AdminSubscriptionsPage: lazy(() => import('@gogaadi/pages/admin/Subscriptions')),
+  AdminCollectionsPage: lazy(() => import('@gogaadi/pages/admin/Collections')),
+  AdminCategoriesPage: lazy(() => import('@gogaadi/pages/admin/Categories')),
+  AdminTagsPage: lazy(() => import('@gogaadi/pages/admin/FastTag')),
+  AdminUserManagementPage: lazy(() => import('@gogaadi/pages/admin/UserManagement')),
+  AdminSettingsPage: lazy(() => import('@gogaadi/pages/admin/Settings')),
 
   // Operations pages
-  AdminFleetManagementPage: lazy(() => import('@bandi/pages/admin/FleetManagement')),
-  AdminFleetAccessPage: lazy(() => import('@bandi/pages/admin/FleetAccess')),
-  AdminUserAccessPage: lazy(() => import('@bandi/pages/admin/UserAccess')),
-  AdminUserMgmtPage: lazy(() => import('@bandi/pages/admin/UserMgmt')),
+  AdminFleetManagementPage: lazy(() => import('@gogaadi/pages/admin/FleetManagement')),
+  AdminFleetAccessPage: lazy(() => import('@gogaadi/pages/admin/FleetAccess')),
+  AdminUserAccessPage: lazy(() => import('@gogaadi/pages/admin/UserAccess')),
+  AdminUserMgmtPage: lazy(() => import('@gogaadi/pages/admin/UserMgmt')),
 
   // Mobility Services pages
-  AdminDriverHirePage: lazy(() => import('@bandi/pages/admin/DriverHire')),
-  AdminVehicleRentalPage: lazy(() => import('@bandi/pages/admin/VehicleRental')),
-  AdminMechanicHirePage: lazy(() => import('@bandi/pages/admin/MechanicHire')),
-  AdminParcelPage: lazy(() => import('@bandi/pages/admin/Parcel')),
-  AdminLogisticsPage: lazy(() => import('@bandi/pages/admin/Logistics')),
+  AdminDriverHirePage: lazy(() => import('@gogaadi/pages/admin/DriverHire')),
+  AdminVehicleRentalPage: lazy(() => import('@gogaadi/pages/admin/VehicleRental')),
+  AdminMechanicHirePage: lazy(() => import('@gogaadi/pages/admin/MechanicHire')),
+  AdminParcelPage: lazy(() => import('@gogaadi/pages/admin/Parcel')),
+  AdminLogisticsPage: lazy(() => import('@gogaadi/pages/admin/Logistics')),
 
   // Finance pages
-  AdminTransactionsPage: lazy(() => import('@bandi/pages/admin/Transactions')),
-  AdminDriverEarningsPage: lazy(() => import('@bandi/pages/admin/DriverEarnings')),
-  AdminCommissionsPage: lazy(() => import('@bandi/pages/admin/Commissions')),
+  AdminTransactionsPage: lazy(() => import('@gogaadi/pages/admin/Transactions')),
+  AdminDriverEarningsPage: lazy(() => import('@gogaadi/pages/admin/DriverEarnings')),
+  AdminCommissionsPage: lazy(() => import('@gogaadi/pages/admin/Commissions')),
 
   // Requests pages
-  AdminKycPage: lazy(() => import('@bandi/pages/admin/Kyc')),
+  AdminKycPage: lazy(() => import('@gogaadi/pages/admin/Kyc')),
   AdminCreateManagementPage: lazy(() =>
-    import('@bandi/pages/admin/CreateTicket').then((m) => ({ default: m.CreateManagement })),
+    import('@gogaadi/pages/admin/CreateTicket').then((m) => ({ default: m.CreateManagement })),
   ),
   AdminCreateManagementFormPage: lazy(() =>
-    import('@bandi/pages/admin/CreateTicket').then((m) => ({ default: m.CreateManagementForm })),
+    import('@gogaadi/pages/admin/CreateTicket').then((m) => ({ default: m.CreateManagementForm })),
   ),
-  AdminCreateCustomerPage: lazy(() => import('@bandi/pages/admin/CreateCustomer')),
+  AdminCreateCustomerPage: lazy(() => import('@gogaadi/pages/admin/CreateCustomer')),
   AdminCreateCustomerFormPage: lazy(() =>
-    import('@bandi/pages/admin/CreateCustomer').then((m) => ({ default: m.CreateCustomerForm })),
+    import('@gogaadi/pages/admin/CreateCustomer').then((m) => ({ default: m.CreateCustomerForm })),
   ),
   AdminCreateCustomerSimpleFormPage: lazy(() =>
-    import('@bandi/pages/admin/CreateCustomer').then((m) => ({ default: m.CreateSimpleForm })),
+    import('@gogaadi/pages/admin/CreateCustomer').then((m) => ({ default: m.CreateSimpleForm })),
   ),
 
   // Reports pages
-  AdminAnalyticsPage: lazy(() => import('@bandi/pages/admin/Analytics')),
+  AdminAnalyticsPage: lazy(() => import('@gogaadi/pages/admin/Analytics')),
 
   // Configuration pages
-  AdminPricingPage: lazy(() => import('@bandi/pages/admin/Pricing')),
-  AdminServiceTypesPage: lazy(() => import('@bandi/pages/admin/ServiceTypes')),
-  AdminBusinessRulesPage: lazy(() => import('@bandi/pages/admin/BusinessRules')),
-  AdminFeatureFlagsPage: lazy(() => import('@bandi/pages/admin/FeatureFlags')),
-  AdminZonesPage: lazy(() => import('@bandi/pages/admin/Zones')),
-  AdminIntegrationsPage: lazy(() => import('@bandi/pages/admin/Integrations')),
+  AdminPricingPage: lazy(() => import('@gogaadi/pages/admin/Pricing')),
+  AdminServiceTypesPage: lazy(() => import('@gogaadi/pages/admin/ServiceTypes')),
+  AdminBusinessRulesPage: lazy(() => import('@gogaadi/pages/admin/BusinessRules')),
+  AdminFeatureFlagsPage: lazy(() => import('@gogaadi/pages/admin/FeatureFlags')),
+  AdminZonesPage: lazy(() => import('@gogaadi/pages/admin/Zones')),
+  AdminIntegrationsPage: lazy(() => import('@gogaadi/pages/admin/Integrations')),
 
   // Supporting pages
-  AdminProfilePage: lazy(() => import('@bandi/pages/admin/Profile')),
+  AdminProfilePage: lazy(() => import('@gogaadi/pages/admin/Profile')),
 
   // Auth pages (shared/public)
-  SignInPage: lazy(() => import('@bandi/pages/shared/SignIn')),
-  SignUpPage: lazy(() => import('@bandi/pages/shared/SignUp')),
-  ForgotPasswordPage: lazy(() => import('@bandi/pages/shared/ForgotPassword')),
+  SignInPage: lazy(() => import('@gogaadi/pages/shared/SignIn')),
+  SignUpPage: lazy(() => import('@gogaadi/pages/shared/SignUp')),
+  ForgotPasswordPage: lazy(() => import('@gogaadi/pages/shared/ForgotPassword')),
 
   // NotFound page
-  NotFoundPage: lazy(() => import('@bandi/component/NotFound')),
+  NotFoundPage: lazy(() => import('@gogaadi/component/NotFound')),
 };
