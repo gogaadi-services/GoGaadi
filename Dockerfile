@@ -8,7 +8,7 @@ WORKDIR /app
 
 # Copy package files
 COPY package.json pnpm-lock.yaml* ./
-COPY prisma ./prisma/
+COPY gateways/prisma ./gateways/prisma/
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile
@@ -17,7 +17,7 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 
 # Generate Prisma Client
-RUN npx prisma generate
+RUN npx prisma generate --config=gateways/prisma/prisma.config.ts
 
 # Build the application
 RUN pnpm build
@@ -38,7 +38,7 @@ RUN pnpm install --prod --frozen-lockfile
 
 # Copy built application from builder
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/gateways/prisma ./gateways/prisma
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
 # Expose ports

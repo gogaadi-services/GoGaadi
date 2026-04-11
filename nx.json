@@ -21,20 +21,7 @@
     "sharedGlobals": []
   },
   "nxCloudId": "697ca14a9b0920b820d663ca",
-  "plugins": [
-    {
-      "plugin": "@nx/js/typescript"
-    },
-    {
-      "plugin": "@nx/eslint/plugin"
-    },
-    {
-      "plugin": "@nx/jest/plugin",
-      "options": {
-        "targetName": "test"
-      }
-    }
-  ],
+  "plugins": [],
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"]

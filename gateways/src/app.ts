@@ -14,10 +14,9 @@ import { errorHandler, notFoundHandler } from '@gogaadi/middleware';
 import authRoutes from '../api/auth/Auth.routes';
 import adminRoutes from '../api/admin/routes';
 import userRoutes from '../api/user/routes';
-import captainRoutes from '../api/captain/routes';
 
 // Constants for route paths
-import { ADMIN_PATHS, USER_PATHS, CAPTAIN_PATHS } from '@gogaadi/constants';
+import { ADMIN_PATHS, USER_PATHS } from '@gogaadi/constants';
 
 const app = express();
 
@@ -188,9 +187,6 @@ mountVersioned(`/api/${ADMIN_PATHS.ADMIN}`, adminRoutes);
 
 // User API routes
 mountVersioned(`/api/${USER_PATHS.USER}`, userRoutes);
-
-// Captain API routes
-mountVersioned(`/api/${CAPTAIN_PATHS.CAPTAIN}`, captainRoutes);
 
 /**
  * -------------------------

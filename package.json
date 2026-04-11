@@ -13,9 +13,9 @@
     "typescript"
   ],
   "scripts": {
-    "build": "cross-env NODE_OPTIONS=--no-warnings NX_CACHE_DIRECTORY=C:/temp/nx-cache NX_WORKSPACE_DATA_DIRECTORY=C:/temp/nx-data nx run-many --target=build --all",
-    "build:administration": "cross-env NODE_OPTIONS=--no-warnings NX_CACHE_DIRECTORY=C:/temp/nx-cache NX_WORKSPACE_DATA_DIRECTORY=C:/temp/nx-data nx build administration",
-    "build:shared": "cross-env NODE_OPTIONS=--no-warnings NX_CACHE_DIRECTORY=C:/temp/nx-cache NX_WORKSPACE_DATA_DIRECTORY=C:/temp/nx-data nx build shared",
+    "build": "cross-env NODE_ENV=production NODE_OPTIONS=\"--no-warnings\" webpack --config web/webpack.config.js --mode production",
+    "build:administration": "cross-env NODE_ENV=production NODE_OPTIONS=\"--no-warnings\" webpack --config web/webpack.config.js --mode production",
+    "build:shared": "cross-env NX_DAEMON=false NODE_OPTIONS=\"--no-warnings --no-deprecation\" NX_CACHE_DIRECTORY=C:/temp/nx-cache NX_WORKSPACE_DATA_DIRECTORY=C:/temp/nx-data nx build shared",
     "build:backend": "tsc --project tsconfig.backend.json",
     "build:backend:clean": "rimraf dist && npm run build:backend",
     "serve:administration": "webpack serve --config web/webpack.config.js",
