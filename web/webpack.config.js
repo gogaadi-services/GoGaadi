@@ -76,6 +76,7 @@ module.exports = {
       'process.env.PARTNER': JSON.stringify(partnerConfig.partner || PARTNER),
       'process.env.PARTNER_ID': JSON.stringify(partnerConfig.partnerId),
       'process.env.PARTNER_NAME': JSON.stringify(partnerConfig.partnerName),
+      'process.env.API_URL': JSON.stringify(process.env.API_URL || 'http://localhost:3001'),
       __PARTNER_CONFIG__: JSON.stringify(partnerConfig),
     }),
   ],
@@ -85,6 +86,14 @@ module.exports = {
     hot: true,
     port: 1600,
     historyApiFallback: true,
+    proxy: [
+      {
+        context: ['/api'],
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+        secure: false,
+      },
+    ],
   },
 
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
