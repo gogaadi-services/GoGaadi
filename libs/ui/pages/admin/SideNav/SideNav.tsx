@@ -62,6 +62,48 @@ const GROUP_CONFIG: Record<
     glowColor: 'rgba(139,92,246,0.3)',
     dotColor: '#8b5cf6',
   },
+  Overview: {
+    gradient: 'linear-gradient(90deg, rgba(99,102,241,0.22) 0%, rgba(99,102,241,0.05) 100%)',
+    labelColor: '#a5b4fc',
+    border: 'rgba(99,102,241,0.55)',
+    glowColor: 'rgba(99,102,241,0.3)',
+    dotColor: '#6366f1',
+  },
+  Team: {
+    gradient: 'linear-gradient(90deg, rgba(168,85,247,0.2) 0%, rgba(168,85,247,0.04) 100%)',
+    labelColor: '#d8b4fe',
+    border: 'rgba(168,85,247,0.55)',
+    glowColor: 'rgba(168,85,247,0.28)',
+    dotColor: '#a855f7',
+  },
+  Customer: {
+    gradient: 'linear-gradient(90deg, rgba(14,165,233,0.2) 0%, rgba(14,165,233,0.04) 100%)',
+    labelColor: '#7dd3fc',
+    border: 'rgba(14,165,233,0.55)',
+    glowColor: 'rgba(14,165,233,0.28)',
+    dotColor: '#0ea5e9',
+  },
+  Finance: {
+    gradient: 'linear-gradient(90deg, rgba(245,158,11,0.18) 0%, rgba(245,158,11,0.04) 100%)',
+    labelColor: '#fcd34d',
+    border: 'rgba(245,158,11,0.55)',
+    glowColor: 'rgba(245,158,11,0.25)',
+    dotColor: '#f59e0b',
+  },
+  Reports: {
+    gradient: 'linear-gradient(90deg, rgba(239,68,68,0.18) 0%, rgba(239,68,68,0.04) 100%)',
+    labelColor: '#fca5a5',
+    border: 'rgba(239,68,68,0.5)',
+    glowColor: 'rgba(239,68,68,0.22)',
+    dotColor: '#ef4444',
+  },
+  Configuration: {
+    gradient: 'linear-gradient(90deg, rgba(107,114,128,0.2) 0%, rgba(107,114,128,0.04) 100%)',
+    labelColor: '#d1d5db',
+    border: 'rgba(107,114,128,0.5)',
+    glowColor: 'rgba(107,114,128,0.22)',
+    dotColor: '#6b7280',
+  },
 };
 
 const SideNav = () => {

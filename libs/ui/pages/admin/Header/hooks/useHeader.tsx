@@ -14,7 +14,6 @@ export const useHeader = () => {
   // Menus
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [notifAnchorEl, setNotifAnchorEl] = useState<null | HTMLElement>(null);
-  const [addAnchorEl, setAddAnchorEl] = useState<null | HTMLElement>(null);
 
   // Notifications
   const [notifications, setNotifications] = useState<IAuthUser[]>([]);
@@ -96,16 +95,7 @@ export const useHeader = () => {
   // Menu handlers
   const handleSettingsOpen = (e: React.MouseEvent<HTMLElement>) => setAnchorEl(e.currentTarget);
   const handleSettingsClose = () => setAnchorEl(null);
-  const handleAddOpen = (e: React.MouseEvent<HTMLElement>) => setAddAnchorEl(e.currentTarget);
-  const handleAddClose = () => setAddAnchorEl(null);
-  const handleAddManagement = () => {
-    handleAddClose();
-    navigate(AdminPath.CREATE_MANAGEMENT);
-  };
-  const handleAddCustomer = () => {
-    handleAddClose();
-    navigate(AdminPath.CREATE_CUSTOMER);
-  };
+  const handleAddNew = () => navigate(AdminPath.CREATE_NEW);
   const handleNotifOpen = (e: React.MouseEvent<HTMLElement>) => setNotifAnchorEl(e.currentTarget);
   const handleNotifClose = () => setNotifAnchorEl(null);
   const handleNotifClick = () => {
@@ -161,7 +151,6 @@ export const useHeader = () => {
     userName,
     anchorEl,
     notifAnchorEl,
-    addAnchorEl,
     notifications,
     isLoading,
     loadingMessage,
@@ -178,10 +167,7 @@ export const useHeader = () => {
     handleNotifClose,
     handleNotifClick,
     handleNotifItemClick,
-    handleAddOpen,
-    handleAddClose,
-    handleAddManagement,
-    handleAddCustomer,
+    handleAddNew,
     handleLogout,
     handleProfile,
     handleUserPage,

@@ -271,18 +271,6 @@ export function DataTable<T extends object>({
                         ? classes.clickableRow
                         : classes.defaultRow
                   }
-                  sx={
-                    isActive
-                      ? {
-                          '@keyframes rowFlash': {
-                            '0%': { backgroundColor: 'rgba(30,66,159,0.32)' },
-                            '60%': { backgroundColor: 'rgba(30,66,159,0.14)' },
-                            '100%': { backgroundColor: 'transparent' },
-                          },
-                          animation: 'rowFlash 0.55s ease-out',
-                        }
-                      : undefined
-                  }
                 >
                   {selectable && (
                     <TableCell padding='checkbox'>
@@ -319,18 +307,6 @@ export function DataTable<T extends object>({
                       : onRowClick || selectable
                         ? classes.clickableRow
                         : classes.defaultRow
-                  }
-                  sx={
-                    isActive
-                      ? {
-                          '@keyframes rowFlash': {
-                            '0%': { backgroundColor: 'rgba(30,66,159,0.32)' },
-                            '60%': { backgroundColor: 'rgba(30,66,159,0.14)' },
-                            '100%': { backgroundColor: 'transparent' },
-                          },
-                          animation: 'rowFlash 0.55s ease-out',
-                        }
-                      : undefined
                   }
                 >
                   {selectable && (

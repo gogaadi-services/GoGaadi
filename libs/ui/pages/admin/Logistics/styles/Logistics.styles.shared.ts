@@ -14,7 +14,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     marginBottom: theme.spacing(2.5),
     background: 'linear-gradient(135deg, #1e1b4b 0%, #3730a3 28%, #6366f1 62%, #8b5cf6 100%)',
     backgroundSize: '300% 300%',
-    animation: 'um-gradient-shift 8s ease infinite',
     borderRadius: 18,
     padding: theme.spacing(3.5, 4),
     position: 'relative',
@@ -28,7 +27,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
       width: 350, height: 350,
       borderRadius: '50%',
       background: 'radial-gradient(circle, rgba(139,92,246,0.38) 0%, rgba(99,102,241,0.12) 50%, transparent 70%)',
-      animation: 'um-orb-drift 14s ease-in-out infinite',
       pointerEvents: 'none',
     },
     '&::after': {
@@ -38,7 +36,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
       width: 280, height: 280,
       borderRadius: '50%',
       background: 'radial-gradient(circle, rgba(167,139,250,0.3) 0%, transparent 70%)',
-      animation: 'um-orb-drift 10s ease-in-out infinite reverse',
       pointerEvents: 'none',
     },
     [theme.breakpoints.down('sm')]: { padding: theme.spacing(2.5, 2), borderRadius: 12 },
@@ -50,7 +47,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     width: 180, height: 180,
     borderRadius: '50%',
     background: 'radial-gradient(circle, rgba(251,191,36,0.18) 0%, transparent 70%)',
-    animation: 'um-orb-drift 9s ease-in-out 2s infinite',
     pointerEvents: 'none',
   },
 
@@ -116,22 +112,18 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
   },
 
   statCard0: {
-    animation: 'um-slide-up 0.5s 0s ease both',
     '&::before': { background: 'linear-gradient(90deg, #6366f1, #818cf8)' },
     '&:hover': { boxShadow: '0 12px 32px rgba(99,102,241,0.16)' },
   },
   statCard1: {
-    animation: 'um-slide-up 0.5s 0.08s ease both',
     '&::before': { background: 'linear-gradient(90deg, #f59e0b, #fbbf24)' },
     '&:hover': { boxShadow: '0 12px 32px rgba(245,158,11,0.16)' },
   },
   statCard2: {
-    animation: 'um-slide-up 0.5s 0.16s ease both',
     '&::before': { background: 'linear-gradient(90deg, #8b5cf6, #a78bfa)' },
     '&:hover': { boxShadow: '0 12px 32px rgba(139,92,246,0.16)' },
   },
   statCard3: {
-    animation: 'um-slide-up 0.5s 0.24s ease both',
     '&::before': { background: 'linear-gradient(90deg, #10b981, #34d399)' },
     '&:hover': { boxShadow: '0 12px 32px rgba(16,185,129,0.16)' },
   },
@@ -143,7 +135,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
 
   statValue: {
     fontSize: '1.9rem', fontWeight: 800, lineHeight: 1,
-    animation: 'um-counter 0.7s cubic-bezier(0.34,1.56,0.64,1) both',
     [theme.breakpoints.down('sm')]: { fontSize: '1.4rem' },
   },
 
@@ -171,7 +162,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
 
   statSubDot: {
     width: 6, height: 6, borderRadius: '50%', flexShrink: 0,
-    animation: 'um-pulse-live 2s ease-in-out infinite',
   },
 
   statSub: {
@@ -285,6 +275,5 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     borderTop: '1px solid rgba(99,102,241,0.1)',
     fontSize: '0.78rem',
     color: 'rgba(0,0,0,0.45)',
-    animation: 'um-slide-up 0.55s cubic-bezier(0.34,1.56,0.64,1) both',
   },
 });

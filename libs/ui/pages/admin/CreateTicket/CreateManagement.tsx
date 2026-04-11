@@ -73,7 +73,7 @@ const CreateManagement = () => {
         </Box>
         <Box className={classes.managementHeroText}>
           <Typography className={classes.managementHeroTitle}>
-            Create New Management Account
+            Create New People Account
           </Typography>
           <Typography className={classes.managementHeroSub}>
             Select the type of management account you want to set up

@@ -1,12 +1,10 @@
 import { Box, Loader, DataTable } from '@gogaadi/component';
-import { Typography, Tabs, Divider, TextField, InputAdornment, Autocomplete } from '@mui/material';
+import { Typography, Tabs, Divider, TextField, InputAdornment } from '@mui/material';
 import GroupIcon from '@mui/icons-material/Group';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import SearchIcon from '@mui/icons-material/Search';
-import BadgeIcon from '@mui/icons-material/Badge';
-import { IAuthUser } from '@gogaadi/interfaces';
 import { AccessRequestRow } from './types/accessRequests.types';
 import { useAdminKeyframes } from '@gogaadi/hooks';
 import { useStyles } from './styles';
@@ -39,19 +37,6 @@ const AccessRequests = () => {
     setActionNotes,
     getFilteredData,
   } = useAccessRequests();
-
-  const genUserId = (role: string | undefined | null, id: string | number): string => {
-    const prefix =
-      role === 'admin'
-        ? 'ADMIN'
-        : role === 'consultant'
-          ? 'CONSULT'
-          : role === 'captain'
-            ? 'CAPTAIN'
-            : 'USER';
-    const num = Number(String(id).replace('draft_', '')) || 0;
-    return `${prefix}${String(num).padStart(5, '0')}`;
-  };
 
   if (isLoading) {
     return (
@@ -116,64 +101,8 @@ const AccessRequests = () => {
           <Box className={classes.headerOrb3} />
           <Box className={classes.pageHeaderRow}>
             <Typography variant='h5' className={classes.title}>
-              Access Requests
+              People Requests
             </Typography>
-            <Box className={classes.headerSearchWrap}>
-              <Autocomplete
-                options={allRows}
-                getOptionLabel={(row) => genUserId(row.requestedRole, row.id)}
-                filterOptions={(options, { inputValue }) => {
-                  const q = inputValue.toLowerCase();
-                  return options.filter(
-                    (r) =>
-                      genUserId(r.requestedRole, r.id).toLowerCase().includes(q) ||
-                      (r.name || '').toLowerCase().includes(q) ||
-                      (r.email || '').toLowerCase().includes(q),
-                  );
-                }}
-                onChange={(_, row) => {
-                  if (row) setDetailUser(row as IAuthUser);
-                }}
-                blurOnSelect
-                clearOnBlur
-                slotProps={{
-                  paper: { className: classes.headerSearchPaper },
-                }}
-                renderOption={(props, row) => (
-                  <li
-                    {...(props as React.HTMLAttributes<HTMLLIElement>)}
-                    className={classes.headerSearchOption}
-                  >
-                    <Typography className={classes.headerSearchOptionId}>
-                      {genUserId(row.requestedRole, row.id)}
-                    </Typography>
-                    <Typography className={classes.headerSearchOptionName}>
-                      {row.name || '—'}
-                    </Typography>
-                    <Typography className={classes.headerSearchOptionEmail}>
-                      {row.email || '—'}
-                    </Typography>
-                  </li>
-                )}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    placeholder='Search by User ID...'
-                    className={classes.headerSearchInput}
-                    slotProps={{
-                      input: {
-                        ...params.InputProps,
-                        startAdornment: (
-                          <InputAdornment position='start'>
-                            <BadgeIcon sx={{ fontSize: '1rem', color: 'rgba(255,255,255,0.6)' }} />
-                          </InputAdornment>
-                        ),
-                      },
-                    }}
-                  />
-                )}
-              />
-            </Box>
           </Box>
           <Typography variant='body2' className={classes.description}>
             Manage all role access requests — approve or reject admin and consultant requests from a
@@ -279,7 +208,7 @@ const AccessRequests = () => {
                   rowKey='id'
                   searchable={false}
                   initialRowsPerPage={10}
-                  onRowClick={(row) => setDetailUser(row as IAuthUser)}
+                  onRowClick={(row) => setDetailUser(row as AccessRequestRow)}
                 />
               </Box>
             )}

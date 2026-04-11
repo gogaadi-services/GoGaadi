@@ -53,7 +53,6 @@ const onboardingByVehicleOptions: ApexOptions = {
     type: 'bar',
     stacked: true,
     toolbar: { show: false },
-    animations: { enabled: true, speed: 900 },
   },
   colors: ['#f59e0b', '#10b981', '#4f46e5', '#0ea5e9', '#8b5cf6'],
   plotOptions: { bar: { borderRadius: 4, columnWidth: '62%' } },
@@ -82,7 +81,7 @@ const onboardingByVehicleOptions: ApexOptions = {
 
 // Area – monthly onboarding trend
 const onboardingTrendOptions: ApexOptions = {
-  chart: { type: 'area', toolbar: { show: false }, animations: { enabled: true, speed: 900 } },
+  chart: { type: 'area', toolbar: { show: false } },
   colors: ['#4f46e5'],
   stroke: { curve: 'smooth', width: 2.5 },
   fill: {
@@ -108,7 +107,7 @@ const onboardingTrendOptions: ApexOptions = {
 
 // Donut – onboarding status base config
 const tripStatusOptions: ApexOptions = {
-  chart: { type: 'donut', toolbar: { show: false }, animations: { enabled: true, speed: 700 } },
+  chart: { type: 'donut', toolbar: { show: false } },
   colors: ['#10b981', '#ef4444', '#f59e0b', '#4f46e5'],
   labels: ['Approved', 'Rejected', 'Under Review', 'Pending'],
   legend: { position: 'bottom', fontSize: '11px', fontWeight: 600 },
@@ -120,7 +119,7 @@ const tripStatusOptions: ApexOptions = {
 
 // Donut – vehicle type distribution base config
 const vehicleTypeDistOptions: ApexOptions = {
-  chart: { type: 'donut', toolbar: { show: false }, animations: { enabled: true, speed: 700 } },
+  chart: { type: 'donut', toolbar: { show: false } },
   colors: ['#f59e0b', '#10b981', '#4f46e5', '#0ea5e9', '#8b5cf6', '#ef4444'],
   labels: [],
   legend: { position: 'bottom', fontSize: '11px', fontWeight: 600 },
@@ -132,7 +131,7 @@ const vehicleTypeDistOptions: ApexOptions = {
 
 // Bar – access request pipeline base config
 const accessRequestOptions: ApexOptions = {
-  chart: { type: 'bar', toolbar: { show: false }, animations: { enabled: true, speed: 900 } },
+  chart: { type: 'bar', toolbar: { show: false } },
   colors: ['#10b981', '#ef4444'],
   plotOptions: { bar: { borderRadius: 5, columnWidth: '52%' } },
   xaxis: {
@@ -150,7 +149,7 @@ const accessRequestOptions: ApexOptions = {
 
 // Bar – city onboardings (horizontal)
 const cityBarOptions: ApexOptions = {
-  chart: { type: 'bar', toolbar: { show: false }, animations: { enabled: true, speed: 900 } },
+  chart: { type: 'bar', toolbar: { show: false } },
   colors: ['#4f46e5'],
   plotOptions: { bar: { borderRadius: 5, horizontal: true, barHeight: '60%' } },
   xaxis: {
@@ -167,7 +166,7 @@ const cityBarOptions: ApexOptions = {
 
 // Donut – service category distribution base config
 const userDistributionOptions: ApexOptions = {
-  chart: { type: 'donut', toolbar: { show: false }, animations: { enabled: true, speed: 700 } },
+  chart: { type: 'donut', toolbar: { show: false } },
   colors: ['#4f46e5', '#10b981', '#f59e0b', '#0ea5e9', '#8b5cf6', '#ef4444'],
   labels: [],
   legend: { position: 'bottom', fontSize: '11px', fontWeight: 600 },
@@ -731,7 +730,7 @@ const Dashboard = () => {
             <Box
               key={label}
               className={classes.modeCard}
-              sx={{ animation: `db-slide-up 0.55s ${delay} ease both` }}
+              sx={{ }}
             >
               <Box className={classes.modeCardTop}>
                 <Box className={classes.modeIconBox} sx={{ background: bg }}>
@@ -1048,7 +1047,6 @@ const Dashboard = () => {
                     borderRadius: '50%',
                     background: '#10b981',
                     mr: 0.5,
-                    animation: 'db-pulse 1.5s ease-in-out infinite',
                   }}
                 />
                 Live

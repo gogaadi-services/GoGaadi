@@ -7,7 +7,7 @@ const AdminPath = {
   DASHBOARD: `${ADMIN_BASE}/dashboard`,
   CONSULTANT: `${ADMIN_BASE}/consultant`,
   APIS: `${ADMIN_BASE}/apis`,
-  ACCESS_MANAGEMENT: `${ADMIN_BASE}/access-management`,
+  ACCESS_MANAGEMENT: `${ADMIN_BASE}/people-management`,
   AUDIT_TRAILS: `${ADMIN_BASE}/audit-trails`,
   EVENTS: `${ADMIN_BASE}/events`,
 
@@ -57,20 +57,85 @@ const AdminPath = {
   // Fleet — split by category
   FLEET_MANAGEMENT: `${ADMIN_BASE}/fleet-management`,
   FLEET_ACCESS: `${ADMIN_BASE}/fleet-access`,
-  MOBILITY_MANAGEMENT: `${ADMIN_BASE}/mobility-management`,
-  MOBILITY_ACCESS: `${ADMIN_BASE}/mobility-access`,
-  LOGISTICS_MANAGEMENT: `${ADMIN_BASE}/logistics-management`,
-  LOGISTICS_ACCESS: `${ADMIN_BASE}/logistics-access`,
 
-  // User Management
+  // People Access — Captain Onboarding
+  MOBILITY_ACCESS: `${ADMIN_BASE}/mobility-access`,
+  LOGISTICS_ACCESS: `${ADMIN_BASE}/logistics-access`,
+  PARCEL_ACCESS: `${ADMIN_BASE}/parcel-access`,
+
+  // Mobility Access — sub-categories
+  MOBILITY_BIKE_SCOOTER_ACCESS: `${ADMIN_BASE}/mobility-access/bike-scooter`,
+  MOBILITY_AUTO_ACCESS: `${ADMIN_BASE}/mobility-access/auto`,
+  MOBILITY_CAB_ACCESS: `${ADMIN_BASE}/mobility-access/cab`,
+  MOBILITY_SHUTTLE_ACCESS: `${ADMIN_BASE}/mobility-access/shuttle`,
+
+  // Logistics Access — sub-categories
+  LOGISTICS_MINI_CARGO_ACCESS: `${ADMIN_BASE}/logistics-access/mini-cargo`,
+  LOGISTICS_MEDIUM_GOODS_ACCESS: `${ADMIN_BASE}/logistics-access/medium-goods`,
+  LOGISTICS_HEAVY_TRUCK_ACCESS: `${ADMIN_BASE}/logistics-access/heavy-truck`,
+
+  // People Access — On-Demand Services
+  DRIVER_HIRE_ACCESS: `${ADMIN_BASE}/driver-hire-access`,
+  VEHICLE_RENTAL_ACCESS: `${ADMIN_BASE}/vehicle-rental-access`,
+  MECHANIC_ACCESS: `${ADMIN_BASE}/mechanic-access`,
+
+  // People Access — Automotive Partners
+  PETROL_BUNK_ACCESS: `${ADMIN_BASE}/petrol-bunk-access`,
+  EV_CHARGING_ACCESS: `${ADMIN_BASE}/ev-charging-access`,
+  SHOWROOM_ACCESS: `${ADMIN_BASE}/showroom-access`,
+
+  // People Access — Finance Partners
+  VEHICLE_FINANCE_ACCESS: `${ADMIN_BASE}/vehicle-finance-access`,
+  FINANCE_BROKER_ACCESS: `${ADMIN_BASE}/finance-broker-access`,
+  INSURANCE_ACCESS: `${ADMIN_BASE}/insurance-access`,
+
+  // People Access — Platform User
   USER_ACCESS: `${ADMIN_BASE}/user-access`,
+
+  // People Management — Captain Onboarding
+  MOBILITY_MANAGEMENT: `${ADMIN_BASE}/mobility-management`,
+  LOGISTICS_MANAGEMENT: `${ADMIN_BASE}/logistics-management`,
+  PARCEL_MANAGEMENT: `${ADMIN_BASE}/parcel-management`,
+
+  // Mobility Management — sub-categories
+  MOBILITY_BIKE_SCOOTER_MANAGEMENT: `${ADMIN_BASE}/mobility-management/bike-scooter`,
+  MOBILITY_AUTO_MANAGEMENT: `${ADMIN_BASE}/mobility-management/auto`,
+  MOBILITY_CAB_MANAGEMENT: `${ADMIN_BASE}/mobility-management/cab`,
+  MOBILITY_SHUTTLE_MANAGEMENT: `${ADMIN_BASE}/mobility-management/shuttle`,
+
+  // Logistics Management — sub-categories
+  LOGISTICS_MINI_CARGO_MANAGEMENT: `${ADMIN_BASE}/logistics-management/mini-cargo`,
+  LOGISTICS_MEDIUM_GOODS_MANAGEMENT: `${ADMIN_BASE}/logistics-management/medium-goods`,
+  LOGISTICS_HEAVY_TRUCK_MANAGEMENT: `${ADMIN_BASE}/logistics-management/heavy-truck`,
+
+  // People Management — On-Demand Services
+  DRIVER_HIRE_MANAGEMENT: `${ADMIN_BASE}/driver-hire-management`,
+  VEHICLE_RENTAL_MANAGEMENT: `${ADMIN_BASE}/vehicle-rental-management`,
+  MECHANIC_MANAGEMENT: `${ADMIN_BASE}/mechanic-management`,
+
+  // People Management — Automotive Partners
+  PETROL_BUNK_MANAGEMENT: `${ADMIN_BASE}/petrol-bunk-management`,
+  EV_CHARGING_MANAGEMENT: `${ADMIN_BASE}/ev-charging-management`,
+  SHOWROOM_MANAGEMENT: `${ADMIN_BASE}/showroom-management`,
+
+  // People Management — Finance Partners
+  VEHICLE_FINANCE_MANAGEMENT: `${ADMIN_BASE}/vehicle-finance-management`,
+  FINANCE_BROKER_MANAGEMENT: `${ADMIN_BASE}/finance-broker-management`,
+  INSURANCE_MANAGEMENT: `${ADMIN_BASE}/insurance-management`,
+
+  // People Management — Platform User
   USER_MGMT: `${ADMIN_BASE}/user-mgmt`,
 
   // Team
   ADMINS: `${ADMIN_BASE}/admins`,
 
+  // Customer landing pages
+  PEOPLE_ACCESS: `${ADMIN_BASE}/customer-access`,
+  PEOPLE_MANAGEMENT: `${ADMIN_BASE}/customer-management`,
+
   // Supporting
   PROFILE: `${ADMIN_BASE}/profile`,
+  CREATE_NEW: `${ADMIN_BASE}/create-new`,
   CREATE_CUSTOMER: `${ADMIN_BASE}/create-customer`,
   CREATE_CUSTOMER_TYPE: `${ADMIN_BASE}/create-customer/:type`,
   CUSTOMER_APPROVALS: `${ADMIN_BASE}/customer-approvals`,
@@ -88,7 +153,7 @@ const AdminPath = {
   CREATE_TICKET_TYPE: `${ADMIN_BASE}/:type`,
   SUGGESTED_SOLUTION: `${ADMIN_BASE}/suggested-solution`,
   CONFIGURATION: `${ADMIN_BASE}/configuration`,
-  ROLE_REQUESTS: `${ADMIN_BASE}/role-requests`,
+  ROLE_REQUESTS: `${ADMIN_BASE}/people-requests`,
 };
 
 const AuthPath = {

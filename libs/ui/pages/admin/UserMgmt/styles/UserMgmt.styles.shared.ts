@@ -14,7 +14,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     marginBottom: theme.spacing(2.5),
     background: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 30%, #0891b2 65%, #06b6d4 100%)',
     backgroundSize: '300% 300%',
-    animation: 'adm-gradient-shift 8s ease infinite',
     borderRadius: 18,
     padding: theme.spacing(3.5, 4),
     position: 'relative',
@@ -31,7 +30,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
       borderRadius: '50%',
       background:
         'radial-gradient(circle at center, rgba(96,165,250,0.38) 0%, rgba(8,145,178,0.12) 50%, transparent 70%)',
-      animation: 'adm-orb-drift 14s ease-in-out infinite',
       pointerEvents: 'none',
     },
     '&::after': {
@@ -43,7 +41,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
       height: 280,
       borderRadius: '50%',
       background: 'radial-gradient(circle at center, rgba(6,182,212,0.3) 0%, transparent 70%)',
-      animation: 'adm-orb-drift 10s ease-in-out infinite reverse',
       pointerEvents: 'none',
     },
     [theme.breakpoints.down('sm')]: { padding: theme.spacing(2.5, 2), borderRadius: 12 },
@@ -57,7 +54,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     height: 180,
     borderRadius: '50%',
     background: 'radial-gradient(circle at center, rgba(251,191,36,0.22) 0%, transparent 70%)',
-    animation: 'adm-float 9s ease-in-out infinite',
     pointerEvents: 'none',
     zIndex: 0,
   },
@@ -85,7 +81,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     textShadow: '0 2px 18px rgba(0,0,0,0.28)',
     position: 'relative',
     zIndex: 1,
-    animation: 'adm-slide-up 0.5s 0.05s ease both',
     [theme.breakpoints.down('sm')]: { fontSize: '1.4rem' },
   },
 
@@ -95,7 +90,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     fontSize: '0.88rem',
     position: 'relative',
     zIndex: 1,
-    animation: 'adm-slide-up 0.5s 0.12s ease both',
   },
 
   statsGrid: {
@@ -134,12 +128,10 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
   },
 
   statCard0: {
-    animation: 'adm-slide-up 0.55s 0s ease both',
     '&::before': { background: 'linear-gradient(90deg, #0891b2, #06b6d4)' },
     '&:hover': { boxShadow: '0 18px 48px rgba(8,145,178,0.16), 0 4px 16px rgba(8,145,178,0.08)' },
   },
   statCard1: {
-    animation: 'adm-slide-up 0.55s 0.09s ease both',
     '&::before': { background: 'linear-gradient(90deg, #0369a1, #0ea5e9)' },
     '&:hover': { boxShadow: '0 18px 48px rgba(3,105,161,0.16), 0 4px 16px rgba(3,105,161,0.08)' },
   },
@@ -178,7 +170,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     fontWeight: 800,
     lineHeight: 1,
     marginBottom: theme.spacing(0.3),
-    animation: 'adm-counter 0.65s cubic-bezier(0.34,1.56,0.64,1) both',
     [theme.breakpoints.down('lg')]: { fontSize: '1.6rem' },
     [theme.breakpoints.down('md')]: { fontSize: '1.5rem' },
     [theme.breakpoints.down('sm')]: { fontSize: '1.35rem', marginBottom: theme.spacing(0.2) },

@@ -24,6 +24,19 @@ import MapIcon from '@mui/icons-material/Map';
 import ExtensionIcon from '@mui/icons-material/Extension';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import HailIcon from '@mui/icons-material/Hail';
+import CarRentalIcon from '@mui/icons-material/CarRental';
+import BuildIcon from '@mui/icons-material/Build';
+import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
+import EvStationIcon from '@mui/icons-material/EvStation';
+import StoreIcon from '@mui/icons-material/Store';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import HandshakeIcon from '@mui/icons-material/Handshake';
+import SecurityIcon from '@mui/icons-material/Security';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
+import BadgeIcon from '@mui/icons-material/Badge';
+import GroupsIcon from '@mui/icons-material/Groups';
 import { constants } from '@gogaadi/utils';
 
 export interface MenuItem {
@@ -40,62 +53,31 @@ export interface MenuGroup {
 export const useMenuItems = (): MenuGroup[] => {
   const { AdminPath } = constants;
   return [
+    // ── Overview ────────────────────────────────────────────────────────────────
     {
       group: 'Overview',
       items: [{ label: 'Dashboard', icon: <DashboardIcon />, path: AdminPath.DASHBOARD }],
     },
+
+    // ── People ───────────────────────────────────────────────────────────────────
     {
-      group: 'Team Access',
+      group: 'People',
       items: [
-        { label: 'Access Requests', icon: <AssignmentIndIcon />, path: AdminPath.ROLE_REQUESTS },
-        { label: 'Access Management', icon: <VpnKeyIcon />, path: AdminPath.ACCESS_MANAGEMENT },
+        { label: 'People Requests', icon: <AssignmentIndIcon />, path: AdminPath.ROLE_REQUESTS },
+        { label: 'People Management', icon: <VpnKeyIcon />, path: AdminPath.ACCESS_MANAGEMENT },
       ],
     },
+
+    // ── Customer ─────────────────────────────────────────────────────────────────
     {
-      group: 'People Access',
+      group: 'Customer',
       items: [
-        {
-          label: 'Customer Access',
-          icon: <HowToRegIcon />,
-          path: AdminPath.CUSTOMER_APPROVALS,
-        },
-        {
-          label: 'Mobility Access',
-          icon: <DirectionsCarIcon />,
-          path: AdminPath.MOBILITY_ACCESS,
-        },
-        {
-          label: 'Logistics Access',
-          icon: <Inventory2Icon />,
-          path: AdminPath.LOGISTICS_ACCESS,
-        },
-        {
-          label: 'User Access',
-          icon: <PersonSearchIcon />,
-          path: AdminPath.USER_ACCESS,
-        },
-        {
-          label: 'Customer Management',
-          icon: <VerifiedUserIcon />,
-          path: AdminPath.USER_MANAGEMENT,
-        },
-        {
-          label: 'Mobility Management',
-          icon: <CommuteIcon />,
-          path: AdminPath.MOBILITY_MANAGEMENT,
-        },
-        {
-          label: 'Logistics Management',
-          icon: <LocalShippingIcon />,
-          path: AdminPath.LOGISTICS_MANAGEMENT,
-        },
-        {
-          label: 'User Management',
-          icon: <ManageAccountsIcon />,
-          path: AdminPath.USER_MGMT,
-        },
+        { label: 'Customer Access', icon: <HowToRegIcon />, path: AdminPath.PEOPLE_ACCESS },
+        { label: 'Customer Management', icon: <ManageAccountsIcon />, path: AdminPath.PEOPLE_MANAGEMENT },
       ],
     },
+
+    // ── Finance ──────────────────────────────────────────────────────────────────
     {
       group: 'Finance',
       items: [
@@ -110,6 +92,8 @@ export const useMenuItems = (): MenuGroup[] => {
         { label: 'Fast Tag Requests', icon: <TollIcon />, path: AdminPath.TAGS },
       ],
     },
+
+    // ── Reports ──────────────────────────────────────────────────────────────────
     {
       group: 'Reports',
       items: [
@@ -118,6 +102,8 @@ export const useMenuItems = (): MenuGroup[] => {
         { label: 'Audit Logs', icon: <ManageSearchIcon />, path: AdminPath.AUDIT_TRAILS },
       ],
     },
+
+    // ── Configuration ────────────────────────────────────────────────────────────
     {
       group: 'Configuration',
       items: [

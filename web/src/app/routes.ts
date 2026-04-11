@@ -46,6 +46,7 @@ export const LazyMenuItems = {
   AdminCommissionsPage: lazy(() => import('@gogaadi/pages/admin/Commissions')),
 
   // Requests pages
+  AdminCreateNewPage: lazy(() => import('@gogaadi/pages/admin/CreateNew')),
   AdminKycPage: lazy(() => import('@gogaadi/pages/admin/Kyc')),
   AdminCreateManagementPage: lazy(() =>
     import('@gogaadi/pages/admin/CreateTicket').then((m) => ({ default: m.CreateManagement })),
@@ -71,6 +72,17 @@ export const LazyMenuItems = {
   AdminFeatureFlagsPage: lazy(() => import('@gogaadi/pages/admin/FeatureFlags')),
   AdminZonesPage: lazy(() => import('@gogaadi/pages/admin/Zones')),
   AdminIntegrationsPage: lazy(() => import('@gogaadi/pages/admin/Integrations')),
+
+  // Customer landing pages (sidebar entry points)
+  AdminCustomerAccessLandingPage: lazy(() => import('@gogaadi/pages/admin/CustomerAccessLanding')),
+  AdminCustomerManagementLandingPage: lazy(() => import('@gogaadi/pages/admin/CustomerManagementLanding')),
+  AdminMobilityLandingPage: lazy(() => import('@gogaadi/pages/admin/MobilityLanding')),
+  AdminLogisticsLandingPage: lazy(() => import('@gogaadi/pages/admin/LogisticsLanding')),
+
+  // Customer unified pages (individual service type views)
+  AdminCustomerAccessPage: lazy(() => import('@gogaadi/pages/admin/CustomerAccess')),
+  AdminCustomerManagementPage: lazy(() => import('@gogaadi/pages/admin/CustomerManagement')),
+  AdminPeopleDetailPage: lazy(() => import('@gogaadi/pages/admin/PeopleDetail')),
 
   // Supporting pages
   AdminProfilePage: lazy(() => import('@gogaadi/pages/admin/Profile')),

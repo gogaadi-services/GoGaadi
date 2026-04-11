@@ -14,7 +14,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     marginBottom: theme.spacing(2.5),
     background: 'linear-gradient(135deg, #2e1065 0%, #4c1d95 28%, #7c3aed 62%, #a78bfa 100%)',
     backgroundSize: '300% 300%',
-    animation: 'mh-gradient-shift 8s ease infinite',
     borderRadius: 18,
     padding: theme.spacing(3.5, 4),
     position: 'relative',
@@ -31,7 +30,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
       borderRadius: '50%',
       background:
         'radial-gradient(circle, rgba(167,139,250,0.38) 0%, rgba(124,58,237,0.12) 50%, transparent 70%)',
-      animation: 'mh-orb-drift 14s ease-in-out infinite',
       pointerEvents: 'none',
     },
     '&::after': {
@@ -43,7 +41,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
       height: 280,
       borderRadius: '50%',
       background: 'radial-gradient(circle, rgba(196,181,253,0.3) 0%, transparent 70%)',
-      animation: 'mh-orb-drift 10s ease-in-out infinite reverse',
       pointerEvents: 'none',
     },
     [theme.breakpoints.down('sm')]: { padding: theme.spacing(2.5, 2), borderRadius: 12 },
@@ -57,7 +54,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     height: 180,
     borderRadius: '50%',
     background: 'radial-gradient(circle, rgba(251,191,36,0.18) 0%, transparent 70%)',
-    animation: 'mh-orb-drift 9s ease-in-out 2s infinite',
     pointerEvents: 'none',
   },
 
@@ -136,22 +132,18 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
   },
 
   statCard0: {
-    animation: 'mh-slide-up 0.5s 0s ease both',
     '&::before': { background: 'linear-gradient(90deg, #7c3aed, #a78bfa)' },
     '&:hover': { boxShadow: '0 12px 32px rgba(124,58,237,0.16)' },
   },
   statCard1: {
-    animation: 'mh-slide-up 0.5s 0.08s ease both',
     '&::before': { background: 'linear-gradient(90deg, #f59e0b, #fbbf24)' },
     '&:hover': { boxShadow: '0 12px 32px rgba(245,158,11,0.16)' },
   },
   statCard2: {
-    animation: 'mh-slide-up 0.5s 0.16s ease both',
     '&::before': { background: 'linear-gradient(90deg, #0ea5e9, #38bdf8)' },
     '&:hover': { boxShadow: '0 12px 32px rgba(14,165,233,0.16)' },
   },
   statCard3: {
-    animation: 'mh-slide-up 0.5s 0.24s ease both',
     '&::before': { background: 'linear-gradient(90deg, #10b981, #34d399)' },
     '&:hover': { boxShadow: '0 12px 32px rgba(16,185,129,0.16)' },
   },

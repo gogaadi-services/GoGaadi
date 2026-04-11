@@ -525,7 +525,7 @@ const ChangeProfileDialog = ({
             onClick={onConfirmSave}
             disabled={isSaving}
             startIcon={
-              isSaving ? <AutorenewIcon sx={{ animation: 'spin 1s linear infinite' }} /> : undefined
+              isSaving ? <AutorenewIcon /> : undefined
             }
           >
             {isSaving ? 'Updating…' : 'Confirm Change'}

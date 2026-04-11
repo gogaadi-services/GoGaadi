@@ -18,7 +18,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     marginBottom: theme.spacing(2.5),
     background: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 30%, #4f46e5 65%, #0ea5e9 100%)',
     backgroundSize: '300% 300%',
-    animation: 'um-gradient-shift 8s ease infinite',
     borderRadius: 18,
     padding: theme.spacing(3.5, 4),
     position: 'relative',
@@ -35,7 +34,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
       borderRadius: '50%',
       background:
         'radial-gradient(circle at center, rgba(167,139,250,0.38) 0%, rgba(99,102,241,0.12) 50%, transparent 70%)',
-      animation: 'um-orb-drift 14s ease-in-out infinite',
       pointerEvents: 'none',
     },
     '&::after': {
@@ -47,7 +45,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
       height: 280,
       borderRadius: '50%',
       background: 'radial-gradient(circle at center, rgba(14,165,233,0.3) 0%, transparent 70%)',
-      animation: 'um-orb-drift 10s ease-in-out infinite reverse',
       pointerEvents: 'none',
     },
     [theme.breakpoints.down('sm')]: {
@@ -64,7 +61,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     height: 180,
     borderRadius: '50%',
     background: 'radial-gradient(circle at center, rgba(251,191,36,0.22) 0%, transparent 70%)',
-    animation: 'um-float 9s ease-in-out infinite',
     pointerEvents: 'none',
     zIndex: 0,
   },
@@ -92,7 +88,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     textShadow: '0 2px 18px rgba(0,0,0,0.28)',
     position: 'relative',
     zIndex: 1,
-    animation: 'um-slide-up 0.5s 0.05s ease both',
     [theme.breakpoints.down('sm')]: {
       fontSize: '1.4rem',
     },
@@ -104,7 +99,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     fontSize: '0.88rem',
     position: 'relative',
     zIndex: 1,
-    animation: 'um-slide-up 0.5s 0.12s ease both',
   },
 
   statsGrid: {
@@ -150,25 +144,21 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
   },
 
   statCard0: {
-    animation: 'um-slide-up 0.55s 0s ease both',
     '&::before': { background: 'linear-gradient(90deg, #4f46e5, #7c3aed)' },
     '&:hover': { boxShadow: '0 18px 48px rgba(79,70,229,0.16), 0 4px 16px rgba(79,70,229,0.08)' },
   },
 
   statCard1: {
-    animation: 'um-slide-up 0.55s 0.09s ease both',
     '&::before': { background: 'linear-gradient(90deg, #f59e0b, #ef4444)' },
     '&:hover': { boxShadow: '0 18px 48px rgba(245,158,11,0.16), 0 4px 16px rgba(245,158,11,0.08)' },
   },
 
   statCard2: {
-    animation: 'um-slide-up 0.55s 0.18s ease both',
     '&::before': { background: 'linear-gradient(90deg, #10b981, #0d9488)' },
     '&:hover': { boxShadow: '0 18px 48px rgba(16,185,129,0.16), 0 4px 16px rgba(16,185,129,0.08)' },
   },
 
   statCard3: {
-    animation: 'um-slide-up 0.55s 0.27s ease both',
     '&::before': { background: 'linear-gradient(90deg, #0ea5e9, #2563eb)' },
     '&:hover': { boxShadow: '0 18px 48px rgba(14,165,233,0.16), 0 4px 16px rgba(14,165,233,0.08)' },
   },
@@ -201,7 +191,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     fontWeight: 800,
     lineHeight: 1,
     marginBottom: theme.spacing(0.4),
-    animation: 'um-counter 0.65s cubic-bezier(0.34,1.56,0.64,1) both',
     [theme.breakpoints.down('sm')]: {
       fontSize: '2rem',
     },

@@ -16,7 +16,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     background:
       'linear-gradient(135deg, #060d1f 0%, #0d1f4a 18%, #1a3480 40%, #3730a3 62%, #0369a1 85%, #0891b2 100%)',
     backgroundSize: '300% 300%',
-    animation: 'db-gradient-shift 10s ease infinite',
     borderRadius: 28,
     padding: theme.spacing(4.5, 5, 0),
     position: 'relative',
@@ -33,7 +32,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
       borderRadius: '50%',
       background:
         'radial-gradient(circle, rgba(139,92,246,0.45) 0%, rgba(99,102,241,0.15) 45%, transparent 70%)',
-      animation: 'db-orb 16s ease-in-out infinite',
       pointerEvents: 'none',
     },
     '&::after': {
@@ -46,7 +44,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
       borderRadius: '50%',
       background:
         'radial-gradient(circle, rgba(6,182,212,0.3) 0%, rgba(14,165,233,0.1) 50%, transparent 70%)',
-      animation: 'db-orb 12s ease-in-out infinite reverse',
       pointerEvents: 'none',
     },
     [theme.breakpoints.between('sm', 'md')]: {
@@ -80,7 +77,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     height: '220%',
     background:
       'linear-gradient(108deg, transparent 30%, rgba(255,255,255,0.065) 50%, transparent 70%)',
-    animation: 'db-shimmer 7s ease-in-out infinite',
     pointerEvents: 'none',
     zIndex: 0,
     [theme.breakpoints.down('sm')]: { display: 'none' },
@@ -94,7 +90,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     height: 260,
     borderRadius: '50%',
     background: 'radial-gradient(circle, rgba(251,191,36,0.16) 0%, transparent 65%)',
-    animation: 'db-float 11s ease-in-out infinite',
     pointerEvents: 'none',
     zIndex: 0,
     [theme.breakpoints.down('sm')]: { display: 'none' },
@@ -108,7 +103,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     height: 320,
     borderRadius: '50%',
     background: 'radial-gradient(circle, rgba(52,211,153,0.14) 0%, transparent 65%)',
-    animation: 'db-orb 9s ease-in-out 1s infinite',
     pointerEvents: 'none',
     zIndex: 0,
     [theme.breakpoints.down('sm')]: { display: 'none' },
@@ -122,7 +116,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     height: 200,
     borderRadius: '50%',
     background: 'radial-gradient(circle, rgba(244,114,182,0.18) 0%, transparent 65%)',
-    animation: 'db-float 13s ease-in-out 2s infinite reverse',
     pointerEvents: 'none',
     zIndex: 0,
     [theme.breakpoints.down('sm')]: { display: 'none' },
@@ -168,7 +161,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     letterSpacing: '0.14em',
     textTransform: 'uppercase' as const,
     marginBottom: theme.spacing(1.5),
-    animation: 'db-slide-up 0.4s ease both',
     '&::before': {
       content: '"⚡"',
       fontSize: '0.75rem',
@@ -185,7 +177,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     display: 'flex',
     alignItems: 'center',
     gap: theme.spacing(2),
-    animation: 'db-slide-up 0.5s 0.05s ease both',
     marginBottom: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
       gap: theme.spacing(1.25),
@@ -237,7 +228,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     marginTop: theme.spacing(1),
     fontSize: '0.9rem',
     lineHeight: 1.65,
-    animation: 'db-slide-up 0.5s 0.12s ease both',
     maxWidth: 540,
     [theme.breakpoints.between('sm', 'md')]: { fontSize: '0.82rem' },
     [theme.breakpoints.down('sm')]: {
@@ -252,7 +242,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     flexWrap: 'wrap' as const,
     gap: theme.spacing(0.875),
     marginTop: theme.spacing(2),
-    animation: 'db-slide-up 0.5s 0.2s ease both',
     position: 'relative',
     zIndex: 1,
     [theme.breakpoints.down('sm')]: { gap: theme.spacing(0.625), marginTop: theme.spacing(1.25) },
@@ -284,7 +273,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     flexDirection: 'column' as const,
     alignItems: 'flex-end',
     gap: theme.spacing(1.25),
-    animation: 'db-slide-up 0.5s 0.18s ease both',
     flexShrink: 0,
     [theme.breakpoints.down('md')]: {
       alignItems: 'flex-start',
@@ -313,7 +301,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     borderRadius: '50%',
     background: '#4ade80',
     boxShadow: '0 0 8px #4ade80, 0 0 16px rgba(74,222,128,0.5)',
-    animation: 'db-pulse 1.8s ease-in-out infinite',
     flexShrink: 0,
   },
 
@@ -377,7 +364,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     width: 5,
     height: 5,
     borderRadius: '50%',
-    animation: 'db-pulse 2s ease-in-out infinite',
     flexShrink: 0,
   },
 
@@ -416,22 +402,18 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
   },
 
   kpiCard0: {
-    animation: 'db-slide-up 0.55s 0s ease both',
     '&::before': { background: 'linear-gradient(90deg, #4f46e5, #7c3aed)' },
     '&:hover': { boxShadow: '0 16px 40px rgba(79,70,229,0.18)' },
   },
   kpiCard1: {
-    animation: 'db-slide-up 0.55s 0.08s ease both',
     '&::before': { background: 'linear-gradient(90deg, #10b981, #0d9488)' },
     '&:hover': { boxShadow: '0 16px 40px rgba(16,185,129,0.18)' },
   },
   kpiCard2: {
-    animation: 'db-slide-up 0.55s 0.16s ease both',
     '&::before': { background: 'linear-gradient(90deg, #f59e0b, #ef4444)' },
     '&:hover': { boxShadow: '0 16px 40px rgba(245,158,11,0.18)' },
   },
   kpiCard3: {
-    animation: 'db-slide-up 0.55s 0.24s ease both',
     '&::before': { background: 'linear-gradient(90deg, #0ea5e9, #2563eb)' },
     '&:hover': { boxShadow: '0 16px 40px rgba(14,165,233,0.18)' },
   },
@@ -466,7 +448,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     fontWeight: 800,
     lineHeight: 1,
     marginBottom: theme.spacing(0.3),
-    animation: 'db-counter 0.7s cubic-bezier(0.34,1.56,0.64,1) both',
     [theme.breakpoints.between('sm', 'md')]: { fontSize: '1.7rem' },
     [theme.breakpoints.down('sm')]: { fontSize: '1.3rem' },
   },
@@ -532,7 +513,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     display: 'flex',
     flexDirection: 'column' as const,
     gap: theme.spacing(1),
-    animation: 'db-slide-up 0.55s ease both',
     transition: 'transform 0.28s cubic-bezier(0.34,1.56,0.64,1)',
     '&:hover': { transform: 'translateY(-4px)' },
     [theme.breakpoints.down('sm')]: {
@@ -566,14 +546,12 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     borderRadius: '50%',
     background: '#4ade80',
     boxShadow: '0 0 6px #4ade80',
-    animation: 'db-pulse 2.5s ease-in-out infinite',
   },
 
   modeValue: {
     fontSize: '1.7rem',
     fontWeight: 800,
     lineHeight: 1,
-    animation: 'db-counter 0.7s ease both',
     [theme.breakpoints.down('sm')]: { fontSize: '1.25rem' },
   },
 
@@ -655,7 +633,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     display: 'flex',
     alignItems: 'center',
     gap: theme.spacing(1.25),
-    animation: 'db-slide-up 0.5s ease both',
     transition: 'all 0.25s ease',
     '&:hover': { transform: 'translateY(-3px)', boxShadow: '0 8px 24px rgba(79,70,229,0.1)' },
     [theme.breakpoints.down('sm')]: {
@@ -735,7 +712,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     border: '1px solid rgba(79,70,229,0.08)',
     boxShadow: '0 4px 24px rgba(0,0,0,0.05)',
     overflow: 'hidden',
-    animation: 'db-slide-up 0.6s ease both',
     [theme.breakpoints.down('sm')]: { borderRadius: 14 },
   },
 
@@ -746,7 +722,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     border: '1px solid rgba(79,70,229,0.08)',
     boxShadow: '0 4px 24px rgba(0,0,0,0.05)',
     overflow: 'hidden',
-    animation: 'db-slide-up 0.6s 0.1s ease both',
     [theme.breakpoints.down('sm')]: { borderRadius: 14 },
   },
 

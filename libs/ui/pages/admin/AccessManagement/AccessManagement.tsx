@@ -218,7 +218,7 @@ const AccessManagement = () => {
           <Box className={classes.headerOrb3} />
           <Box className={classes.pageHeaderRow}>
             <Typography variant='h5' className={classes.title}>
-              Access Management
+              People Management
             </Typography>
           </Box>
           <Typography variant='body2' className={classes.description}>

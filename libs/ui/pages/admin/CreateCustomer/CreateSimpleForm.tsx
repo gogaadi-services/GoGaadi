@@ -18,6 +18,13 @@ import BuildIcon from '@mui/icons-material/Build';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import TuneIcon from '@mui/icons-material/Tune';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
+import EvStationIcon from '@mui/icons-material/EvStation';
+import StoreIcon from '@mui/icons-material/Store';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import HandshakeIcon from '@mui/icons-material/Handshake';
+import SecurityIcon from '@mui/icons-material/Security';
+import BusinessIcon from '@mui/icons-material/Business';
 import { Box, Button } from '@gogaadi/component';
 import { useAuth, useFieldError } from '@gogaadi/hooks';
 import { useAuthActionMutation } from '@gogaadi/services';
@@ -36,7 +43,17 @@ import {
 
 // ─── Type config ──────────────────────────────────────────────────────────────
 
-type SimpleType = 'user' | 'driver-hire' | 'vehicle-rental' | 'mechanic-hire';
+type SimpleType =
+  | 'user'
+  | 'driver-hire'
+  | 'vehicle-rental'
+  | 'mechanic-hire'
+  | 'petrol-bunk'
+  | 'ev-charging'
+  | 'showroom'
+  | 'vehicle-finance'
+  | 'finance-broker'
+  | 'insurance-partner';
 
 const TYPE_CONFIG: Record<
   SimpleType,
@@ -54,9 +71,9 @@ const TYPE_CONFIG: Record<
   user: {
     label: 'Platform User',
     tagline: 'App User Registration',
-    gradient: 'linear-gradient(135deg, #0e7490 0%, #0891b2 50%, #22d3ee 100%)',
-    shadow: '0 8px 32px rgba(8,145,178,0.35)',
-    color: '#0891b2',
+    gradient: 'linear-gradient(135deg, #9d174d 0%, #be185d 50%, #ec4899 100%)',
+    shadow: '0 8px 32px rgba(190,24,93,0.35)',
+    color: '#be185d',
     Icon: PersonAddIcon,
     serviceCategory: 'user',
     bundleTypes: [],
@@ -84,11 +101,71 @@ const TYPE_CONFIG: Record<
   'mechanic-hire': {
     label: 'Mechanic Hire',
     tagline: 'On-Demand Roadside Repair',
-    gradient: 'linear-gradient(135deg, #c2410c 0%, #ea580c 50%, #fb923c 100%)',
-    shadow: '0 8px 32px rgba(234,88,12,0.35)',
-    color: '#ea580c',
+    gradient: 'linear-gradient(135deg, #431407 0%, #78350f 50%, #92400e 100%)',
+    shadow: '0 8px 32px rgba(120,53,15,0.35)',
+    color: '#78350f',
     Icon: BuildIcon,
     serviceCategory: 'mechanic',
+    bundleTypes: [],
+  },
+  'petrol-bunk': {
+    label: 'Petrol Bunk',
+    tagline: 'Fuel Station Partner',
+    gradient: 'linear-gradient(135deg, #b91c1c 0%, #dc2626 50%, #ef4444 100%)',
+    shadow: '0 8px 32px rgba(220,38,38,0.35)',
+    color: '#dc2626',
+    Icon: LocalGasStationIcon,
+    serviceCategory: 'petrol-bunk',
+    bundleTypes: [],
+  },
+  'ev-charging': {
+    label: 'EV Charging Station',
+    tagline: 'Electric Vehicle Charging Partner',
+    gradient: 'linear-gradient(135deg, #047857 0%, #059669 50%, #34d399 100%)',
+    shadow: '0 8px 32px rgba(5,150,105,0.35)',
+    color: '#059669',
+    Icon: EvStationIcon,
+    serviceCategory: 'ev-charging',
+    bundleTypes: [],
+  },
+  showroom: {
+    label: 'Vehicle Showroom',
+    tagline: 'Dealership & Sales Partner',
+    gradient: 'linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #3b82f6 100%)',
+    shadow: '0 8px 32px rgba(29,78,216,0.35)',
+    color: '#1d4ed8',
+    Icon: StoreIcon,
+    serviceCategory: 'showroom',
+    bundleTypes: [],
+  },
+  'vehicle-finance': {
+    label: 'Vehicle Finance',
+    tagline: 'Auto Loan & Finance Provider',
+    gradient: 'linear-gradient(135deg, #6b21a8 0%, #9333ea 50%, #c084fc 100%)',
+    shadow: '0 8px 32px rgba(147,51,234,0.35)',
+    color: '#9333ea',
+    Icon: AccountBalanceIcon,
+    serviceCategory: 'vehicle-finance',
+    bundleTypes: [],
+  },
+  'finance-broker': {
+    label: 'Finance Broker',
+    tagline: 'DSA & Loan Agent Partner',
+    gradient: 'linear-gradient(135deg, #134e4a 0%, #0f766e 50%, #14b8a6 100%)',
+    shadow: '0 8px 32px rgba(15,118,110,0.35)',
+    color: '#0f766e',
+    Icon: HandshakeIcon,
+    serviceCategory: 'finance-broker',
+    bundleTypes: [],
+  },
+  'insurance-partner': {
+    label: 'Insurance Partner',
+    tagline: 'Vehicle & Driver Insurance Provider',
+    gradient: 'linear-gradient(135deg, #14532d 0%, #166534 50%, #16a34a 100%)',
+    shadow: '0 8px 32px rgba(22,101,52,0.35)',
+    color: '#166534',
+    Icon: SecurityIcon,
+    serviceCategory: 'insurance-partner',
     bundleTypes: [],
   },
 };
@@ -145,6 +222,24 @@ interface SimpleForm {
   // mechanic-hire specific
   mechanicVehicleType: string;
   mechanicIssueType: string;
+  // partner (business) types common
+  businessName: string;
+  gstNumber: string;
+  // petrol-bunk specific
+  fuelTypesAvailable: string[];
+  // ev-charging specific
+  chargerTypes: string[];
+  numChargers: string;
+  // showroom specific
+  vehicleBrands: string;
+  showroomType: string;
+  // vehicle-finance / finance-broker specific
+  loanTypes: string[];
+  minLoanAmount: string;
+  maxLoanAmount: string;
+  // insurance-partner specific
+  insuranceCoverage: string[];
+  insuranceCompany: string;
 }
 
 const GENDER_OPTIONS = [
@@ -174,7 +269,67 @@ const INITIAL_FORM: SimpleForm = {
   costPerDay: '',
   mechanicVehicleType: '',
   mechanicIssueType: '',
+  businessName: '',
+  gstNumber: '',
+  fuelTypesAvailable: [],
+  chargerTypes: [],
+  numChargers: '',
+  vehicleBrands: '',
+  showroomType: '',
+  loanTypes: [],
+  minLoanAmount: '',
+  maxLoanAmount: '',
+  insuranceCoverage: [],
+  insuranceCompany: '',
 };
+
+const PARTNER_TYPES = [
+  'petrol-bunk',
+  'ev-charging',
+  'showroom',
+  'vehicle-finance',
+  'finance-broker',
+  'insurance-partner',
+] as const;
+type PartnerType = (typeof PARTNER_TYPES)[number];
+const isPartnerType = (t: string): t is PartnerType =>
+  PARTNER_TYPES.includes(t as PartnerType);
+
+const FUEL_TYPE_OPTIONS = [
+  { id: 'petrol', label: 'Petrol' },
+  { id: 'diesel', label: 'Diesel' },
+  { id: 'cng', label: 'CNG' },
+  { id: 'ev', label: 'EV Charging' },
+];
+
+const CHARGER_TYPE_OPTIONS = [
+  { id: 'ac_slow', label: 'AC Slow Charger (3.3–7.4 kW)' },
+  { id: 'ac_fast', label: 'AC Fast Charger (11–22 kW)' },
+  { id: 'dc_fast', label: 'DC Fast Charger (50 kW+)' },
+  { id: 'dc_rapid', label: 'DC Rapid Charger (150 kW+)' },
+];
+
+const SHOWROOM_TYPE_OPTIONS = [
+  { id: 'new', label: 'New Vehicles Only' },
+  { id: 'used', label: 'Used / Pre-owned Vehicles' },
+  { id: 'both', label: 'New & Used Vehicles' },
+];
+
+const LOAN_TYPE_OPTIONS = [
+  { id: 'new_vehicle', label: 'New Vehicle Loan' },
+  { id: 'used_vehicle', label: 'Used Vehicle Loan' },
+  { id: 'top_up', label: 'Top-up / Balance Transfer' },
+  { id: 'refinance', label: 'Refinancing' },
+];
+
+const INSURANCE_COVERAGE_OPTIONS = [
+  { id: 'third_party', label: 'Third-Party Liability' },
+  { id: 'comprehensive', label: 'Comprehensive Vehicle' },
+  { id: 'commercial', label: 'Commercial Vehicle' },
+  { id: 'health', label: 'Driver Health Cover' },
+  { id: 'accident', label: 'Personal Accident Cover' },
+  { id: 'cargo', label: 'Goods / Cargo Insurance' },
+];
 
 // ─── Section wrapper ──────────────────────────────────────────────────────────
 
@@ -252,14 +407,19 @@ const CreateSimpleForm = () => {
   const DRAFT_KEY = `simple_draft_${simpleType}`;
 
   const [userId] = useState<string>(() => {
-    const prefix =
-      simpleType === 'user'
-        ? 'USER'
-        : simpleType === 'driver-hire'
-          ? 'DHIRE'
-          : simpleType === 'vehicle-rental'
-            ? 'VRENT'
-            : 'Mhire';
+    const PREFIX_MAP: Record<SimpleType, string> = {
+      user: 'USER',
+      'driver-hire': 'DHIRE',
+      'vehicle-rental': 'VRENT',
+      'mechanic-hire': 'MHIRE',
+      'petrol-bunk': 'PFUEL',
+      'ev-charging': 'EVCHG',
+      showroom: 'SHOWRM',
+      'vehicle-finance': 'VFIN',
+      'finance-broker': 'FBRK',
+      'insurance-partner': 'INSUR',
+    };
+    const prefix = PREFIX_MAP[simpleType] ?? 'CUST';
     const storageKey = `customer_uid_${simpleType}`;
     const stored = window.localStorage.getItem(storageKey);
     if (stored && stored.startsWith(prefix)) return stored;
@@ -306,7 +466,9 @@ const CreateSimpleForm = () => {
         ? ['rentalVehiclePref', 'rentalDuration', 'costPerDay']
         : simpleType === 'mechanic-hire'
           ? ['mechanicVehicleType', 'mechanicIssueType']
-          : [];
+          : isPartnerType(simpleType)
+            ? ['businessName']
+            : [];
   const REQUIRED_FIELDS = [...REQUIRED_FIELDS_BASE, ...REQUIRED_FIELDS_EXTRA];
 
   const vehicleSelectionFilled =
@@ -414,6 +576,23 @@ const CreateSimpleForm = () => {
       if (!form.mechanicIssueType) errs['mechanicIssueType'] = 'Select an issue type';
     }
 
+    if (isPartnerType(simpleType)) {
+      if (!form.businessName.trim()) errs['businessName'] = 'Business name is required';
+      if (simpleType === 'petrol-bunk' && form.fuelTypesAvailable.length === 0)
+        errs['fuelTypesAvailable'] = 'Select at least one fuel type';
+      if (simpleType === 'ev-charging' && form.chargerTypes.length === 0)
+        errs['chargerTypes'] = 'Select at least one charger type';
+      if (simpleType === 'showroom' && !form.showroomType)
+        errs['showroomType'] = 'Select showroom type';
+      if (
+        (simpleType === 'vehicle-finance' || simpleType === 'finance-broker') &&
+        form.loanTypes.length === 0
+      )
+        errs['loanTypes'] = 'Select at least one loan type';
+      if (simpleType === 'insurance-partner' && form.insuranceCoverage.length === 0)
+        errs['insuranceCoverage'] = 'Select at least one coverage type';
+    }
+
     setErrors(errs);
     const allFields = Object.keys(INITIAL_FORM).filter(
       (k) => k !== 'selectedVehicles' && k !== 'vehicleBudgets',
@@ -483,6 +662,30 @@ const CreateSimpleForm = () => {
       if (simpleType === 'mechanic-hire') {
         payload['mechanicVehicleType'] = form.mechanicVehicleType;
         payload['mechanicIssueType'] = form.mechanicIssueType;
+      }
+
+      if (isPartnerType(simpleType)) {
+        payload['businessName'] = form.businessName.trim();
+        payload['gstNumber'] = form.gstNumber.trim() || null;
+        if (simpleType === 'petrol-bunk')
+          payload['fuelTypesAvailable'] = form.fuelTypesAvailable;
+        if (simpleType === 'ev-charging') {
+          payload['chargerTypes'] = form.chargerTypes;
+          payload['numChargers'] = form.numChargers ? Number(form.numChargers) : null;
+        }
+        if (simpleType === 'showroom') {
+          payload['showroomType'] = form.showroomType;
+          payload['vehicleBrands'] = form.vehicleBrands.trim() || null;
+        }
+        if (simpleType === 'vehicle-finance' || simpleType === 'finance-broker') {
+          payload['loanTypes'] = form.loanTypes;
+          payload['minLoanAmount'] = form.minLoanAmount ? Number(form.minLoanAmount) : null;
+          payload['maxLoanAmount'] = form.maxLoanAmount ? Number(form.maxLoanAmount) : null;
+        }
+        if (simpleType === 'insurance-partner') {
+          payload['insuranceCoverage'] = form.insuranceCoverage;
+          payload['insuranceCompany'] = form.insuranceCompany.trim() || null;
+        }
       }
 
       await authAction({ action: 'create-customer-onboarding', data: payload }).unwrap();
@@ -1086,6 +1289,249 @@ const CreateSimpleForm = () => {
               helperText={fe('mechanicIssueType')}
               required
             />
+          </Box>
+        </Section>
+      )}
+
+      {/* ── Partner / Business Details ─────────────────────────────────── */}
+      {isPartnerType(simpleType) && (
+        <Section icon={BusinessIcon} label='Business Details' color='#0891b2'>
+          <Box
+            sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2 }}
+          >
+            <TextField
+              label='Business / Entity Name'
+              value={form.businessName}
+              onChange={(e) => set('businessName', e.target.value)}
+              onBlur={() => touch('businessName')}
+              error={Boolean(touched['businessName'] && errors['businessName'])}
+              helperText={fe('businessName')}
+              required
+              size='small'
+              fullWidth
+            />
+            <TextField
+              label='GST Number (optional)'
+              value={form.gstNumber}
+              onChange={(e) => set('gstNumber', e.target.value.toUpperCase())}
+              onBlur={() => touch('gstNumber')}
+              size='small'
+              fullWidth
+              inputProps={{ maxLength: 15 }}
+              placeholder='e.g. 29ABCDE1234F1Z5'
+            />
+
+            {/* Petrol Bunk – fuel types */}
+            {simpleType === 'petrol-bunk' && (
+              <Box sx={{ gridColumn: '1 / -1' }}>
+                <Typography
+                  variant='caption'
+                  sx={{ fontWeight: 600, color: 'text.secondary', mb: 0.75, display: 'block' }}
+                >
+                  Fuel Types Available *
+                </Typography>
+                <FormGroup row>
+                  {FUEL_TYPE_OPTIONS.map((opt) => (
+                    <FormControlLabel
+                      key={opt.id}
+                      control={
+                        <Checkbox
+                          size='small'
+                          checked={form.fuelTypesAvailable.includes(opt.id)}
+                          onChange={(e) =>
+                            setForm((p) => ({
+                              ...p,
+                              fuelTypesAvailable: e.target.checked
+                                ? [...p.fuelTypesAvailable, opt.id]
+                                : p.fuelTypesAvailable.filter((f) => f !== opt.id),
+                            }))
+                          }
+                        />
+                      }
+                      label={opt.label}
+                    />
+                  ))}
+                </FormGroup>
+                {touched['fuelTypesAvailable'] && errors['fuelTypesAvailable'] && (
+                  <FormHelperText error>{errors['fuelTypesAvailable']}</FormHelperText>
+                )}
+              </Box>
+            )}
+
+            {/* EV Charging – charger types & count */}
+            {simpleType === 'ev-charging' && (
+              <>
+                <Box sx={{ gridColumn: '1 / -1' }}>
+                  <Typography
+                    variant='caption'
+                    sx={{ fontWeight: 600, color: 'text.secondary', mb: 0.75, display: 'block' }}
+                  >
+                    Charger Types Available *
+                  </Typography>
+                  <FormGroup row>
+                    {CHARGER_TYPE_OPTIONS.map((opt) => (
+                      <FormControlLabel
+                        key={opt.id}
+                        control={
+                          <Checkbox
+                            size='small'
+                            checked={form.chargerTypes.includes(opt.id)}
+                            onChange={(e) =>
+                              setForm((p) => ({
+                                ...p,
+                                chargerTypes: e.target.checked
+                                  ? [...p.chargerTypes, opt.id]
+                                  : p.chargerTypes.filter((c) => c !== opt.id),
+                              }))
+                            }
+                          />
+                        }
+                        label={opt.label}
+                      />
+                    ))}
+                  </FormGroup>
+                  {touched['chargerTypes'] && errors['chargerTypes'] && (
+                    <FormHelperText error>{errors['chargerTypes']}</FormHelperText>
+                  )}
+                </Box>
+                <TextField
+                  label='Number of Chargers'
+                  type='number'
+                  value={form.numChargers}
+                  onChange={(e) => set('numChargers', e.target.value)}
+                  size='small'
+                  fullWidth
+                  inputProps={{ min: 1 }}
+                />
+              </>
+            )}
+
+            {/* Showroom – type & brands */}
+            {simpleType === 'showroom' && (
+              <>
+                <InlineSelect
+                  label='Showroom Type *'
+                  value={form.showroomType}
+                  onChange={(v) => set('showroomType', v)}
+                  onBlur={() => touch('showroomType')}
+                  options={SHOWROOM_TYPE_OPTIONS}
+                  error={Boolean(touched['showroomType'] && errors['showroomType'])}
+                  helperText={fe('showroomType')}
+                />
+                <TextField
+                  label='Vehicle Brands (comma-separated)'
+                  value={form.vehicleBrands}
+                  onChange={(e) => set('vehicleBrands', e.target.value)}
+                  size='small'
+                  fullWidth
+                  placeholder='e.g. Maruti, Hyundai, Tata'
+                />
+              </>
+            )}
+
+            {/* Vehicle Finance / Finance Broker – loan types & amounts */}
+            {(simpleType === 'vehicle-finance' || simpleType === 'finance-broker') && (
+              <>
+                <Box sx={{ gridColumn: '1 / -1' }}>
+                  <Typography
+                    variant='caption'
+                    sx={{ fontWeight: 600, color: 'text.secondary', mb: 0.75, display: 'block' }}
+                  >
+                    Loan Types Offered *
+                  </Typography>
+                  <FormGroup row>
+                    {LOAN_TYPE_OPTIONS.map((opt) => (
+                      <FormControlLabel
+                        key={opt.id}
+                        control={
+                          <Checkbox
+                            size='small'
+                            checked={form.loanTypes.includes(opt.id)}
+                            onChange={(e) =>
+                              setForm((p) => ({
+                                ...p,
+                                loanTypes: e.target.checked
+                                  ? [...p.loanTypes, opt.id]
+                                  : p.loanTypes.filter((l) => l !== opt.id),
+                              }))
+                            }
+                          />
+                        }
+                        label={opt.label}
+                      />
+                    ))}
+                  </FormGroup>
+                  {touched['loanTypes'] && errors['loanTypes'] && (
+                    <FormHelperText error>{errors['loanTypes']}</FormHelperText>
+                  )}
+                </Box>
+                <TextField
+                  label='Min Loan Amount (₹)'
+                  type='number'
+                  value={form.minLoanAmount}
+                  onChange={(e) => set('minLoanAmount', e.target.value)}
+                  size='small'
+                  fullWidth
+                  inputProps={{ min: 0 }}
+                />
+                <TextField
+                  label='Max Loan Amount (₹)'
+                  type='number'
+                  value={form.maxLoanAmount}
+                  onChange={(e) => set('maxLoanAmount', e.target.value)}
+                  size='small'
+                  fullWidth
+                  inputProps={{ min: 0 }}
+                />
+              </>
+            )}
+
+            {/* Insurance Partner – coverage types & company */}
+            {simpleType === 'insurance-partner' && (
+              <>
+                <Box sx={{ gridColumn: '1 / -1' }}>
+                  <Typography
+                    variant='caption'
+                    sx={{ fontWeight: 600, color: 'text.secondary', mb: 0.75, display: 'block' }}
+                  >
+                    Coverage Types Offered *
+                  </Typography>
+                  <FormGroup row>
+                    {INSURANCE_COVERAGE_OPTIONS.map((opt) => (
+                      <FormControlLabel
+                        key={opt.id}
+                        control={
+                          <Checkbox
+                            size='small'
+                            checked={form.insuranceCoverage.includes(opt.id)}
+                            onChange={(e) =>
+                              setForm((p) => ({
+                                ...p,
+                                insuranceCoverage: e.target.checked
+                                  ? [...p.insuranceCoverage, opt.id]
+                                  : p.insuranceCoverage.filter((c) => c !== opt.id),
+                              }))
+                            }
+                          />
+                        }
+                        label={opt.label}
+                      />
+                    ))}
+                  </FormGroup>
+                  {touched['insuranceCoverage'] && errors['insuranceCoverage'] && (
+                    <FormHelperText error>{errors['insuranceCoverage']}</FormHelperText>
+                  )}
+                </Box>
+                <TextField
+                  label='Insurance Company Name'
+                  value={form.insuranceCompany}
+                  onChange={(e) => set('insuranceCompany', e.target.value)}
+                  size='small'
+                  fullWidth
+                  placeholder='e.g. ICICI Lombard, HDFC Ergo'
+                />
+              </>
+            )}
           </Box>
         </Section>
       )}

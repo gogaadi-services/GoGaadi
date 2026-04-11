@@ -11,108 +11,7 @@ const STATIC_COLORS = {
   I: '#c084fc',
 };
 
-/**
- * Front-view car headlight icon.
- * Looks like one headlight unit seen head-on:
- *   - dark angular housing
- *   - circular projector lens with halo ring
- *   - DRL strip along the top edge
- */
-const HeadlightIcon = ({ size }: { size: number }) => (
-  <Box
-    sx={{
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexShrink: 0,
-      lineHeight: 0,
-      marginTop: '4px',
-      '@keyframes lightOn': {
-        '0%, 100%': {
-          filter:
-            'drop-shadow(0 0 4px #ffe566) drop-shadow(0 0 10px #ffb800) drop-shadow(0 0 20px #ffe56688)',
-          opacity: 1,
-        },
-        '50%': {
-          filter:
-            'drop-shadow(0 0 8px #fff5a0) drop-shadow(0 0 18px #ffe566) drop-shadow(0 0 36px #ffb800cc)',
-          opacity: 0.88,
-        },
-      },
-      animation: 'lightOn 1.8s ease-in-out infinite',
-    }}
-  >
-    <svg
-      width={size * 1.4}
-      height={size}
-      viewBox='0 0 28 20'
-      fill='none'
-      xmlns='http://www.w3.org/2000/svg'
-    >
-      <defs>
-        <radialGradient id='projGrad' cx='50%' cy='50%' r='50%'>
-          <stop offset='0%' stopColor='#ffffff' stopOpacity='1' />
-          <stop offset='40%' stopColor='#fff8d6' stopOpacity='1' />
-          <stop offset='100%' stopColor='#ffe566' stopOpacity='0.9' />
-        </radialGradient>
-        <radialGradient id='housingGrad' cx='50%' cy='30%' r='70%'>
-          <stop offset='0%' stopColor='#2a2a4a' />
-          <stop offset='100%' stopColor='#0d0d1e' />
-        </radialGradient>
-      </defs>
-
-      {/* Outer housing — angular modern headlight shape */}
-      <path
-        d='M2 4 Q2 2 4.5 2 L22 2 Q26 2 26 6 L26 14 Q26 18 22 18 L5 18 Q2 18 2 15 Z'
-        fill='url(#housingGrad)'
-        stroke='#3a3a5a'
-        strokeWidth='0.7'
-      />
-
-      {/* DRL strip — thin bright line along top inner edge */}
-      <path
-        d='M5 4.5 Q5 3.5 6 3.5 L21 3.5 Q24.5 3.5 24.5 6'
-        fill='none'
-        stroke='#ffffff'
-        strokeWidth='1.2'
-        strokeLinecap='round'
-        strokeOpacity='0.85'
-      />
-
-      {/* Halo ring around projector */}
-      <circle
-        cx='14'
-        cy='11'
-        r='5.8'
-        fill='none'
-        stroke='#ffe566'
-        strokeWidth='1.2'
-        strokeOpacity='0.7'
-      />
-
-      {/* Projector lens */}
-      <circle cx='14' cy='11' r='4.2' fill='url(#projGrad)' />
-
-      {/* Inner specular reflection */}
-      <circle cx='12.5' cy='9.5' r='1.3' fill='white' fillOpacity='0.9' />
-
-      {/* Bottom chrome trim */}
-      <line
-        x1='4'
-        y1='16.5'
-        x2='24'
-        y2='16.5'
-        stroke='#5a5a7a'
-        strokeWidth='0.8'
-        strokeLinecap='round'
-        strokeOpacity='0.6'
-      />
-    </svg>
-  </Box>
-);
-
 const LogoMark = ({ compact = false }: LogoMarkProps) => {
-  const iconSize = compact ? 14 : 18;
   const textSize = compact ? '1.1rem' : '1.4rem';
   const textSx = {
     fontWeight: 900,
@@ -175,7 +74,7 @@ const LogoMark = ({ compact = false }: LogoMarkProps) => {
         </svg>
       </Box>
 
-      {/* Wordmark: G [headlight] [headlight] d I */}
+      {/* Wordmark: GogaadI */}
       <Box>
         <Box
           sx={{
@@ -197,9 +96,17 @@ const LogoMark = ({ compact = false }: LogoMarkProps) => {
             G
           </Typography>
 
-          {/* aa → two front-view headlight icons */}
-          <HeadlightIcon size={iconSize} />
-          <HeadlightIcon size={iconSize} />
+          {/* o */}
+          <Typography component='span' sx={{ ...textSx, color: '#f1f5f9' }}>o</Typography>
+
+          {/* g */}
+          <Typography component='span' sx={{ ...textSx, color: '#f1f5f9' }}>g</Typography>
+
+          {/* a */}
+          <Typography component='span' sx={{ ...textSx, color: '#f1f5f9' }}>a</Typography>
+
+          {/* a */}
+          <Typography component='span' sx={{ ...textSx, color: '#f1f5f9' }}>a</Typography>
 
           {/* d */}
           <Typography
