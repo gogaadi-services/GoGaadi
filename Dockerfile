@@ -1,48 +1,21 @@
-# Build stage
-FROM node:20.19.2-alpine AS builder
-
-# Install pnpm
-RUN npm install -g pnpm@10.23.0
+FROM node:20.19.2-alpine
 
 WORKDIR /app
 
-# Copy package files
-COPY package.json pnpm-lock.yaml* ./
-COPY gateways/prisma ./gateways/prisma/
-
-# Install dependencies
-RUN pnpm install --frozen-lockfile
+# Copy package files and install all dependencies
+COPY package.json package-lock.json* ./
+RUN npm install
 
 # Copy source code
 COPY . .
 
 # Generate Prisma Client
-RUN npx prisma generate --config=gateways/prisma/prisma.config.ts
+RUN npx prisma generate
 
-# Build the application
-RUN pnpm build
+# Expose port
+EXPOSE 3001
 
-# Production stage
-FROM node:20.19.2-alpine AS production
-
-# Install pnpm
-RUN npm install -g pnpm@10.23.0
-
-WORKDIR /app
-
-# Copy package files
-COPY package.json pnpm-lock.yaml* ./
-
-# Install production dependencies only
-RUN pnpm install --prod --frozen-lockfile
-
-# Copy built application from builder
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/gateways/prisma ./gateways/prisma
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-
-# Expose ports
-EXPOSE 3001 3002
-
-# Run the application
-CMD ["node", "dist/src/index.js"]
+# Use tsx (esbuild-powered) instead of ts-node — ~10x faster startup, no recompilation overhead
+# Handles tsconfig path aliases natively
+ENV NODE_OPTIONS="--max-old-space-size=512 --dns-result-order=ipv4first"
+CMD ["npx", "tsx", "--tsconfig", "tsconfig.app.json", "gateways/src/index.ts"]
