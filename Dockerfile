@@ -4,13 +4,15 @@ WORKDIR /app
 
 # Copy package files and install all dependencies
 COPY package.json package-lock.json* ./
+# Skip husky git hooks setup (no .git dir in Docker)
+ENV HUSKY=0
 RUN npm install
 
 # Copy source code
 COPY . .
 
-# Generate Prisma Client
-RUN npx prisma generate
+# Generate Prisma Client (schema lives at gateways/prisma/schema.prisma)
+RUN npx prisma generate --schema gateways/prisma/schema.prisma
 
 # Expose port
 EXPOSE 3001
