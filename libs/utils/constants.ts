@@ -1,4 +1,5 @@
 const ADMIN_BASE = '/app/admin';
+const CONSULTANT_BASE = '/app/consultant';
 const USER_BASE = '/app/user';
 const CAPTAIN_BASE = '/app/captain';
 
@@ -13,7 +14,6 @@ const AdminPath = {
 
   // Administration
   USERS: `${ADMIN_BASE}/users`,
-  CAPTAINS: `${ADMIN_BASE}/captains`,
   ORGANIZATIONS: `${ADMIN_BASE}/organizations`,
   SUBSCRIPTIONS: `${ADMIN_BASE}/subscriptions`,
   COLLECTIONS: `${ADMIN_BASE}/collections`,
@@ -30,7 +30,6 @@ const AdminPath = {
   VEHICLE_RENTAL: `${ADMIN_BASE}/vehicle-rental`,
   MECHANIC_HIRE: `${ADMIN_BASE}/mechanic-hire`,
   PARCEL: `${ADMIN_BASE}/parcel`,
-  LOGISTICS: `${ADMIN_BASE}/logistics`,
 
   // Operations
   RIDES: `${ADMIN_BASE}/rides`,
@@ -55,8 +54,6 @@ const AdminPath = {
   INTEGRATIONS: `${ADMIN_BASE}/integrations`,
 
   // Fleet — split by category
-  FLEET_MANAGEMENT: `${ADMIN_BASE}/fleet-management`,
-  FLEET_ACCESS: `${ADMIN_BASE}/fleet-access`,
 
   // People Access — Captain Onboarding
   MOBILITY_ACCESS: `${ADMIN_BASE}/mobility-access`,
@@ -156,6 +153,65 @@ const AdminPath = {
   ROLE_REQUESTS: `${ADMIN_BASE}/people-requests`,
 };
 
+const ConsultantPath = {
+  PEOPLE_ACCESS: `${CONSULTANT_BASE}/customer-access`,
+  PEOPLE_MANAGEMENT: `${CONSULTANT_BASE}/customer-management`,
+
+  MOBILITY_ACCESS: `${CONSULTANT_BASE}/mobility-access`,
+  LOGISTICS_ACCESS: `${CONSULTANT_BASE}/logistics-access`,
+  PARCEL_ACCESS: `${CONSULTANT_BASE}/parcel-access`,
+
+  MOBILITY_BIKE_SCOOTER_ACCESS: `${CONSULTANT_BASE}/mobility-access/bike-scooter`,
+  MOBILITY_AUTO_ACCESS: `${CONSULTANT_BASE}/mobility-access/auto`,
+  MOBILITY_CAB_ACCESS: `${CONSULTANT_BASE}/mobility-access/cab`,
+  MOBILITY_SHUTTLE_ACCESS: `${CONSULTANT_BASE}/mobility-access/shuttle`,
+
+  LOGISTICS_MINI_CARGO_ACCESS: `${CONSULTANT_BASE}/logistics-access/mini-cargo`,
+  LOGISTICS_MEDIUM_GOODS_ACCESS: `${CONSULTANT_BASE}/logistics-access/medium-goods`,
+  LOGISTICS_HEAVY_TRUCK_ACCESS: `${CONSULTANT_BASE}/logistics-access/heavy-truck`,
+
+  DRIVER_HIRE_ACCESS: `${CONSULTANT_BASE}/driver-hire-access`,
+  VEHICLE_RENTAL_ACCESS: `${CONSULTANT_BASE}/vehicle-rental-access`,
+  MECHANIC_ACCESS: `${CONSULTANT_BASE}/mechanic-access`,
+  PETROL_BUNK_ACCESS: `${CONSULTANT_BASE}/petrol-bunk-access`,
+  EV_CHARGING_ACCESS: `${CONSULTANT_BASE}/ev-charging-access`,
+  SHOWROOM_ACCESS: `${CONSULTANT_BASE}/showroom-access`,
+  VEHICLE_FINANCE_ACCESS: `${CONSULTANT_BASE}/vehicle-finance-access`,
+  FINANCE_BROKER_ACCESS: `${CONSULTANT_BASE}/finance-broker-access`,
+  INSURANCE_ACCESS: `${CONSULTANT_BASE}/insurance-access`,
+  USER_ACCESS: `${CONSULTANT_BASE}/user-access`,
+  CUSTOMER_APPROVALS: `${CONSULTANT_BASE}/customer-approvals`,
+
+  MOBILITY_MANAGEMENT: `${CONSULTANT_BASE}/mobility-management`,
+  LOGISTICS_MANAGEMENT: `${CONSULTANT_BASE}/logistics-management`,
+  PARCEL_MANAGEMENT: `${CONSULTANT_BASE}/parcel-management`,
+
+  MOBILITY_BIKE_SCOOTER_MANAGEMENT: `${CONSULTANT_BASE}/mobility-management/bike-scooter`,
+  MOBILITY_AUTO_MANAGEMENT: `${CONSULTANT_BASE}/mobility-management/auto`,
+  MOBILITY_CAB_MANAGEMENT: `${CONSULTANT_BASE}/mobility-management/cab`,
+  MOBILITY_SHUTTLE_MANAGEMENT: `${CONSULTANT_BASE}/mobility-management/shuttle`,
+
+  LOGISTICS_MINI_CARGO_MANAGEMENT: `${CONSULTANT_BASE}/logistics-management/mini-cargo`,
+  LOGISTICS_MEDIUM_GOODS_MANAGEMENT: `${CONSULTANT_BASE}/logistics-management/medium-goods`,
+  LOGISTICS_HEAVY_TRUCK_MANAGEMENT: `${CONSULTANT_BASE}/logistics-management/heavy-truck`,
+
+  DRIVER_HIRE_MANAGEMENT: `${CONSULTANT_BASE}/driver-hire-management`,
+  VEHICLE_RENTAL_MANAGEMENT: `${CONSULTANT_BASE}/vehicle-rental-management`,
+  MECHANIC_MANAGEMENT: `${CONSULTANT_BASE}/mechanic-management`,
+  PETROL_BUNK_MANAGEMENT: `${CONSULTANT_BASE}/petrol-bunk-management`,
+  EV_CHARGING_MANAGEMENT: `${CONSULTANT_BASE}/ev-charging-management`,
+  SHOWROOM_MANAGEMENT: `${CONSULTANT_BASE}/showroom-management`,
+  VEHICLE_FINANCE_MANAGEMENT: `${CONSULTANT_BASE}/vehicle-finance-management`,
+  FINANCE_BROKER_MANAGEMENT: `${CONSULTANT_BASE}/finance-broker-management`,
+  INSURANCE_MANAGEMENT: `${CONSULTANT_BASE}/insurance-management`,
+  USER_MGMT: `${CONSULTANT_BASE}/user-mgmt`,
+  USER_MANAGEMENT: `${CONSULTANT_BASE}/user-management`,
+
+  CUSTOMER_DETAIL: `${CONSULTANT_BASE}/customer/:id`,
+  CREATE_NEW: `${CONSULTANT_BASE}/create-new-user`,
+  PROFILE: `${CONSULTANT_BASE}/profile`,
+};
+
 const AuthPath = {
   SIGNIN: '/signin',
   SIGNUP: '/signup',
@@ -193,6 +249,7 @@ const CaptainPath = {
 export const constants = {
   Path,
   AdminPath,
+  ConsultantPath,
   AuthPath,
   UserPath,
   CaptainPath,

@@ -28,6 +28,9 @@ export * from './useWindowSize';
 export * from './useIntersectionObserver';
 export * from './useAsync';
 
+// Global loader
+export * from './useLoader';
+
 // Notification
 export * from './useNotification';
 

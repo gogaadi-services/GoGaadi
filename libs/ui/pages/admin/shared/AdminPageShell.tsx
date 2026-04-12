@@ -119,14 +119,7 @@ const AdminPageShell = ({
   const keyframes = useAdminKeyframes();
 
   if (isLoading) {
-    return (
-      <>
-        {keyframes}
-        <Box className={classes.container}>
-          <Loader />
-        </Box>
-      </>
-    );
+    return <Loader fullScreen />;
   }
 
   // ── Hero (cards) mode ──────────────────────────────────────────────────────
@@ -167,7 +160,12 @@ const AdminPageShell = ({
           <Box>
             {heroTitle && (
               <Typography
-                sx={{ color: '#f1f5f9', fontWeight: 800, fontSize: '1.25rem', letterSpacing: '-0.01em' }}
+                sx={{
+                  color: '#f1f5f9',
+                  fontWeight: 800,
+                  fontSize: '1.25rem',
+                  letterSpacing: '-0.01em',
+                }}
               >
                 {heroTitle}
               </Typography>
@@ -222,7 +220,21 @@ const AdminPageShell = ({
             sx={statGridCols ? { gridTemplateColumns: statGridCols } : undefined}
           >
             {statCards.map(
-              ({ label, value, Icon, cls, color, tabIndex, isDraft, sub1, sub1Label, sub1Color, sub2, sub2Label, sub2Color }) => {
+              ({
+                label,
+                value,
+                Icon,
+                cls,
+                color,
+                tabIndex,
+                isDraft,
+                sub1,
+                sub1Label,
+                sub1Color,
+                sub2,
+                sub2Label,
+                sub2Color,
+              }) => {
                 const isActive = tabValue === tabIndex;
                 return (
                   <Box
@@ -264,28 +276,68 @@ const AdminPageShell = ({
                       </Box>
                     </Box>
                     <Divider className={classes.statDivider} />
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '4px' }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', flex: '1 1 0', minWidth: 0 }}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        gap: '4px',
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          flex: '1 1 0',
+                          minWidth: 0,
+                        }}
+                      >
                         <Box
                           className={classes.statSubDot}
-                          sx={{ background: sub1Color, boxShadow: `0 0 6px ${sub1Color}`, flexShrink: 0 }}
+                          sx={{
+                            background: sub1Color,
+                            boxShadow: `0 0 6px ${sub1Color}`,
+                            flexShrink: 0,
+                          }}
                         />
                         <Typography
                           className={classes.statSub}
-                          sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                          sx={{
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          }}
                         >
                           <span style={{ color: sub1Color, fontWeight: 700 }}>{sub1}</span>
                           {` ${sub1Label}`}
                         </Typography>
                       </Box>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', flex: '1 1 0', minWidth: 0, justifyContent: 'flex-end' }}>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          flex: '1 1 0',
+                          minWidth: 0,
+                          justifyContent: 'flex-end',
+                        }}
+                      >
                         <Box
                           className={classes.statSubDot}
-                          sx={{ background: sub2Color, boxShadow: `0 0 6px ${sub2Color}`, flexShrink: 0 }}
+                          sx={{
+                            background: sub2Color,
+                            boxShadow: `0 0 6px ${sub2Color}`,
+                            flexShrink: 0,
+                          }}
                         />
                         <Typography
                           className={classes.statSub}
-                          sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                          sx={{
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          }}
                         >
                           <span style={{ color: sub2Color, fontWeight: 700 }}>{sub2}</span>
                           {` ${sub2Label}`}
@@ -335,7 +387,9 @@ const AdminPageShell = ({
               sx={{
                 '& .MuiOutlinedInput-root': {
                   '& .MuiOutlinedInput-notchedOutline': { border: `1px solid ${accentColor}30` },
-                  '&:hover .MuiOutlinedInput-notchedOutline': { border: `1px solid ${accentColor}66` },
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    border: `1px solid ${accentColor}66`,
+                  },
                   '&.Mui-focused': {
                     boxShadow: `0 0 0 3px ${accentColor}1a`,
                     '& .MuiOutlinedInput-notchedOutline': { border: `1px solid ${accentColor}` },
@@ -360,13 +414,17 @@ const AdminPageShell = ({
         {tabPanels.map((panel) => {
           const rows = resolveData(panel);
           const PanelEmptyIcon = panel.emptyIcon ?? EmptyIcon;
-          const emptyText = panel.emptyText ?? (search ? 'No matching records' : 'No records found');
+          const emptyText =
+            panel.emptyText ?? (search ? 'No matching records' : 'No records found');
           return (
             <TabPanel key={panel.index} value={tabValue} index={panel.index}>
               {rows.length === 0 ? (
                 <Box
                   className={classes.emptyState}
-                  sx={{ borderColor: `${accentColor}26`, '& .emptyIcon': { color: `${accentColor}4d` } }}
+                  sx={{
+                    borderColor: `${accentColor}26`,
+                    '& .emptyIcon': { color: `${accentColor}4d` },
+                  }}
                 >
                   <PanelEmptyIcon
                     className={classes.emptyIcon}
@@ -377,10 +435,7 @@ const AdminPageShell = ({
                   </Typography>
                 </Box>
               ) : (
-                <Box
-                  className={classes.tableContainer}
-                  sx={{ borderColor: `${accentColor}10` }}
-                >
+                <Box className={classes.tableContainer} sx={{ borderColor: `${accentColor}10` }}>
                   <DataTable
                     columns={panel.columns}
                     data={rows}

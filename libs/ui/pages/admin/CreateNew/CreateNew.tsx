@@ -37,6 +37,7 @@ import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import { Box } from '@gogaadi/component';
 import { useNavigate } from 'react-router-dom';
 import { constants } from '@gogaadi/utils';
+import { useAuth } from '@gogaadi/hooks';
 import { AdminPageShell } from '../shared';
 
 const { AdminPath } = constants;
@@ -405,6 +406,8 @@ const Section = ({
 // ── Page ───────────────────────────────────────────────────────────────────────
 const CreateNew = () => {
   const navigate = useNavigate();
+  const { isConsultantMode, isConsultant } = useAuth();
+  const consultantMode = isConsultantMode || isConsultant;
 
   return (
     <AdminPageShell
@@ -417,7 +420,9 @@ const CreateNew = () => {
       heroIconBg='linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)'
       heroIconShadow='0 8px 24px rgba(99,102,241,0.4)'
     >
-      <Section label='Management Accounts' cards={MANAGEMENT_CARDS} cols={2} navigate={navigate} />
+      {!consultantMode && (
+        <Section label='Management Accounts' cards={MANAGEMENT_CARDS} cols={2} navigate={navigate} />
+      )}
       <Section
         label='Captain Onboarding'
         cards={CUSTOMER_CARDS.filter((c) => ['mobility', 'logistics', 'parcel'].includes(c.type))}

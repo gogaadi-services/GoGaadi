@@ -5,6 +5,7 @@ export interface AuthState {
   user: IAuthUser | null;
   token: string | null;
   isAuthenticated: boolean;
+  isConsultantMode: boolean;
 }
 
 const loadInitialState = (): AuthState => {
@@ -13,12 +14,17 @@ const loadInitialState = (): AuthState => {
     const userStr = localStorage.getItem('gogaadi_user');
     if (token && userStr) {
       const user = JSON.parse(userStr) as IAuthUser;
-      return { user, token, isAuthenticated: true };
+      return {
+        user,
+        token,
+        isAuthenticated: true,
+        isConsultantMode: localStorage.getItem('gogaadi_consultant_mode') === 'true',
+      };
     }
   } catch {
     // ignore parse errors
   }
-  return { user: null, token: null, isAuthenticated: false };
+  return { user: null, token: null, isAuthenticated: false, isConsultantMode: false };
 };
 
 const initialState: AuthState = loadInitialState();
@@ -40,15 +46,25 @@ const authSlice = createSlice({
         localStorage.setItem('gogaadi_user', JSON.stringify(state.user));
       }
     },
+    enterConsultantMode(state) {
+      state.isConsultantMode = true;
+      localStorage.setItem('gogaadi_consultant_mode', 'true');
+    },
+    exitConsultantMode(state) {
+      state.isConsultantMode = false;
+      localStorage.removeItem('gogaadi_consultant_mode');
+    },
     logout(state) {
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
+      state.isConsultantMode = false;
       localStorage.removeItem('gogaadi_token');
       localStorage.removeItem('gogaadi_user');
+      localStorage.removeItem('gogaadi_consultant_mode');
     },
   },
 });
 
-export const { setCredentials, updateUser, logout } = authSlice.actions;
+export const { setCredentials, updateUser, logout, enterConsultantMode, exitConsultantMode } = authSlice.actions;
 export default authSlice.reducer;

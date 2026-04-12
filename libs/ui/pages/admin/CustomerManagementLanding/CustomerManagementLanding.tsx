@@ -17,10 +17,9 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import { Box } from '@gogaadi/component';
 import { useNavigate } from 'react-router-dom';
 import { constants } from '@gogaadi/utils';
+import { useAuth } from '@gogaadi/hooks';
 import React from 'react';
 import { AdminPageShell } from '../shared';
-
-const { AdminPath } = constants;
 
 interface ManagementType {
   key: string;
@@ -32,143 +31,23 @@ interface ManagementType {
   path: string;
 }
 
-const MANAGEMENT_TYPES: ManagementType[] = [
-  // ── Captain Onboarding ────────────────────────────────────────────────────────
-  {
-    key: 'mobility',
-    displayName: 'Mobility Management',
-    tagline: 'Bikes, Autos, Cabs & Shuttles',
-    description:
-      'View and manage all approved mobility operators — update status, review profiles, and track activity.',
-    icon: DirectionsBusIcon,
-    color: '#6366f1',
-    path: AdminPath.MOBILITY_MANAGEMENT,
-  },
-  {
-    key: 'logistics',
-    displayName: 'Logistics Management',
-    tagline: 'Mini Cargo, Goods & Heavy Trucks',
-    description:
-      'View and manage all approved logistics operators — Tata Ace, DCM, medium goods, and heavy truck operators.',
-    icon: LocalShippingIcon,
-    color: '#f59e0b',
-    path: AdminPath.LOGISTICS_MANAGEMENT,
-  },
-  {
-    key: 'parcel',
-    displayName: 'Parcel Management',
-    tagline: 'Last-Mile Delivery Operators',
-    description:
-      'View and manage all approved parcel delivery operators and their service coverage areas.',
-    icon: Inventory2Icon,
-    color: '#ea580c',
-    path: AdminPath.PARCEL_MANAGEMENT,
-  },
-  // ── On-Demand Services ────────────────────────────────────────────────────────
-  {
-    key: 'driver-hire',
-    displayName: 'Driver Hire Management',
-    tagline: 'Dedicated Driver Providers',
-    description:
-      'View and manage all approved driver hire service providers — monitor assignments and performance.',
-    icon: HailIcon,
-    color: '#16a34a',
-    path: AdminPath.DRIVER_HIRE_MANAGEMENT,
-  },
-  {
-    key: 'vehicle-rental',
-    displayName: 'Vehicle Rental Management',
-    tagline: 'Self-Drive & Rental Operators',
-    description:
-      'View and manage all approved vehicle rental operators — track fleet availability and booking history.',
-    icon: CarRentalIcon,
-    color: '#7c3aed',
-    path: AdminPath.VEHICLE_RENTAL_MANAGEMENT,
-  },
-  {
-    key: 'mechanic',
-    displayName: 'Mechanic Management',
-    tagline: 'Roadside Repair & Service',
-    description:
-      'View and manage all approved mechanic service providers — track dispatches and service quality.',
-    icon: BuildIcon,
-    color: '#78350f',
-    path: AdminPath.MECHANIC_MANAGEMENT,
-  },
-  // ── Automotive Partners ───────────────────────────────────────────────────────
-  {
-    key: 'petrol-bunk',
-    displayName: 'Petrol Bunk Management',
-    tagline: 'Fuel Station Partners',
-    description:
-      'View and manage all approved petrol bunk partners — fuel types, locations, and discount configurations.',
-    icon: LocalGasStationIcon,
-    color: '#dc2626',
-    path: AdminPath.PETROL_BUNK_MANAGEMENT,
-  },
-  {
-    key: 'ev-charging',
-    displayName: 'EV Charging Management',
-    tagline: 'Electric Vehicle Charging Partners',
-    description:
-      'View and manage all approved EV charging station partners — charger types, slots, and availability.',
-    icon: EvStationIcon,
-    color: '#059669',
-    path: AdminPath.EV_CHARGING_MANAGEMENT,
-  },
-  {
-    key: 'showroom',
-    displayName: 'Showroom Management',
-    tagline: 'Vehicle Dealership Partners',
-    description:
-      'View and manage all approved vehicle showrooms and dealerships — listings, brands, and partner deals.',
-    icon: StoreIcon,
-    color: '#1d4ed8',
-    path: AdminPath.SHOWROOM_MANAGEMENT,
-  },
-  // ── Finance Partners ──────────────────────────────────────────────────────────
-  {
-    key: 'vehicle-finance',
-    displayName: 'Vehicle Finance Management',
-    tagline: 'Auto Loan & Finance Providers',
-    description:
-      'View and manage all approved vehicle finance partners — loan products, interest rates, and approvals.',
-    icon: AccountBalanceIcon,
-    color: '#9333ea',
-    path: AdminPath.VEHICLE_FINANCE_MANAGEMENT,
-  },
-  {
-    key: 'finance-broker',
-    displayName: 'Finance Broker Management',
-    tagline: 'DSA & Loan Agent Partners',
-    description:
-      'View and manage all approved finance brokers — commissions, lender tie-ups, and referral performance.',
-    icon: HandshakeIcon,
-    color: '#0f766e',
-    path: AdminPath.FINANCE_BROKER_MANAGEMENT,
-  },
-  {
-    key: 'insurance',
-    displayName: 'Insurance Management',
-    tagline: 'Vehicle & Driver Insurance Partners',
-    description:
-      'View and manage all approved insurance providers — policy types, coverage, and group discount programs.',
-    icon: SecurityIcon,
-    color: '#166534',
-    path: AdminPath.INSURANCE_MANAGEMENT,
-  },
-  // ── Platform ──────────────────────────────────────────────────────────────────
-  {
-    key: 'user',
-    displayName: 'User Management',
-    tagline: 'Platform User Accounts',
-    description:
-      'View and manage all platform users — toggle status, reset access, and track registration history.',
-    icon: ManageAccountsIcon,
-    color: '#be185d',
-    path: AdminPath.USER_MGMT,
-  },
-];
+function buildManagementTypes(p: typeof constants.AdminPath | typeof constants.ConsultantPath): ManagementType[] {
+  return [
+    { key: 'mobility', displayName: 'Mobility Management', tagline: 'Bikes, Autos, Cabs & Shuttles', description: 'View and manage all approved mobility operators — update status, review profiles, and track activity.', icon: DirectionsBusIcon, color: '#6366f1', path: p.MOBILITY_MANAGEMENT },
+    { key: 'logistics', displayName: 'Logistics Management', tagline: 'Mini Cargo, Goods & Heavy Trucks', description: 'View and manage all approved logistics operators — Tata Ace, DCM, medium goods, and heavy truck operators.', icon: LocalShippingIcon, color: '#f59e0b', path: p.LOGISTICS_MANAGEMENT },
+    { key: 'parcel', displayName: 'Parcel Management', tagline: 'Last-Mile Delivery Operators', description: 'View and manage all approved parcel delivery operators and their service coverage areas.', icon: Inventory2Icon, color: '#ea580c', path: p.PARCEL_MANAGEMENT },
+    { key: 'driver-hire', displayName: 'Driver Hire Management', tagline: 'Dedicated Driver Providers', description: 'View and manage all approved driver hire service providers — monitor assignments and performance.', icon: HailIcon, color: '#16a34a', path: p.DRIVER_HIRE_MANAGEMENT },
+    { key: 'vehicle-rental', displayName: 'Vehicle Rental Management', tagline: 'Self-Drive & Rental Operators', description: 'View and manage all approved vehicle rental operators — track fleet availability and booking history.', icon: CarRentalIcon, color: '#7c3aed', path: p.VEHICLE_RENTAL_MANAGEMENT },
+    { key: 'mechanic', displayName: 'Mechanic Management', tagline: 'Roadside Repair & Service', description: 'View and manage all approved mechanic service providers — track dispatches and service quality.', icon: BuildIcon, color: '#78350f', path: p.MECHANIC_MANAGEMENT },
+    { key: 'petrol-bunk', displayName: 'Petrol Bunk Management', tagline: 'Fuel Station Partners', description: 'View and manage all approved petrol bunk partners — fuel types, locations, and discount configurations.', icon: LocalGasStationIcon, color: '#dc2626', path: p.PETROL_BUNK_MANAGEMENT },
+    { key: 'ev-charging', displayName: 'EV Charging Management', tagline: 'Electric Vehicle Charging Partners', description: 'View and manage all approved EV charging station partners — charger types, slots, and availability.', icon: EvStationIcon, color: '#059669', path: p.EV_CHARGING_MANAGEMENT },
+    { key: 'showroom', displayName: 'Showroom Management', tagline: 'Vehicle Dealership Partners', description: 'View and manage all approved vehicle showrooms and dealerships — listings, brands, and partner deals.', icon: StoreIcon, color: '#1d4ed8', path: p.SHOWROOM_MANAGEMENT },
+    { key: 'vehicle-finance', displayName: 'Vehicle Finance Management', tagline: 'Auto Loan & Finance Providers', description: 'View and manage all approved vehicle finance partners — loan products, interest rates, and approvals.', icon: AccountBalanceIcon, color: '#9333ea', path: p.VEHICLE_FINANCE_MANAGEMENT },
+    { key: 'finance-broker', displayName: 'Finance Broker Management', tagline: 'DSA & Loan Agent Partners', description: 'View and manage all approved finance brokers — commissions, lender tie-ups, and referral performance.', icon: HandshakeIcon, color: '#0f766e', path: p.FINANCE_BROKER_MANAGEMENT },
+    { key: 'insurance', displayName: 'Insurance Management', tagline: 'Vehicle & Driver Insurance Partners', description: 'View and manage all approved insurance providers — policy types, coverage, and group discount programs.', icon: SecurityIcon, color: '#166534', path: p.INSURANCE_MANAGEMENT },
+    { key: 'user', displayName: 'User Management', tagline: 'Platform User Accounts', description: 'View and manage all platform users — toggle status, reset access, and track registration history.', icon: ManageAccountsIcon, color: '#be185d', path: p.USER_MGMT },
+  ];
+}
 
 const ONBOARDING: ManagementType['key'][] = ['mobility', 'logistics', 'parcel'];
 const ON_DEMAND: ManagementType['key'][] = ['driver-hire', 'vehicle-rental', 'mechanic'];
@@ -279,10 +158,12 @@ const Section = ({
   label,
   keys,
   navigate,
+  managementTypes,
 }: {
   label: string;
   keys: ManagementType['key'][];
   navigate: (path: string) => void;
+  managementTypes: ManagementType[];
 }) => (
   <>
     <Typography
@@ -305,7 +186,7 @@ const Section = ({
         mb: 3,
       }}
     >
-      {MANAGEMENT_TYPES.filter((t) => keys.includes(t.key)).map((item) => (
+      {managementTypes.filter((t) => keys.includes(t.key)).map((item) => (
         <ManagementCard key={item.key} item={item} onClick={() => navigate(item.path)} />
       ))}
     </Box>
@@ -314,6 +195,10 @@ const Section = ({
 
 const CustomerManagementLanding = () => {
   const navigate = useNavigate();
+  const { isConsultantMode, isConsultant } = useAuth();
+  const consultantMode = isConsultantMode || isConsultant;
+  const paths = consultantMode ? constants.ConsultantPath : constants.AdminPath;
+  const MANAGEMENT_TYPES = buildManagementTypes(paths);
 
   return (
     <AdminPageShell
@@ -322,11 +207,11 @@ const CustomerManagementLanding = () => {
       heroTitle='Customer Management'
       heroSubtitle='Select a service type to view and manage approved accounts'
     >
-      <Section label='Captain Onboarding' keys={ONBOARDING} navigate={navigate} />
-      <Section label='On-Demand Services' keys={ON_DEMAND} navigate={navigate} />
-      <Section label='Automotive Partners' keys={AUTOMOTIVE} navigate={navigate} />
-      <Section label='Finance Partners' keys={FINANCE} navigate={navigate} />
-      <Section label='Platform' keys={PLATFORM} navigate={navigate} />
+      <Section label='Captain Onboarding' keys={ONBOARDING} navigate={navigate} managementTypes={MANAGEMENT_TYPES} />
+      <Section label='On-Demand Services' keys={ON_DEMAND} navigate={navigate} managementTypes={MANAGEMENT_TYPES} />
+      <Section label='Automotive Partners' keys={AUTOMOTIVE} navigate={navigate} managementTypes={MANAGEMENT_TYPES} />
+      <Section label='Finance Partners' keys={FINANCE} navigate={navigate} managementTypes={MANAGEMENT_TYPES} />
+      <Section label='Platform' keys={PLATFORM} navigate={navigate} managementTypes={MANAGEMENT_TYPES} />
     </AdminPageShell>
   );
 };

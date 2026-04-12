@@ -13,10 +13,9 @@ import { errorHandler, notFoundHandler } from '@gogaadi/middleware';
 // Import route modules
 import authRoutes from '../api/auth/Auth.routes';
 import adminRoutes from '../api/admin/routes';
-import userRoutes from '../api/user/routes';
 
 // Constants for route paths
-import { ADMIN_PATHS, USER_PATHS } from '@gogaadi/constants';
+import { ADMIN_PATHS } from '@gogaadi/constants';
 
 const app = express();
 
@@ -184,9 +183,6 @@ app.use('/api/v1/auth', authRateLimit, authRoutes);
 
 // Admin API routes
 mountVersioned(`/api/${ADMIN_PATHS.ADMIN}`, adminRoutes);
-
-// User API routes
-mountVersioned(`/api/${USER_PATHS.USER}`, userRoutes);
 
 /**
  * -------------------------

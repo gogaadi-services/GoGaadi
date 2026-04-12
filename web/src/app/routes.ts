@@ -11,10 +11,8 @@ export const LazyMenuItems = {
   ConsultantSideNavPage: lazy(() => import('@gogaadi/pages/consultant/SideNav')),
 
   // Team pages
-  AdminUserDetailPage: lazy(() => import('@gogaadi/pages/admin/UserDetail')),
   AdminCustomerDetailPage: lazy(() => import('@gogaadi/pages/admin/CustomerDetail')),
   AdminAccessRequestsPage: lazy(() => import('@gogaadi/pages/admin/AccessRequests')),
-  AdminCustomerApprovalsPage: lazy(() => import('@gogaadi/pages/admin/CustomerApprovals')),
 
   // Governance pages
   AdminDashboardPage: lazy(() => import('@gogaadi/pages/admin/Dashboard')),
@@ -28,21 +26,12 @@ export const LazyMenuItems = {
   AdminCollectionsPage: lazy(() => import('@gogaadi/pages/admin/Collections')),
   AdminCategoriesPage: lazy(() => import('@gogaadi/pages/admin/Categories')),
   AdminTagsPage: lazy(() => import('@gogaadi/pages/admin/FastTag')),
-  AdminUserManagementPage: lazy(() => import('@gogaadi/pages/admin/UserManagement')),
   AdminSettingsPage: lazy(() => import('@gogaadi/pages/admin/Settings')),
-
-  // Operations pages
-  AdminFleetManagementPage: lazy(() => import('@gogaadi/pages/admin/FleetManagement')),
-  AdminFleetAccessPage: lazy(() => import('@gogaadi/pages/admin/FleetAccess')),
-  AdminUserAccessPage: lazy(() => import('@gogaadi/pages/admin/UserAccess')),
-  AdminUserMgmtPage: lazy(() => import('@gogaadi/pages/admin/UserMgmt')),
 
   // Mobility Services pages
   AdminDriverHirePage: lazy(() => import('@gogaadi/pages/admin/DriverHire')),
-  AdminVehicleRentalPage: lazy(() => import('@gogaadi/pages/admin/VehicleRental')),
   AdminMechanicHirePage: lazy(() => import('@gogaadi/pages/admin/MechanicHire')),
   AdminParcelPage: lazy(() => import('@gogaadi/pages/admin/Parcel')),
-  AdminLogisticsPage: lazy(() => import('@gogaadi/pages/admin/Logistics')),
 
   // Finance pages
   AdminTransactionsPage: lazy(() => import('@gogaadi/pages/admin/Transactions')),
@@ -80,8 +69,6 @@ export const LazyMenuItems = {
   // Customer landing pages (sidebar entry points)
   AdminCustomerAccessLandingPage: lazy(() => import('@gogaadi/pages/admin/CustomerAccessLanding')),
   AdminCustomerManagementLandingPage: lazy(() => import('@gogaadi/pages/admin/CustomerManagementLanding')),
-  AdminMobilityLandingPage: lazy(() => import('@gogaadi/pages/admin/MobilityLanding')),
-  AdminLogisticsLandingPage: lazy(() => import('@gogaadi/pages/admin/LogisticsLanding')),
 
   // Customer unified pages (individual service type views)
   AdminCustomerAccessPage: lazy(() => import('@gogaadi/pages/admin/CustomerAccess')),

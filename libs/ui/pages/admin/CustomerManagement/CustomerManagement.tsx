@@ -2,10 +2,15 @@ import GroupIcon from '@mui/icons-material/Group';
 import { useLocation } from 'react-router-dom';
 import { AdminPageShell, ShellStatCard } from '../shared';
 import { useCustomerManagement, getManagementCategoryFromPath } from './hooks/useCustomerManagement';
+import { constants } from '@gogaadi/utils';
 
 const CustomerManagement = () => {
   const { pathname } = useLocation();
   const category = getManagementCategoryFromPath(pathname);
+  const isConsultantPath = pathname.startsWith('/app/consultant');
+  const customerDetailPath = isConsultantPath
+    ? constants.ConsultantPath.CUSTOMER_DETAIL
+    : constants.AdminPath.CUSTOMER_DETAIL;
 
   const {
     cfg,
@@ -163,7 +168,11 @@ const CustomerManagement = () => {
         index: idx,
         columns,
         data: list,
-        onRowClick: setSelectedRow,
+        onRowClick: (row) => {
+          setSelectedRow(row);
+          const uid = (row as any).customerId ?? String(row.id);
+          window.open(customerDetailPath.replace(':id', uid), '_blank');
+        },
         activeRowKey: selectedRow?.id,
         emptyText: tableSearch ? 'No matching records' : `No ${cfg.title.toLowerCase()} records found`,
       }))}

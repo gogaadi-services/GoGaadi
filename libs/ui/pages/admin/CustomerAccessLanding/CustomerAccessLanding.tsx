@@ -21,10 +21,9 @@ import { Box } from '@gogaadi/component';
 import { useNavigate } from 'react-router-dom';
 import { constants } from '@gogaadi/utils';
 import { useAuthActionMutation } from '@gogaadi/services';
+import { useAuth } from '@gogaadi/hooks';
 import { CUSTOMER_ACCESS_CONFIG, CustomerCategory } from '../CustomerAccess/hooks/useCustomerAccess';
 import { CustomerApprovalRow } from '../CustomerApprovals/hooks/useCustomerApprovals';
-
-const { AdminPath } = constants;
 
 interface AccessType {
   key: CustomerCategory;
@@ -36,130 +35,23 @@ interface AccessType {
   path: string;
 }
 
-const ACCESS_TYPES: AccessType[] = [
-  // ── Captain Onboarding ────────────────────────────────────────────────────────
-  {
-    key: 'mobility',
-    displayName: 'Mobility Access',
-    tagline: 'Bikes, Autos, Cabs & Shuttles',
-    description: 'Review and approve mobility operator onboarding requests — two-wheelers, auto rickshaws, cabs, and shuttle services.',
-    icon: DirectionsBusIcon,
-    color: '#6366f1',
-    path: AdminPath.MOBILITY_ACCESS,
-  },
-  {
-    key: 'logistics',
-    displayName: 'Logistics Access',
-    tagline: 'Mini Cargo, Goods & Heavy Trucks',
-    description: 'Review logistics operator requests — Tata Ace, DCM, medium goods vehicles, and heavy truck operators.',
-    icon: LocalShippingIcon,
-    color: '#f59e0b',
-    path: AdminPath.LOGISTICS_ACCESS,
-  },
-  {
-    key: 'parcel',
-    displayName: 'Parcel Access',
-    tagline: 'Last-Mile Delivery Operators',
-    description: 'Review parcel and last-mile delivery operator onboarding requests for documents, food, and goods delivery.',
-    icon: Inventory2Icon,
-    color: '#ea580c',
-    path: AdminPath.PARCEL_ACCESS,
-  },
-  // ── On-Demand Services ────────────────────────────────────────────────────────
-  {
-    key: 'driver-hire',
-    displayName: 'Driver Hire Access',
-    tagline: 'Dedicated Driver Providers',
-    description: 'Review and approve driver hire service providers — dedicated drivers for personal, commercial, and fleet use.',
-    icon: HailIcon,
-    color: '#16a34a',
-    path: AdminPath.DRIVER_HIRE_ACCESS,
-  },
-  {
-    key: 'vehicle-rental',
-    displayName: 'Vehicle Rental Access',
-    tagline: 'Self-Drive & Rental Operators',
-    description: 'Review vehicle rental operator onboarding requests for self-drive bookings and rental services.',
-    icon: CarRentalIcon,
-    color: '#7c3aed',
-    path: AdminPath.VEHICLE_RENTAL_ACCESS,
-  },
-  {
-    key: 'mechanic',
-    displayName: 'Mechanic Access',
-    tagline: 'Roadside Repair & Service',
-    description: 'Review mechanic service provider requests — on-demand roadside assistance and scheduled vehicle servicing.',
-    icon: BuildIcon,
-    color: '#78350f',
-    path: AdminPath.MECHANIC_ACCESS,
-  },
-  // ── Automotive Partners ───────────────────────────────────────────────────────
-  {
-    key: 'petrol-bunk',
-    displayName: 'Petrol Bunk Access',
-    tagline: 'Fuel Station Partners',
-    description: 'Review petrol bunk and fuel station partner requests — Petrol, Diesel, and CNG stops for the GoGaadi network.',
-    icon: LocalGasStationIcon,
-    color: '#dc2626',
-    path: AdminPath.PETROL_BUNK_ACCESS,
-  },
-  {
-    key: 'ev-charging',
-    displayName: 'EV Charging Access',
-    tagline: 'Electric Vehicle Charging Partners',
-    description: 'Review EV charging station partner onboarding — AC and DC fast chargers mapped for electric vehicle operators.',
-    icon: EvStationIcon,
-    color: '#059669',
-    path: AdminPath.EV_CHARGING_ACCESS,
-  },
-  {
-    key: 'showroom',
-    displayName: 'Showroom Access',
-    tagline: 'Vehicle Dealership Partners',
-    description: 'Review vehicle showroom and dealership partner requests — new and used vehicle listings connected to the platform.',
-    icon: StoreIcon,
-    color: '#1d4ed8',
-    path: AdminPath.SHOWROOM_ACCESS,
-  },
-  // ── Finance Partners ──────────────────────────────────────────────────────────
-  {
-    key: 'vehicle-finance',
-    displayName: 'Vehicle Finance Access',
-    tagline: 'Auto Loan & Finance Providers',
-    description: 'Review vehicle finance institution onboarding — banks and NBFCs offering instant vehicle loans and EMI plans.',
-    icon: AccountBalanceIcon,
-    color: '#9333ea',
-    path: AdminPath.VEHICLE_FINANCE_ACCESS,
-  },
-  {
-    key: 'finance-broker',
-    displayName: 'Finance Broker Access',
-    tagline: 'DSA & Loan Agent Partners',
-    description: 'Review finance broker and DSA agent onboarding requests — loan facilitators earning referral commissions.',
-    icon: HandshakeIcon,
-    color: '#0f766e',
-    path: AdminPath.FINANCE_BROKER_ACCESS,
-  },
-  {
-    key: 'insurance',
-    displayName: 'Insurance Access',
-    tagline: 'Vehicle & Driver Insurance Partners',
-    description: 'Review insurance provider onboarding — vehicle insurance, health cover, and driver protection plan providers.',
-    icon: SecurityIcon,
-    color: '#166534',
-    path: AdminPath.INSURANCE_ACCESS,
-  },
-  // ── Platform ──────────────────────────────────────────────────────────────────
-  {
-    key: 'user',
-    displayName: 'User Access',
-    tagline: 'Platform User Registrations',
-    description: 'Review and approve platform user registration requests — grant or deny access to the GoGaadi application.',
-    icon: PersonSearchIcon,
-    color: '#be185d',
-    path: AdminPath.USER_ACCESS,
-  },
-];
+function buildAccessTypes(p: typeof constants.AdminPath | typeof constants.ConsultantPath): AccessType[] {
+  return [
+    { key: 'mobility', displayName: 'Mobility Access', tagline: 'Bikes, Autos, Cabs & Shuttles', description: 'Review and approve mobility operator onboarding requests — two-wheelers, auto rickshaws, cabs, and shuttle services.', icon: DirectionsBusIcon, color: '#6366f1', path: p.MOBILITY_ACCESS },
+    { key: 'logistics', displayName: 'Logistics Access', tagline: 'Mini Cargo, Goods & Heavy Trucks', description: 'Review logistics operator requests — Tata Ace, DCM, medium goods vehicles, and heavy truck operators.', icon: LocalShippingIcon, color: '#f59e0b', path: p.LOGISTICS_ACCESS },
+    { key: 'parcel', displayName: 'Parcel Access', tagline: 'Last-Mile Delivery Operators', description: 'Review parcel and last-mile delivery operator onboarding requests for documents, food, and goods delivery.', icon: Inventory2Icon, color: '#ea580c', path: p.PARCEL_ACCESS },
+    { key: 'driver-hire', displayName: 'Driver Hire Access', tagline: 'Dedicated Driver Providers', description: 'Review and approve driver hire service providers — dedicated drivers for personal, commercial, and fleet use.', icon: HailIcon, color: '#16a34a', path: p.DRIVER_HIRE_ACCESS },
+    { key: 'vehicle-rental', displayName: 'Vehicle Rental Access', tagline: 'Self-Drive & Rental Operators', description: 'Review vehicle rental operator onboarding requests for self-drive bookings and rental services.', icon: CarRentalIcon, color: '#7c3aed', path: p.VEHICLE_RENTAL_ACCESS },
+    { key: 'mechanic', displayName: 'Mechanic Access', tagline: 'Roadside Repair & Service', description: 'Review mechanic service provider requests — on-demand roadside assistance and scheduled vehicle servicing.', icon: BuildIcon, color: '#78350f', path: p.MECHANIC_ACCESS },
+    { key: 'petrol-bunk', displayName: 'Petrol Bunk Access', tagline: 'Fuel Station Partners', description: 'Review petrol bunk and fuel station partner requests — Petrol, Diesel, and CNG stops for the GoGaadi network.', icon: LocalGasStationIcon, color: '#dc2626', path: p.PETROL_BUNK_ACCESS },
+    { key: 'ev-charging', displayName: 'EV Charging Access', tagline: 'Electric Vehicle Charging Partners', description: 'Review EV charging station partner onboarding — AC and DC fast chargers mapped for electric vehicle operators.', icon: EvStationIcon, color: '#059669', path: p.EV_CHARGING_ACCESS },
+    { key: 'showroom', displayName: 'Showroom Access', tagline: 'Vehicle Dealership Partners', description: 'Review vehicle showroom and dealership partner requests — new and used vehicle listings connected to the platform.', icon: StoreIcon, color: '#1d4ed8', path: p.SHOWROOM_ACCESS },
+    { key: 'vehicle-finance', displayName: 'Vehicle Finance Access', tagline: 'Auto Loan & Finance Providers', description: 'Review vehicle finance institution onboarding — banks and NBFCs offering instant vehicle loans and EMI plans.', icon: AccountBalanceIcon, color: '#9333ea', path: p.VEHICLE_FINANCE_ACCESS },
+    { key: 'finance-broker', displayName: 'Finance Broker Access', tagline: 'DSA & Loan Agent Partners', description: 'Review finance broker and DSA agent onboarding requests — loan facilitators earning referral commissions.', icon: HandshakeIcon, color: '#0f766e', path: p.FINANCE_BROKER_ACCESS },
+    { key: 'insurance', displayName: 'Insurance Access', tagline: 'Vehicle & Driver Insurance Partners', description: 'Review insurance provider onboarding — vehicle insurance, health cover, and driver protection plan providers.', icon: SecurityIcon, color: '#166534', path: p.INSURANCE_ACCESS },
+    { key: 'user', displayName: 'User Access', tagline: 'Platform User Registrations', description: 'Review and approve platform user registration requests — grant or deny access to the GoGaadi application.', icon: PersonSearchIcon, color: '#be185d', path: p.USER_ACCESS },
+  ];
+}
 
 const ONBOARDING: CustomerCategory[] = ['mobility', 'logistics', 'parcel'];
 const ON_DEMAND: CustomerCategory[] = ['driver-hire', 'vehicle-rental', 'mechanic'];
@@ -360,11 +252,13 @@ const Section = ({
   keys,
   counts,
   navigate,
+  accessTypes,
 }: {
   label: string;
   keys: CustomerCategory[];
   counts: Record<string, NotifCounts>;
   navigate: (path: string) => void;
+  accessTypes: AccessType[];
 }) => {
   const sectionTotal = keys.reduce(
     (sum, k) => sum + (counts[k]?.pending ?? 0) + (counts[k]?.review ?? 0),
@@ -413,7 +307,7 @@ const Section = ({
           mb: 3,
         }}
       >
-        {ACCESS_TYPES.filter((t) => keys.includes(t.key)).map((item) => (
+        {accessTypes.filter((t) => keys.includes(t.key)).map((item) => (
           <AccessCard
             key={item.key}
             item={item}
@@ -431,6 +325,10 @@ const CustomerAccessLanding = () => {
   const [authAction] = useAuthActionMutation();
   const [counts, setCounts] = useState<Record<string, NotifCounts>>({});
   const [totalPending, setTotalPending] = useState(0);
+  const { isConsultantMode, isConsultant } = useAuth();
+  const consultantMode = isConsultantMode || isConsultant;
+  const paths = consultantMode ? constants.ConsultantPath : constants.AdminPath;
+  const ACCESS_TYPES = buildAccessTypes(paths);
 
   const fetchCounts = useCallback(async () => {
     try {
@@ -526,11 +424,11 @@ const CustomerAccessLanding = () => {
         )}
       </Box>
 
-      <Section label='Captain Onboarding' keys={ONBOARDING} counts={counts} navigate={navigate} />
-      <Section label='On-Demand Services' keys={ON_DEMAND} counts={counts} navigate={navigate} />
-      <Section label='Automotive Partners' keys={AUTOMOTIVE} counts={counts} navigate={navigate} />
-      <Section label='Finance Partners' keys={FINANCE} counts={counts} navigate={navigate} />
-      <Section label='Platform' keys={PLATFORM} counts={counts} navigate={navigate} />
+      <Section label='Captain Onboarding' keys={ONBOARDING} counts={counts} navigate={navigate} accessTypes={ACCESS_TYPES} />
+      <Section label='On-Demand Services' keys={ON_DEMAND} counts={counts} navigate={navigate} accessTypes={ACCESS_TYPES} />
+      <Section label='Automotive Partners' keys={AUTOMOTIVE} counts={counts} navigate={navigate} accessTypes={ACCESS_TYPES} />
+      <Section label='Finance Partners' keys={FINANCE} counts={counts} navigate={navigate} accessTypes={ACCESS_TYPES} />
+      <Section label='Platform' keys={PLATFORM} counts={counts} navigate={navigate} accessTypes={ACCESS_TYPES} />
     </Box>
   );
 };

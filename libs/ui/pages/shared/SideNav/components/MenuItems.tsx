@@ -31,16 +31,13 @@ export interface MenuGroup {
   items: MenuItem[];
 }
 
-export const useMenuItems = (): MenuGroup[] => {
+export const useAdminMenuItems = (): MenuGroup[] => {
   const { AdminPath } = constants;
   return [
-    // ── Overview ────────────────────────────────────────────────────────────────
     {
       group: 'Overview',
       items: [{ label: 'Dashboard', icon: <DashboardIcon />, path: AdminPath.DASHBOARD }],
     },
-
-    // ── People ───────────────────────────────────────────────────────────────────
     {
       group: 'People',
       items: [
@@ -48,8 +45,6 @@ export const useMenuItems = (): MenuGroup[] => {
         { label: 'People Management', icon: <VpnKeyIcon />, path: AdminPath.ACCESS_MANAGEMENT },
       ],
     },
-
-    // ── Customer ─────────────────────────────────────────────────────────────────
     {
       group: 'Customer',
       items: [
@@ -61,8 +56,6 @@ export const useMenuItems = (): MenuGroup[] => {
         },
       ],
     },
-
-    // ── Finance ──────────────────────────────────────────────────────────────────
     {
       group: 'Finance',
       items: [
@@ -77,8 +70,6 @@ export const useMenuItems = (): MenuGroup[] => {
         { label: 'Fast Tag Requests', icon: <TollIcon />, path: AdminPath.TAGS },
       ],
     },
-
-    // ── Reports ──────────────────────────────────────────────────────────────────
     {
       group: 'Reports',
       items: [
@@ -87,8 +78,6 @@ export const useMenuItems = (): MenuGroup[] => {
         { label: 'Audit Logs', icon: <ManageSearchIcon />, path: AdminPath.AUDIT_TRAILS },
       ],
     },
-
-    // ── Configuration ────────────────────────────────────────────────────────────
     {
       group: 'Configuration',
       items: [
@@ -99,6 +88,23 @@ export const useMenuItems = (): MenuGroup[] => {
         { label: 'Feature Flags', icon: <ToggleOnIcon />, path: AdminPath.FEATURE_FLAGS },
         { label: 'Service Zones', icon: <MapIcon />, path: AdminPath.ZONES },
         { label: 'Integrations', icon: <ExtensionIcon />, path: AdminPath.INTEGRATIONS },
+      ],
+    },
+  ];
+};
+
+export const useConsultantMenuItems = (): MenuGroup[] => {
+  const { ConsultantPath } = constants;
+  return [
+    {
+      group: 'Customer',
+      items: [
+        { label: 'Customer Access', icon: <HowToRegIcon />, path: ConsultantPath.PEOPLE_ACCESS },
+        {
+          label: 'Customer Management',
+          icon: <ManageAccountsIcon />,
+          path: ConsultantPath.PEOPLE_MANAGEMENT,
+        },
       ],
     },
   ];

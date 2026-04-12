@@ -8,7 +8,7 @@ import { IAuthUser } from '@gogaadi/interfaces';
 export const useHeader = () => {
   const navigate = useNavigate();
   const { AdminPath, AuthPath } = constants;
-  const { user, isAdmin, logout } = useAuth();
+  const { user, isAdmin, logout, enterConsultantMode } = useAuth();
   const [authAction] = useAuthActionMutation();
 
   // Menus
@@ -44,12 +44,16 @@ export const useHeader = () => {
   const filteredIncidents = useMemo(() => {
     if (!debouncedSearch || debouncedSearch.length < 2) return [];
     const q = debouncedSearch.toLowerCase();
-    return allUsers.filter((u) => {
-      const uid = ((u as any).customUserId || genUserId(u.role ?? (u as any).requestedRole ?? 'user', u.id)).toLowerCase();
-      const name = (u.name || `${u.firstName ?? ''} ${u.lastName ?? ''}`.trim()).toLowerCase();
-      return uid.includes(q) || name.includes(q);
-    }).slice(0, 8);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    return allUsers
+      .filter((u) => {
+        const uid = (
+          (u as any).customUserId || genUserId(u.role ?? (u as any).requestedRole ?? 'user', u.id)
+        ).toLowerCase();
+        const name = (u.name || `${u.firstName ?? ''} ${u.lastName ?? ''}`.trim()).toLowerCase();
+        return uid.includes(q) || name.includes(q);
+      })
+      .slice(0, 8);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearch, allUsers]);
 
   useEffect(() => {
@@ -82,13 +86,16 @@ export const useHeader = () => {
     setShowSearchResults(true);
   }, []);
 
-  const handleSelectIncident = useCallback((user: IAuthUser) => {
-    setShowSearchResults(false);
-    setTicketSearch('');
-    const uid = (user as any).customUserId || user.id;
-    const url = AdminPath.USER_DETAIL.replace(':id', String(uid));
-    window.open(url, '_blank');
-  }, [AdminPath.USER_DETAIL]);
+  const handleSelectIncident = useCallback(
+    (user: IAuthUser) => {
+      setShowSearchResults(false);
+      setTicketSearch('');
+      const uid = (user as any).customUserId || user.id;
+      const url = AdminPath.USER_DETAIL.replace(':id', String(uid));
+      window.open(url, '_blank');
+    },
+    [AdminPath.USER_DETAIL],
+  );
 
   const handleCloseSearchResults = useCallback(() => setShowSearchResults(false), []);
 
@@ -122,22 +129,13 @@ export const useHeader = () => {
     navigate(AdminPath.PROFILE);
   };
 
-  const handleUserPage = () => {
-    handleSettingsClose();
-    setLoadingMessage('Switching to User Mode...');
-    setIsLoading(true);
-    setTimeout(() => {
-      navigate('/app/user/dashboard');
-      setIsLoading(false);
-    }, 1500);
-  };
-
   const handleConsultantPage = () => {
     handleSettingsClose();
     setLoadingMessage('Switching to Consultant Mode...');
     setIsLoading(true);
     setTimeout(() => {
-      navigate(constants.AdminPath.PEOPLE_ACCESS);
+      enterConsultantMode();
+      navigate(constants.ConsultantPath.PEOPLE_ACCESS);
       setIsLoading(false);
     }, 1200);
   };
@@ -170,7 +168,6 @@ export const useHeader = () => {
     handleAddNew,
     handleLogout,
     handleProfile,
-    handleUserPage,
     handleConsultantPage,
     handleLogoClick,
   };

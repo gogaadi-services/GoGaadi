@@ -70,6 +70,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { useAuthActionMutation } from '@gogaadi/services';
 import { useNotification } from '@gogaadi/hooks';
 import { constants } from '@gogaadi/utils';
+import { useLocation } from 'react-router-dom';
 import {
   CustomerApprovalRow,
   ApprovalStatus,
@@ -322,6 +323,11 @@ const fmtDate = (v: unknown) => {
 export const useCustomerManagement = (category: CustomerManagementCategory) => {
   const [authAction] = useAuthActionMutation();
   const notify = useNotification();
+  const { pathname } = useLocation();
+  const isConsultantPath = pathname.startsWith('/app/consultant');
+  const customerDetailPath = isConsultantPath
+    ? constants.ConsultantPath.CUSTOMER_DETAIL
+    : constants.AdminPath.CUSTOMER_DETAIL;
   const cfg = CUSTOMER_MANAGEMENT_CONFIG[category];
   const isMultiType = category === 'mobility' || category === 'logistics';
   const vehicleSubTypes = isMultiType ? VEHICLE_SUB_TYPES_MGMT[category as 'mobility' | 'logistics'] : null;
@@ -457,7 +463,7 @@ export const useCustomerManagement = (category: CustomerManagementCategory) => {
               onClick={(e: React.MouseEvent) => {
                 e.stopPropagation();
                 window.open(
-                  constants.AdminPath.CUSTOMER_DETAIL.replace(':id', uid),
+                  customerDetailPath.replace(':id', uid),
                   '_blank',
                 );
               }}
@@ -620,7 +626,7 @@ export const useCustomerManagement = (category: CustomerManagementCategory) => {
         const isActive = row.status === 'approved';
         const label = isActive
           ? 'Active'
-          : row.status.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+          : row.status.replace(/_/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
         return (
           <Tooltip title={label} placement='top'>
             <Stack alignItems='center' spacing={0.2}>

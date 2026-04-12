@@ -1197,7 +1197,7 @@ const CustomerDetail = () => {
   const uploadedKeys = Array.isArray(row.uploadedFiles) ? row.uploadedFiles : [];
   const docItems: { key: string }[] =
     uploadedKeys.length > 0
-      ? uploadedKeys.map((k) => ({ key: k }))
+      ? uploadedKeys.map((k: string) => ({ key: k }))
       : [
           ...(row.rcNumber ? [{ key: 'rcFront' }, { key: 'rcBack' }] : []),
           ...(row.insuranceNumber ? [{ key: 'insuranceFront' }] : []),
@@ -2295,7 +2295,7 @@ const CustomerDetail = () => {
                     gap: 1,
                   }}
                 >
-                  {bundleTypes.map((bt, i) => (
+                  {bundleTypes.map((bt: string, i: number) => (
                     <FieldCard
                       key={i}
                       icon={<LocalOfferIcon sx={iconSm} />}
