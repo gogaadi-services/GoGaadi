@@ -33,7 +33,7 @@ const LeftPanel = ({ classes, onNavigateSignUp }: LeftPanelProps) => (
         <LocalShippingIcon className={classes.brandIcon28} />
       </Box>
       <Typography variant='h4' fontWeight={800} className={classes.brandTitle}>
-        gogaadi
+        GoGaadi
       </Typography>
     </Box>
 
@@ -43,8 +43,8 @@ const LeftPanel = ({ classes, onNavigateSignUp }: LeftPanelProps) => (
       One Platform
     </Typography>
     <Typography className={classes.heroSubtitle}>
-      Manage bikes, cars, lorries, DCMs, Tata Aces and more — with FASTag integration and
-      real-time tracking.
+      Manage bikes, cars, lorries, DCMs, Tata Aces and more — with FASTag integration and real-time
+      tracking.
     </Typography>
 
     {VEHICLES.map(({ icon: Icon, label }) => (

@@ -25,6 +25,7 @@ export const useAuth = () => {
 
   const isAdmin = user?.role === UserRole.ADMIN;
   const isCaptain = user?.role === UserRole.CAPTAIN;
+  const isConsultant = user?.role === UserRole.CONSULTANT;
 
   return {
     user,
@@ -32,6 +33,7 @@ export const useAuth = () => {
     isAuthenticated,
     isAdmin,
     isCaptain,
+    isConsultant,
     login,
     logout,
     isLoading,

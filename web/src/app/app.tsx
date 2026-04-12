@@ -13,6 +13,10 @@ const {
   AdminHeaderPage,
   AdminSideNavPage,
 
+  // Consultant layout
+  ConsultantHeaderPage,
+  ConsultantSideNavPage,
+
   // Customer Detail
   AdminCustomerDetailPage,
 
@@ -120,7 +124,7 @@ const KeyedCustomerForm = () => {
 
 const AppRoutes = () => {
   const { AdminPath, AuthPath, Path } = constants;
-  const { isAuthenticated, isAdmin } = useAuth();
+  const { isAuthenticated, isAdmin, isConsultant } = useAuth();
 
   // Not authenticated — show auth pages
   if (!isAuthenticated) {
@@ -275,7 +279,79 @@ const AppRoutes = () => {
     );
   }
 
-  // Non-admin — redirect to sign in
+  // Consultant — Customer Access & Management only
+  if (isConsultant) {
+    return (
+      <AppRoleContext.Provider value='admin'>
+        <ErrorBoundary>
+          <ConsultantHeaderPage />
+          <ConsultantSideNavPage />
+          <MainContent>
+            <Routes>
+              <Route path={Path.DEFAULT_PAGE} element={<Navigate to={AdminPath.PEOPLE_ACCESS} replace />} />
+
+              {/* Customer landing pages */}
+              <Route path={AdminPath.PEOPLE_ACCESS} element={<AdminCustomerAccessLandingPage />} />
+              <Route path={AdminPath.PEOPLE_MANAGEMENT} element={<AdminCustomerManagementLandingPage />} />
+
+              {/* Customer Access — all service types */}
+              <Route path={AdminPath.MOBILITY_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.LOGISTICS_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.MOBILITY_BIKE_SCOOTER_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.MOBILITY_AUTO_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.MOBILITY_CAB_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.MOBILITY_SHUTTLE_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.LOGISTICS_MINI_CARGO_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.LOGISTICS_MEDIUM_GOODS_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.LOGISTICS_HEAVY_TRUCK_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.USER_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.CUSTOMER_APPROVALS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.PARCEL_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.DRIVER_HIRE_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.VEHICLE_RENTAL_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.MECHANIC_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.PETROL_BUNK_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.EV_CHARGING_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.SHOWROOM_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.VEHICLE_FINANCE_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.FINANCE_BROKER_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.INSURANCE_ACCESS} element={<AdminCustomerAccessPage />} />
+
+              {/* Customer Management — all service types */}
+              <Route path={AdminPath.MOBILITY_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.LOGISTICS_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.MOBILITY_BIKE_SCOOTER_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.MOBILITY_AUTO_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.MOBILITY_CAB_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.MOBILITY_SHUTTLE_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.LOGISTICS_MINI_CARGO_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.LOGISTICS_MEDIUM_GOODS_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.LOGISTICS_HEAVY_TRUCK_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.USER_MGMT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.USER_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.PARCEL_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.DRIVER_HIRE_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.VEHICLE_RENTAL_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.MECHANIC_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.PETROL_BUNK_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.EV_CHARGING_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.SHOWROOM_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.VEHICLE_FINANCE_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.FINANCE_BROKER_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.INSURANCE_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+
+              {/* Customer detail */}
+              <Route path={AdminPath.CUSTOMER_DETAIL} element={<AdminCustomerDetailPage />} />
+
+              <Route path={Path.NOT_FOUND} element={<Navigate to={AdminPath.PEOPLE_ACCESS} replace />} />
+            </Routes>
+          </MainContent>
+        </ErrorBoundary>
+      </AppRoleContext.Provider>
+    );
+  }
+
+  // Non-admin/non-consultant — redirect to sign in
   return (
     <ErrorBoundary>
       <Routes>

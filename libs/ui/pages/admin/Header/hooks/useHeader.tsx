@@ -132,14 +132,14 @@ export const useHeader = () => {
     }, 1500);
   };
 
-  const handleCaptainPage = () => {
+  const handleConsultantPage = () => {
     handleSettingsClose();
-    setLoadingMessage('Switching to Captain Mode...');
+    setLoadingMessage('Switching to Consultant Mode...');
     setIsLoading(true);
     setTimeout(() => {
-      navigate('/app/captain/dashboard');
+      navigate(constants.AdminPath.PEOPLE_ACCESS);
       setIsLoading(false);
-    }, 1500);
+    }, 1200);
   };
 
   const handleLogoClick = () => navigate('/app/admin/dashboard');
@@ -171,7 +171,7 @@ export const useHeader = () => {
     handleLogout,
     handleProfile,
     handleUserPage,
-    handleCaptainPage,
+    handleConsultantPage,
     handleLogoClick,
   };
 };

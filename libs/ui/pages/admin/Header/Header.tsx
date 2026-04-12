@@ -50,7 +50,7 @@ const Header = () => {
     handleLogout,
     handleProfile,
     handleUserPage,
-    handleCaptainPage,
+    handleConsultantPage,
     handleLogoClick,
   } = useHeader();
 
@@ -142,7 +142,7 @@ const Header = () => {
             onClose={handleSettingsClose}
             onProfile={handleProfile}
             onUserPage={handleUserPage}
-            onCaptainPage={handleCaptainPage}
+            onConsultantPage={handleConsultantPage}
             onLogout={handleLogout}
             isAdmin={isAdmin}
           />

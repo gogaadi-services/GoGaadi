@@ -10,7 +10,7 @@ interface UserMenuProps {
   onClose: () => void;
   onProfile: () => void;
   onUserPage: () => void;
-  onCaptainPage: () => void;
+  onConsultantPage: () => void;
   onLogout: () => void;
   isAdmin: boolean;
 }
@@ -20,7 +20,7 @@ const UserMenu = ({
   onClose,
   onProfile,
   onUserPage,
-  onCaptainPage,
+  onConsultantPage,
   onLogout,
   isAdmin,
 }: UserMenuProps) => (
@@ -46,11 +46,11 @@ const UserMenu = ({
           </ListItemIcon>
           <ListItemText>User Page</ListItemText>
         </MenuItem>
-        <MenuItem onClick={onCaptainPage}>
+        <MenuItem onClick={onConsultantPage}>
           <ListItemIcon>
             <BusinessCenterIcon fontSize='small' />
           </ListItemIcon>
-          <ListItemText>Captain Page</ListItemText>
+          <ListItemText>Consultant Page</ListItemText>
         </MenuItem>
       </>
     )}

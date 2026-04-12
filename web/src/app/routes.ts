@@ -6,6 +6,10 @@ export const LazyMenuItems = {
   AdminHeaderPage: lazy(() => import('@gogaadi/pages/admin/Header')),
   AdminSideNavPage: lazy(() => import('@gogaadi/pages/admin/SideNav')),
 
+  // Consultant layout
+  ConsultantHeaderPage: lazy(() => import('@gogaadi/pages/consultant/Header')),
+  ConsultantSideNavPage: lazy(() => import('@gogaadi/pages/consultant/SideNav')),
+
   // Team pages
   AdminUserDetailPage: lazy(() => import('@gogaadi/pages/admin/UserDetail')),
   AdminCustomerDetailPage: lazy(() => import('@gogaadi/pages/admin/CustomerDetail')),

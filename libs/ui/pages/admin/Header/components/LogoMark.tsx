@@ -97,16 +97,24 @@ const LogoMark = ({ compact = false }: LogoMarkProps) => {
           </Typography>
 
           {/* o */}
-          <Typography component='span' sx={{ ...textSx, color: '#f1f5f9' }}>o</Typography>
+          <Typography component='span' sx={{ ...textSx, color: '#f1f5f9' }}>
+            o
+          </Typography>
 
           {/* g */}
-          <Typography component='span' sx={{ ...textSx, color: '#f1f5f9' }}>g</Typography>
+          <Typography component='span' sx={{ ...textSx, color: '#f1f5f9' }}>
+            G
+          </Typography>
 
           {/* a */}
-          <Typography component='span' sx={{ ...textSx, color: '#f1f5f9' }}>a</Typography>
+          <Typography component='span' sx={{ ...textSx, color: '#f1f5f9' }}>
+            a
+          </Typography>
 
           {/* a */}
-          <Typography component='span' sx={{ ...textSx, color: '#f1f5f9' }}>a</Typography>
+          <Typography component='span' sx={{ ...textSx, color: '#f1f5f9' }}>
+            a
+          </Typography>
 
           {/* d */}
           <Typography
@@ -120,7 +128,7 @@ const LogoMark = ({ compact = false }: LogoMarkProps) => {
             d
           </Typography>
 
-          {/* I */}
+          {/* i */}
           <Typography
             component='span'
             sx={{
@@ -129,7 +137,7 @@ const LogoMark = ({ compact = false }: LogoMarkProps) => {
               textShadow: `0 0 10px ${STATIC_COLORS.I}66, 0 1px 3px rgba(0,0,0,0.2)`,
             }}
           >
-            I
+            i
           </Typography>
         </Box>
 

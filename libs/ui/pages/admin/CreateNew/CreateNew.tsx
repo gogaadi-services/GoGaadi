@@ -37,6 +37,7 @@ import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import { Box } from '@gogaadi/component';
 import { useNavigate } from 'react-router-dom';
 import { constants } from '@gogaadi/utils';
+import { AdminPageShell } from '../shared';
 
 const { AdminPath } = constants;
 
@@ -316,27 +317,18 @@ const Card = ({ card, onClick }: { card: CardDef; onClick: () => void }) => {
         },
       }}
     >
-      {/* Accent top bar */}
       <Box
         sx={{
-          position: 'absolute',
-          top: 0, left: 0, right: 0,
-          height: '3px',
-          background: gradient,
-          borderRadius: '16px 16px 0 0',
+          position: 'absolute', top: 0, left: 0, right: 0,
+          height: '3px', background: gradient, borderRadius: '16px 16px 0 0',
         }}
       />
-
-      {/* Icon + title */}
       <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, mt: 0.5 }}>
         <Box
           sx={{
-            width: 52, height: 52,
-            borderRadius: '14px',
-            background: gradient,
+            width: 52, height: 52, borderRadius: '14px', background: gradient,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: `0 6px 18px ${glow}`,
-            flexShrink: 0,
+            boxShadow: `0 6px 18px ${glow}`, flexShrink: 0,
           }}
         >
           <Icon sx={{ fontSize: 26, color: '#fff' }} />
@@ -350,13 +342,9 @@ const Card = ({ card, onClick }: { card: CardDef; onClick: () => void }) => {
           </Typography>
         </Box>
       </Box>
-
-      {/* Description */}
       <Typography sx={{ fontSize: '0.82rem', color: 'text.secondary', lineHeight: 1.65, mt: 2 }}>
         {card.description}
       </Typography>
-
-      {/* Perks */}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.6, mt: 2 }}>
         {card.perks.map(({ icon: PerkIcon, text }) => (
           <Box key={text} sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
@@ -365,16 +353,12 @@ const Card = ({ card, onClick }: { card: CardDef; onClick: () => void }) => {
           </Box>
         ))}
       </Box>
-
-      {/* CTA hint */}
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', mt: 2.5 }}>
         <Box
           className='card-cta'
           sx={{ display: 'flex', alignItems: 'center', gap: 0.5, opacity: 0.45, transition: 'opacity 0.2s' }}
         >
-          <Typography sx={{ fontSize: '0.78rem', fontWeight: 700, color: card.color }}>
-            Get Started
-          </Typography>
+          <Typography sx={{ fontSize: '0.78rem', fontWeight: 700, color: card.color }}>Get Started</Typography>
           <ArrowForwardIcon sx={{ fontSize: '0.9rem', color: card.color }} />
         </Box>
       </Box>
@@ -397,12 +381,8 @@ const Section = ({
   <>
     <Typography
       sx={{
-        fontSize: '0.72rem',
-        fontWeight: 700,
-        color: 'text.secondary',
-        textTransform: 'uppercase',
-        letterSpacing: '0.6px',
-        mb: 1.5,
+        fontSize: '0.72rem', fontWeight: 700, color: 'text.secondary',
+        textTransform: 'uppercase', letterSpacing: '0.6px', mb: 1.5,
       }}
     >
       {label}
@@ -427,82 +407,44 @@ const CreateNew = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
-      {/* Hero */}
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 2,
-          px: 3,
-          py: 2.5,
-          background: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #0369a1 100%)',
-          boxShadow: '0 8px 32px rgba(37,99,235,0.3)',
-          borderRadius: '16px',
-          mb: 3,
-        }}
-      >
-        <Box
-          sx={{
-            width: 48, height: 48,
-            borderRadius: '14px',
-            background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 8px 24px rgba(99,102,241,0.4)',
-            flexShrink: 0,
-          }}
-        >
-          <AddCircleOutlineIcon sx={{ fontSize: 24, color: '#fff' }} />
-        </Box>
-        <Box>
-          <Typography sx={{ color: '#f1f5f9', fontWeight: 800, fontSize: '1.25rem', letterSpacing: '-0.01em' }}>
-            Create New User
-          </Typography>
-          <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.82rem' }}>
-            Select a role or service type to open the registration form
-          </Typography>
-        </Box>
-      </Box>
-
-      {/* Management accounts */}
+    <AdminPageShell
+      mode='hero'
+      heroGradient='linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #0369a1 100%)'
+      heroBoxShadow='0 8px 32px rgba(37,99,235,0.3)'
+      heroIcon={AddCircleOutlineIcon}
+      heroTitle='Create New User'
+      heroSubtitle='Select a role or service type to open the registration form'
+      heroIconBg='linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)'
+      heroIconShadow='0 8px 24px rgba(99,102,241,0.4)'
+    >
       <Section label='Management Accounts' cards={MANAGEMENT_CARDS} cols={2} navigate={navigate} />
-
-      {/* Captain onboarding */}
       <Section
         label='Captain Onboarding'
         cards={CUSTOMER_CARDS.filter((c) => ['mobility', 'logistics', 'parcel'].includes(c.type))}
         navigate={navigate}
       />
-
-      {/* On-demand services */}
       <Section
         label='On-Demand Services'
         cards={CUSTOMER_CARDS.filter((c) => ['driver-hire', 'vehicle-rental', 'mechanic-hire'].includes(c.type))}
         navigate={navigate}
       />
-
-      {/* Automotive partners */}
       <Section
         label='Automotive Partners'
         cards={CUSTOMER_CARDS.filter((c) => ['petrol-bunk', 'ev-charging', 'showroom'].includes(c.type))}
         navigate={navigate}
       />
-
-      {/* Finance partners */}
       <Section
         label='Finance Partners'
         cards={CUSTOMER_CARDS.filter((c) => ['vehicle-finance', 'finance-broker', 'insurance-partner'].includes(c.type))}
         navigate={navigate}
       />
-
-      {/* Platform user */}
       <Section
         label='Platform User'
         cards={CUSTOMER_CARDS.filter((c) => c.type === 'user')}
         cols={1}
         navigate={navigate}
       />
-    </Box>
+    </AdminPageShell>
   );
 };
 

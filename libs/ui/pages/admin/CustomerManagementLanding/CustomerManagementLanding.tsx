@@ -18,6 +18,7 @@ import { Box } from '@gogaadi/component';
 import { useNavigate } from 'react-router-dom';
 import { constants } from '@gogaadi/utils';
 import React from 'react';
+import { AdminPageShell } from '../shared';
 
 const { AdminPath } = constants;
 
@@ -315,59 +316,18 @@ const CustomerManagementLanding = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
-      {/* Hero */}
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 2,
-          px: 3,
-          py: 2.5,
-          background: 'linear-gradient(135deg, #0f172a 0%, #134e4a 55%, #14b8a6 100%)',
-          boxShadow: '0 8px 32px rgba(20,184,166,0.3)',
-          borderRadius: '16px',
-          mb: 3,
-        }}
-      >
-        <Box
-          sx={{
-            width: 48,
-            height: 48,
-            borderRadius: '14px',
-            background: 'linear-gradient(135deg, #14b8a6 0%, #0f766e 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 8px 24px rgba(20,184,166,0.4)',
-            flexShrink: 0,
-          }}
-        >
-          <GroupsIcon sx={{ fontSize: 24, color: '#fff' }} />
-        </Box>
-        <Box>
-          <Typography
-            sx={{
-              color: '#f1f5f9',
-              fontWeight: 800,
-              fontSize: '1.25rem',
-              letterSpacing: '-0.01em',
-            }}
-          >
-            Customer Management
-          </Typography>
-          <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.82rem' }}>
-            Select a service type to view and manage approved accounts
-          </Typography>
-        </Box>
-      </Box>
-
+    <AdminPageShell
+      mode='hero'
+      heroIcon={GroupsIcon}
+      heroTitle='Customer Management'
+      heroSubtitle='Select a service type to view and manage approved accounts'
+    >
       <Section label='Captain Onboarding' keys={ONBOARDING} navigate={navigate} />
       <Section label='On-Demand Services' keys={ON_DEMAND} navigate={navigate} />
       <Section label='Automotive Partners' keys={AUTOMOTIVE} navigate={navigate} />
       <Section label='Finance Partners' keys={FINANCE} navigate={navigate} />
       <Section label='Platform' keys={PLATFORM} navigate={navigate} />
-    </Box>
+    </AdminPageShell>
   );
 };
 
