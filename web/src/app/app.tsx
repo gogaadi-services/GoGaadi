@@ -13,6 +13,9 @@ const {
   AdminHeaderPage,
   AdminSideNavPage,
 
+  // Customer Detail
+  AdminCustomerDetailPage,
+
   // Team
   AdminAccessRequestsPage,
 
@@ -29,6 +32,10 @@ const {
   AdminCategoriesPage,
   AdminTagsPage,
   AdminSettingsPage,
+
+  // Operations
+  AdminFleetManagementPage,
+  AdminFleetAccessPage,
 
   // Mobility Services
   AdminDriverHirePage,
@@ -145,7 +152,7 @@ const AppRoutes = () => {
 
               {/* Team */}
               <Route path={AdminPath.USER_DETAIL} element={<AdminPeopleDetailPage />} />
-              <Route path={AdminPath.CUSTOMER_DETAIL} element={<AdminPeopleDetailPage />} />
+              <Route path={AdminPath.CUSTOMER_DETAIL} element={<AdminCustomerDetailPage />} />
               <Route path={AdminPath.ROLE_REQUESTS} element={<AdminAccessRequestsPage />} />
 
               {/* Governance */}
@@ -166,11 +173,11 @@ const AppRoutes = () => {
               <Route path={AdminPath.PEOPLE_ACCESS} element={<AdminCustomerAccessLandingPage />} />
               <Route path={AdminPath.PEOPLE_MANAGEMENT} element={<AdminCustomerManagementLandingPage />} />
 
-              {/* Mobility & Logistics landing pages (sub-category selection) */}
-              <Route path={AdminPath.MOBILITY_ACCESS} element={<AdminMobilityLandingPage />} />
-              <Route path={AdminPath.LOGISTICS_ACCESS} element={<AdminLogisticsLandingPage />} />
-              <Route path={AdminPath.MOBILITY_MANAGEMENT} element={<AdminMobilityLandingPage />} />
-              <Route path={AdminPath.LOGISTICS_MANAGEMENT} element={<AdminLogisticsLandingPage />} />
+              {/* Mobility & Logistics — fleet-style view built inside CustomerAccess / CustomerManagement */}
+              <Route path={AdminPath.MOBILITY_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.LOGISTICS_ACCESS} element={<AdminCustomerAccessPage />} />
+              <Route path={AdminPath.MOBILITY_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+              <Route path={AdminPath.LOGISTICS_MANAGEMENT} element={<AdminCustomerManagementPage />} />
 
               {/* Mobility Access — sub-categories */}
               <Route path={AdminPath.MOBILITY_BIKE_SCOOTER_ACCESS} element={<AdminCustomerAccessPage />} />
@@ -221,6 +228,10 @@ const AppRoutes = () => {
               <Route path={AdminPath.VEHICLE_FINANCE_MANAGEMENT} element={<AdminCustomerManagementPage />} />
               <Route path={AdminPath.FINANCE_BROKER_MANAGEMENT} element={<AdminCustomerManagementPage />} />
               <Route path={AdminPath.INSURANCE_MANAGEMENT} element={<AdminCustomerManagementPage />} />
+
+              {/* Operations — Fleet */}
+              <Route path={AdminPath.FLEET_MANAGEMENT} element={<AdminFleetManagementPage />} />
+              <Route path={AdminPath.FLEET_ACCESS} element={<AdminFleetAccessPage />} />
 
               {/* Mobility Services */}
               <Route path={AdminPath.DRIVER_HIRE} element={<AdminDriverHirePage />} />

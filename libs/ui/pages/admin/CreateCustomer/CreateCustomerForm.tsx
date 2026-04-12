@@ -201,7 +201,6 @@ const CreateCustomerForm = () => {
     setReviewOpen,
     snackbar,
     setSnackbar,
-    regFrontRef,
     rcFrontRef,
     rcBackRef,
     insuranceFrontRef,
@@ -285,13 +284,6 @@ const CreateCustomerForm = () => {
               <TextField
                 label='Email Address'
                 value={user?.email ?? '—'}
-                disabled
-                fullWidth
-                size='small'
-              />
-              <TextField
-                label='Phone Number'
-                value={user?.phone ?? '—'}
                 disabled
                 fullWidth
                 size='small'
@@ -651,7 +643,6 @@ const CreateCustomerForm = () => {
               icon={<AssignmentIcon sx={{ fontSize: 18, color: '#fff' }} />}
               accentColor='#2e7d32'
               required
-              filePreviews={[{ label: 'Number Plate', file: files['regFront'] }]}
             >
               <Box className={classes.formGrid}>
                 <TextField
@@ -664,16 +655,6 @@ const CreateCustomerForm = () => {
                   required
                   size='small'
                   fullWidth
-                />
-              </Box>
-              <Box sx={{ mt: 1 }}>
-                <UploadField
-                  label='Number Plate'
-                  file={files['regFront']}
-                  inputRef={regFrontRef}
-                  onFileChange={(f) => setFile('regFront', f)}
-                  required
-                  error={Boolean(errors['file.regFront'])}
                 />
               </Box>
             </DocSection>
@@ -1065,23 +1046,25 @@ const CreateCustomerForm = () => {
                   size='small'
                   fullWidth
                 />
-                <DatePicker
-                  label='Expiry Date'
-                  value={form.idProof.expiry ? dayjs(form.idProof.expiry) : null}
-                  onChange={(v: Dayjs | null) =>
-                    setDoc('idProof', 'expiry', v ? v.format('YYYY-MM-DD') : '')
-                  }
-                  slotProps={{
-                    textField: {
-                      size: 'small',
-                      fullWidth: true,
-                      required: true,
-                      error: Boolean(touched['idProof.expiry'] && errors['idProof.expiry']),
-                      helperText: fe('idProof.expiry') as string,
-                      onBlur: () => touch('idProof.expiry'),
-                    },
-                  }}
-                />
+                {form.idProofType === 'passport' && (
+                  <DatePicker
+                    label='Expiry Date'
+                    value={form.idProof.expiry ? dayjs(form.idProof.expiry) : null}
+                    onChange={(v: Dayjs | null) =>
+                      setDoc('idProof', 'expiry', v ? v.format('YYYY-MM-DD') : '')
+                    }
+                    slotProps={{
+                      textField: {
+                        size: 'small',
+                        fullWidth: true,
+                        required: true,
+                        error: Boolean(touched['idProof.expiry'] && errors['idProof.expiry']),
+                        helperText: fe('idProof.expiry') as string,
+                        onBlur: () => touch('idProof.expiry'),
+                      },
+                    }}
+                  />
+                )}
               </Box>
               <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mt: 1 }}>
                 <UploadField

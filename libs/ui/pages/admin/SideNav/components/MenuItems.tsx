@@ -73,7 +73,11 @@ export const useMenuItems = (): MenuGroup[] => {
       group: 'Customer',
       items: [
         { label: 'Customer Access', icon: <HowToRegIcon />, path: AdminPath.PEOPLE_ACCESS },
-        { label: 'Customer Management', icon: <ManageAccountsIcon />, path: AdminPath.PEOPLE_MANAGEMENT },
+        {
+          label: 'Customer Management',
+          icon: <ManageAccountsIcon />,
+          path: AdminPath.PEOPLE_MANAGEMENT,
+        },
       ],
     },
 
@@ -100,6 +104,20 @@ export const useMenuItems = (): MenuGroup[] => {
         { label: 'Analytics', icon: <QueryStatsIcon />, path: AdminPath.ANALYTICS },
         { label: 'Activity Logs', icon: <CalendarMonthIcon />, path: AdminPath.EVENTS },
         { label: 'Audit Logs', icon: <ManageSearchIcon />, path: AdminPath.AUDIT_TRAILS },
+      ],
+    },
+
+    // ── Mobility Services ────────────────────────────────────────────────────────
+    {
+      group: 'Mobility Services',
+      items: [
+        { label: 'Logistics', icon: <LocalShippingIcon />, path: AdminPath.LOGISTICS },
+        {
+          label: 'Fleet Management',
+          icon: <DirectionsCarIcon />,
+          path: AdminPath.FLEET_MANAGEMENT,
+        },
+        { label: 'Fleet Access', icon: <CommuteIcon />, path: AdminPath.FLEET_ACCESS },
       ],
     },
 

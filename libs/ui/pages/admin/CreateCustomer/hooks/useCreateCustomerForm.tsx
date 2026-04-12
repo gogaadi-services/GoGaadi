@@ -92,7 +92,6 @@ const useCreateCustomerForm = (customerType: CustomerType) => {
   }, []);
 
   // ── File refs ─────────────────────────────────────────────────────────────
-  const regFrontRef = useRef<HTMLInputElement>(null);
   const rcFrontRef = useRef<HTMLInputElement>(null);
   const rcBackRef = useRef<HTMLInputElement>(null);
   const insuranceFrontRef = useRef<HTMLInputElement>(null);
@@ -106,7 +105,6 @@ const useCreateCustomerForm = (customerType: CustomerType) => {
   const idBackRef = useRef<HTMLInputElement>(null);
 
   const EMPTY_FILES: Record<string, File | null> = {
-    regFront: null,
     rcFront: null,
     rcBack: null,
     insuranceFront: null,
@@ -190,6 +188,9 @@ const useCreateCustomerForm = (customerType: CustomerType) => {
           fuelType: vc?.fuelTypes.length === 1 ? String(vc.fuelTypes[0]) : '',
           tripPreference: '',
         };
+      }
+      if (field === 'idProofType' && value !== 'passport') {
+        next = { ...next, idProof: { ...next.idProof, expiry: '' } };
       }
       return next;
     });
@@ -328,7 +329,8 @@ const useCreateCustomerForm = (customerType: CustomerType) => {
     if (!form.drivingLicense.expiry) errs['dl.expiry'] = 'DL expiry required';
     if (!form.idProofType) errs['idProofType'] = 'Select ID proof type';
     if (!form.idProof.number.trim()) errs['idProof.number'] = 'ID number required';
-    if (!form.idProof.expiry) errs['idProof.expiry'] = 'ID expiry required';
+    if (form.idProofType === 'passport' && !form.idProof.expiry)
+      errs['idProof.expiry'] = 'Passport expiry date required';
     if (form.bundleTypes.includes('rental') && !form.rentalDuration)
       errs['rentalDuration'] = 'Required';
     if (form.bundleTypes.includes('driver_hire')) {
@@ -338,7 +340,6 @@ const useCreateCustomerForm = (customerType: CustomerType) => {
     if (form.bundleTypes.includes('multi_vehicle') && form.additionalVehicles.length === 0)
       errs['additionalVehicles'] = 'Add at least one additional vehicle';
     // File validations
-    if (!files['regFront']) errs['file.regFront'] = 'Number plate photo required';
     if (!files['rcFront']) errs['file.rcFront'] = 'RC front required';
     if (!files['rcBack']) errs['file.rcBack'] = 'RC back required';
     if (!files['insuranceFront']) errs['file.insuranceFront'] = 'Insurance document required';
@@ -379,7 +380,6 @@ const useCreateCustomerForm = (customerType: CustomerType) => {
       'driverHireCount',
       'driverHireShift',
       'additionalVehicles',
-      'file.regFront',
       'file.rcFront',
       'file.rcBack',
       'file.insuranceFront',
@@ -566,7 +566,6 @@ const useCreateCustomerForm = (customerType: CustomerType) => {
     snackbar,
     setSnackbar,
     // refs
-    regFrontRef,
     rcFrontRef,
     rcBackRef,
     insuranceFrontRef,

@@ -35,7 +35,12 @@ const CustomerManagement = () => {
     setTableSearch,
     tabs,
     columns,
+    selectedRow,
+    setSelectedRow,
     getFilteredData,
+    isMultiType,
+    vehicleSubTypes,
+    subTypeOffset,
   } = useCustomerManagement(category);
 
   if (isLoading) {
@@ -49,6 +54,75 @@ const CustomerManagement = () => {
     );
   }
 
+  // Multi-type (mobility/logistics): All + vehicle-type cards + Rejected + single Draft tail
+  const multiTypeStatCards = isMultiType && vehicleSubTypes
+    ? [
+        {
+          label: 'All',
+          value: categoryRows.length,
+          Icon: cfg.Icon,
+          color: cfg.color,
+          tabIndex: 0,
+          isDraft: false,
+          sub1: approvedRows.length,
+          sub1Label: 'approved',
+          sub1Color: '#10b981',
+          sub2: pendingRows.length,
+          sub2Label: 'pending',
+          sub2Color: '#d97706',
+        },
+        ...vehicleSubTypes.map((st, idx) => {
+          const rows = tabLists[idx + 1];
+          const approved = rows.filter((r) => r.status === 'approved').length;
+          const pending = rows.filter((r) => r.status === 'pending' || r.status === 'under_review').length;
+          return {
+            label: st.label,
+            value: rows.length,
+            Icon: st.Icon,
+            color: st.color,
+            tabIndex: idx + 1,
+            isDraft: false,
+            sub1: approved,
+            sub1Label: 'approved',
+            sub1Color: '#10b981',
+            sub2: pending,
+            sub2Label: 'pending',
+            sub2Color: '#d97706',
+          };
+        }),
+        {
+          label: 'Rejected',
+          value: rejectedRows.length,
+          Icon: GroupIcon,
+          color: '#dc2626',
+          tabIndex: subTypeOffset + 1,
+          isDraft: false,
+          sub1: rejectedRows.length,
+          sub1Label: 'rejected',
+          sub1Color: '#dc2626',
+          sub2: 0,
+          sub2Label: 'appealed',
+          sub2Color: '#f97316',
+        },
+        // Single draft card at the very end
+        {
+          label: 'Draft',
+          value: pendingRows.length,
+          Icon: cfg.Icon,
+          color: '#94a3b8',
+          tabIndex: subTypeOffset + 2,
+          isDraft: true,
+          sub1: pendingRows.filter((r) => r.status === 'pending').length,
+          sub1Label: 'pending',
+          sub1Color: '#d97706',
+          sub2: pendingRows.filter((r) => r.status === 'under_review').length,
+          sub2Label: 'in review',
+          sub2Color: '#2563eb',
+        },
+      ]
+    : null;
+
+  // Single-category status cards: All → Rejected → Draft
   const statCards = [
     {
       label: 'All',
@@ -57,40 +131,13 @@ const CustomerManagement = () => {
       cls: classes.statCard0,
       color: cfg.color,
       tabIndex: 0,
+      isDraft: false,
       sub1: approvedRows.length,
       sub1Label: 'approved',
       sub1Color: '#10b981',
-      sub2: pendingRows.length,
-      sub2Label: 'pending',
-      sub2Color: '#d97706',
-    },
-    {
-      label: 'Approved',
-      value: approvedRows.length,
-      Icon: GroupIcon,
-      cls: classes.statCard1,
-      color: '#10b981',
-      tabIndex: 1,
-      sub1: approvedRows.length,
-      sub1Label: 'active',
-      sub1Color: '#10b981',
-      sub2: 0,
-      sub2Label: 'inactive',
-      sub2Color: '#94a3b8',
-    },
-    {
-      label: 'Pending',
-      value: pendingRows.length,
-      Icon: cfg.Icon,
-      cls: classes.statCard3,
-      color: '#d97706',
-      tabIndex: 2,
-      sub1: pendingRows.length,
-      sub1Label: 'awaiting',
-      sub1Color: '#d97706',
-      sub2: 0,
-      sub2Label: 'escalated',
-      sub2Color: '#ef4444',
+      sub2: rejectedRows.length,
+      sub2Label: 'rejected',
+      sub2Color: '#dc2626',
     },
     {
       label: 'Rejected',
@@ -98,13 +145,29 @@ const CustomerManagement = () => {
       Icon: GroupIcon,
       cls: classes.statCard2,
       color: '#dc2626',
-      tabIndex: 3,
+      tabIndex: 1,
+      isDraft: false,
       sub1: rejectedRows.length,
       sub1Label: 'rejected',
       sub1Color: '#dc2626',
       sub2: 0,
       sub2Label: 'appealed',
       sub2Color: '#f97316',
+    },
+    {
+      label: 'Draft',
+      value: pendingRows.length,
+      Icon: cfg.Icon,
+      cls: classes.statCard3,
+      color: '#94a3b8',
+      tabIndex: 2,
+      isDraft: true,
+      sub1: pendingRows.filter((r) => r.status === 'pending').length,
+      sub1Label: 'pending',
+      sub1Color: '#d97706',
+      sub2: pendingRows.filter((r) => r.status === 'under_review').length,
+      sub2Label: 'in review',
+      sub2Color: '#2563eb',
     },
   ];
 
@@ -125,72 +188,115 @@ const CustomerManagement = () => {
           </Typography>
         </Box>
 
-        {/* Stat Cards */}
-        <Box
-          className={classes.statsGrid}
-          sx={{ gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' } }}
-        >
-          {statCards.map(
-            ({ label, value, Icon, cls, color, tabIndex, sub1, sub1Label, sub1Color, sub2, sub2Label, sub2Color }) => {
+        {/* Stat Cards — multi-type (mobility/logistics) or single-category */}
+        {multiTypeStatCards ? (
+          <Box
+            className={classes.statsGrid}
+            sx={{ gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: `repeat(${multiTypeStatCards.length}, 1fr)` } }}
+          >
+            {multiTypeStatCards.map(({ label, value, Icon, color, tabIndex, isDraft, sub1, sub1Label, sub1Color, sub2, sub2Label, sub2Color }) => {
               const isActive = tabValue === tabIndex;
               return (
                 <Box
                   key={label}
-                  className={`${classes.statCard} ${cls}`}
+                  className={classes.statCard}
                   onClick={() => { setTabValue(tabIndex); setTableSearch(''); }}
                   sx={{
                     display: 'flex',
                     flexDirection: 'column',
+                    opacity: isDraft ? 0.72 : 1,
                     outline: isActive ? `2px solid ${color}` : 'none',
                     outlineOffset: 2,
                     transform: isActive ? 'translateY(-6px)' : undefined,
                     boxShadow: isActive ? `0 16px 40px ${color}30, 0 4px 16px ${color}18` : undefined,
+                    '&::before': {
+                      background: isDraft
+                        ? `linear-gradient(90deg, ${color}55, ${color}88)`
+                        : `linear-gradient(90deg, ${color}cc, ${color})`,
+                    },
                   }}
                 >
                   <Box className={classes.statCardTop} sx={{ flex: 1, alignItems: 'flex-start' }}>
                     <Box>
-                      <Typography className={classes.statValue} sx={{ color }}>
-                        {value}
-                      </Typography>
-                      <Typography className={classes.statLabel} sx={{ minHeight: '2.2em', display: 'block' }}>
-                        {label}
-                      </Typography>
+                      <Typography className={classes.statValue} sx={{ color }}>{value}</Typography>
+                      <Typography className={classes.statLabel} sx={{ minHeight: '2.2em', display: 'block' }}>{label}</Typography>
                     </Box>
-                    <Box
-                      className={classes.statIconWrap}
-                      sx={{ background: `${color}14`, border: `1.5px solid ${color}28` }}
-                    >
+                    <Box className={classes.statIconWrap} sx={{ background: `${color}14`, border: `1.5px solid ${color}28` }}>
                       <Icon className={classes.statIcon} sx={{ color }} />
                     </Box>
                   </Box>
                   <Divider className={classes.statDivider} />
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '4px' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', flex: '1 1 0', minWidth: 0 }}>
-                      <Box
-                        className={classes.statSubDot}
-                        sx={{ background: sub1Color, boxShadow: `0 0 6px ${sub1Color}`, flexShrink: 0 }}
-                      />
+                      <Box className={classes.statSubDot} sx={{ background: sub1Color, boxShadow: `0 0 6px ${sub1Color}`, flexShrink: 0 }} />
                       <Typography className={classes.statSub} sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        <span style={{ color: sub1Color, fontWeight: 700 }}>{sub1}</span>
-                        {` ${sub1Label}`}
+                        <span style={{ color: sub1Color, fontWeight: 700 }}>{sub1}</span>{` ${sub1Label}`}
                       </Typography>
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', flex: '1 1 0', minWidth: 0, justifyContent: 'flex-end' }}>
-                      <Box
-                        className={classes.statSubDot}
-                        sx={{ background: sub2Color, boxShadow: `0 0 6px ${sub2Color}`, flexShrink: 0 }}
-                      />
+                      <Box className={classes.statSubDot} sx={{ background: sub2Color, boxShadow: `0 0 6px ${sub2Color}`, flexShrink: 0 }} />
                       <Typography className={classes.statSub} sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        <span style={{ color: sub2Color, fontWeight: 700 }}>{sub2}</span>
-                        {` ${sub2Label}`}
+                        <span style={{ color: sub2Color, fontWeight: 700 }}>{sub2}</span>{` ${sub2Label}`}
                       </Typography>
                     </Box>
                   </Box>
                 </Box>
               );
-            },
-          )}
-        </Box>
+            })}
+          </Box>
+        ) : (
+          <Box
+            className={classes.statsGrid}
+            sx={{ gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(3, 1fr)' } }}
+          >
+            {statCards.map(
+              ({ label, value, Icon, cls, color, tabIndex, isDraft, sub1, sub1Label, sub1Color, sub2, sub2Label, sub2Color }) => {
+                const isActive = tabValue === tabIndex;
+                return (
+                  <Box
+                    key={label}
+                    className={`${classes.statCard} ${cls}`}
+                    onClick={() => { setTabValue(tabIndex); setTableSearch(''); }}
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      opacity: isDraft ? 0.72 : 1,
+                      outline: isActive ? `2px solid ${color}` : 'none',
+                      outlineOffset: 2,
+                      transform: isActive ? 'translateY(-6px)' : undefined,
+                      boxShadow: isActive ? `0 16px 40px ${color}30, 0 4px 16px ${color}18` : undefined,
+                    }}
+                  >
+                    <Box className={classes.statCardTop} sx={{ flex: 1, alignItems: 'flex-start' }}>
+                      <Box>
+                        <Typography className={classes.statValue} sx={{ color }}>{value}</Typography>
+                        <Typography className={classes.statLabel} sx={{ minHeight: '2.2em', display: 'block' }}>{label}</Typography>
+                      </Box>
+                      <Box className={classes.statIconWrap} sx={{ background: `${color}14`, border: `1.5px solid ${color}28` }}>
+                        <Icon className={classes.statIcon} sx={{ color }} />
+                      </Box>
+                    </Box>
+                    <Divider className={classes.statDivider} />
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '4px' }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', flex: '1 1 0', minWidth: 0 }}>
+                        <Box className={classes.statSubDot} sx={{ background: sub1Color, boxShadow: `0 0 6px ${sub1Color}`, flexShrink: 0 }} />
+                        <Typography className={classes.statSub} sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          <span style={{ color: sub1Color, fontWeight: 700 }}>{sub1}</span>{` ${sub1Label}`}
+                        </Typography>
+                      </Box>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', flex: '1 1 0', minWidth: 0, justifyContent: 'flex-end' }}>
+                        <Box className={classes.statSubDot} sx={{ background: sub2Color, boxShadow: `0 0 6px ${sub2Color}`, flexShrink: 0 }} />
+                        <Typography className={classes.statSub} sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          <span style={{ color: sub2Color, fontWeight: 700 }}>{sub2}</span>{` ${sub2Label}`}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                );
+              },
+            )}
+          </Box>
+        )}
 
         {/* Tabs + Search */}
         <Box className={classes.tabsBox}>
@@ -239,6 +345,8 @@ const CustomerManagement = () => {
                   rowKey='id'
                   searchable={false}
                   initialRowsPerPage={10}
+                  onRowClick={(row) => setSelectedRow(row)}
+                  activeRowKey={selectedRow?.id}
                 />
               </Box>
             )}

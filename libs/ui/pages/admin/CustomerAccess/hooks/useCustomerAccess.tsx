@@ -12,6 +12,49 @@ import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
 import FireTruckIcon from '@mui/icons-material/FireTruck';
+
+export interface VehicleSubType {
+  key: string;
+  label: string;
+  Icon: React.ElementType;
+  color: string;
+  filterFn: (r: CustomerApprovalRow) => boolean;
+}
+
+const VEHICLE_SUB_TYPES: Record<'mobility' | 'logistics', VehicleSubType[]> = {
+  mobility: [
+    {
+      key: 'bike-scooter', label: 'Bikes & Scooters', Icon: TwoWheelerIcon, color: '#6366f1',
+      filterFn: (r) => ['bike', 'scooter'].includes(r.vehicleType?.toLowerCase() ?? ''),
+    },
+    {
+      key: 'auto', label: 'Autos', Icon: EmojiTransportationIcon, color: '#f59e0b',
+      filterFn: (r) => ['auto', 'auto_rickshaw'].includes(r.vehicleType?.toLowerCase() ?? ''),
+    },
+    {
+      key: 'cab', label: 'Cabs', Icon: LocalTaxiIcon, color: '#0ea5e9',
+      filterFn: (r) => ['cab', 'hatchback', 'sedan', 'suv'].includes(r.vehicleType?.toLowerCase() ?? ''),
+    },
+    {
+      key: 'shuttle', label: 'Shuttles & Buses', Icon: DirectionsBusIcon, color: '#16a34a',
+      filterFn: (r) => ['shuttle', 'bus', 'minibus'].includes(r.vehicleType?.toLowerCase() ?? ''),
+    },
+  ],
+  logistics: [
+    {
+      key: 'mini-cargo', label: 'Mini Cargo', Icon: AirportShuttleIcon, color: '#f59e0b',
+      filterFn: (r) => ['tata_ace', 'mini_truck', 'mini_cargo'].includes(r.vehicleType?.toLowerCase() ?? ''),
+    },
+    {
+      key: 'medium-goods', label: 'Medium Goods', Icon: LocalShippingIcon, color: '#0f766e',
+      filterFn: (r) => ['dcm', 'medium_goods', 'pickup'].includes(r.vehicleType?.toLowerCase() ?? ''),
+    },
+    {
+      key: 'heavy-truck', label: 'Heavy Trucks', Icon: FireTruckIcon, color: '#dc2626',
+      filterFn: (r) => ['lorry', 'heavy_truck', 'trailer'].includes(r.vehicleType?.toLowerCase() ?? ''),
+    },
+  ],
+};
 import Inventory2Icon from '@mui/icons-material/Inventory2';
 import HailIcon from '@mui/icons-material/Hail';
 import CarRentalIcon from '@mui/icons-material/CarRental';
@@ -267,6 +310,8 @@ export const useCustomerAccess = (category: CustomerCategory) => {
   const [authAction] = useAuthActionMutation();
   const notify = useNotification();
   const cfg = CUSTOMER_ACCESS_CONFIG[category];
+  const isMultiType = category === 'mobility' || category === 'logistics';
+  const vehicleSubTypes = isMultiType ? VEHICLE_SUB_TYPES[category as 'mobility' | 'logistics'] : null;
 
   const [allRows, setAllRows] = useState<CustomerApprovalRow[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -308,8 +353,10 @@ export const useCustomerAccess = (category: CustomerCategory) => {
   const pendingRows = categoryRows.filter((r) => r.status === 'pending');
   const reviewRows = categoryRows.filter((r) => r.status === 'under_review');
 
-  // tabLists: All, Pending, Under Review
-  const tabLists: CustomerApprovalRow[][] = [categoryRows, pendingRows, reviewRows];
+  // tabLists: multi-type → [All, ...perSubType, Pending]; single → [All, Pending, UnderReview]
+  const tabLists: CustomerApprovalRow[][] = isMultiType && vehicleSubTypes
+    ? [categoryRows, ...vehicleSubTypes.map((st) => categoryRows.filter(st.filterFn)), pendingRows]
+    : [categoryRows, pendingRows, reviewRows];
 
   const getFilteredData = (rows: CustomerApprovalRow[]) => {
     if (!tableSearch.trim()) return rows;
@@ -365,11 +412,19 @@ export const useCustomerAccess = (category: CustomerCategory) => {
     }
   };
 
-  const tabs = [
-    <Tab key='all' icon={<cfg.Icon sx={{ fontSize: '1rem' }} />} iconPosition='start' label='All' />,
-    <Tab key='pending' icon={<PendingActionsIcon sx={{ fontSize: '1rem' }} />} iconPosition='start' label='Pending' />,
-    <Tab key='review' icon={<HowToRegIcon sx={{ fontSize: '1rem' }} />} iconPosition='start' label='Under Review' />,
-  ];
+  const tabs = isMultiType && vehicleSubTypes
+    ? [
+        <Tab key='all' icon={<cfg.Icon sx={{ fontSize: '1rem' }} />} iconPosition='start' label='All' />,
+        ...vehicleSubTypes.map((st) => (
+          <Tab key={st.key} icon={<st.Icon sx={{ fontSize: '1rem' }} />} iconPosition='start' label={st.label} />
+        )),
+        <Tab key='pending' icon={<PendingActionsIcon sx={{ fontSize: '1rem' }} />} iconPosition='start' label='Pending' />,
+      ]
+    : [
+        <Tab key='all' icon={<cfg.Icon sx={{ fontSize: '1rem' }} />} iconPosition='start' label='All' />,
+        <Tab key='pending' icon={<PendingActionsIcon sx={{ fontSize: '1rem' }} />} iconPosition='start' label='Pending' />,
+        <Tab key='review' icon={<HowToRegIcon sx={{ fontSize: '1rem' }} />} iconPosition='start' label='Under Review' />,
+      ];
 
   const columns: Column<CustomerApprovalRow>[] = [
     {
@@ -574,5 +629,7 @@ export const useCustomerAccess = (category: CustomerCategory) => {
     handleCloseAction,
     handleConfirmAction,
     getFilteredData,
+    isMultiType,
+    vehicleSubTypes,
   };
 };

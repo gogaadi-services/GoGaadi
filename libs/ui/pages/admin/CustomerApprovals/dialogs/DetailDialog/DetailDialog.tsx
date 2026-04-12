@@ -55,6 +55,7 @@ const safeArr = (v: unknown): string[] => {
 // ─── Customer ID generator ────────────────────────────────────────────────────
 
 export const genCustomerId = (row: CustomerApprovalRow): string => {
+  if (row.customerId) return row.customerId;
   const prefix = row.serviceCategory === 'mobility' ? 'MOBIL' : 'LOGST';
   const num = Number(row.id) || 0;
   return `${prefix}${String(num).padStart(5, '0')}`;

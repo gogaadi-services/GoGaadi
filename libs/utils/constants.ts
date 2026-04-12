@@ -135,7 +135,7 @@ const AdminPath = {
 
   // Supporting
   PROFILE: `${ADMIN_BASE}/profile`,
-  CREATE_NEW: `${ADMIN_BASE}/create-new`,
+  CREATE_NEW: `${ADMIN_BASE}/create-new-user`,
   CREATE_CUSTOMER: `${ADMIN_BASE}/create-customer`,
   CREATE_CUSTOMER_TYPE: `${ADMIN_BASE}/create-customer/:type`,
   CUSTOMER_APPROVALS: `${ADMIN_BASE}/customer-approvals`,

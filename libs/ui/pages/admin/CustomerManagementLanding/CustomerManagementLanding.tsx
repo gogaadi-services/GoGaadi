@@ -11,7 +11,6 @@ import StoreIcon from '@mui/icons-material/Store';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import SecurityIcon from '@mui/icons-material/Security';
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -38,7 +37,8 @@ const MANAGEMENT_TYPES: ManagementType[] = [
     key: 'mobility',
     displayName: 'Mobility Management',
     tagline: 'Bikes, Autos, Cabs & Shuttles',
-    description: 'View and manage all approved mobility operators — update status, review profiles, and track activity.',
+    description:
+      'View and manage all approved mobility operators — update status, review profiles, and track activity.',
     icon: DirectionsBusIcon,
     color: '#6366f1',
     path: AdminPath.MOBILITY_MANAGEMENT,
@@ -47,7 +47,8 @@ const MANAGEMENT_TYPES: ManagementType[] = [
     key: 'logistics',
     displayName: 'Logistics Management',
     tagline: 'Mini Cargo, Goods & Heavy Trucks',
-    description: 'View and manage all approved logistics operators — Tata Ace, DCM, medium goods, and heavy truck operators.',
+    description:
+      'View and manage all approved logistics operators — Tata Ace, DCM, medium goods, and heavy truck operators.',
     icon: LocalShippingIcon,
     color: '#f59e0b',
     path: AdminPath.LOGISTICS_MANAGEMENT,
@@ -56,7 +57,8 @@ const MANAGEMENT_TYPES: ManagementType[] = [
     key: 'parcel',
     displayName: 'Parcel Management',
     tagline: 'Last-Mile Delivery Operators',
-    description: 'View and manage all approved parcel delivery operators and their service coverage areas.',
+    description:
+      'View and manage all approved parcel delivery operators and their service coverage areas.',
     icon: Inventory2Icon,
     color: '#ea580c',
     path: AdminPath.PARCEL_MANAGEMENT,
@@ -66,7 +68,8 @@ const MANAGEMENT_TYPES: ManagementType[] = [
     key: 'driver-hire',
     displayName: 'Driver Hire Management',
     tagline: 'Dedicated Driver Providers',
-    description: 'View and manage all approved driver hire service providers — monitor assignments and performance.',
+    description:
+      'View and manage all approved driver hire service providers — monitor assignments and performance.',
     icon: HailIcon,
     color: '#16a34a',
     path: AdminPath.DRIVER_HIRE_MANAGEMENT,
@@ -75,7 +78,8 @@ const MANAGEMENT_TYPES: ManagementType[] = [
     key: 'vehicle-rental',
     displayName: 'Vehicle Rental Management',
     tagline: 'Self-Drive & Rental Operators',
-    description: 'View and manage all approved vehicle rental operators — track fleet availability and booking history.',
+    description:
+      'View and manage all approved vehicle rental operators — track fleet availability and booking history.',
     icon: CarRentalIcon,
     color: '#7c3aed',
     path: AdminPath.VEHICLE_RENTAL_MANAGEMENT,
@@ -84,7 +88,8 @@ const MANAGEMENT_TYPES: ManagementType[] = [
     key: 'mechanic',
     displayName: 'Mechanic Management',
     tagline: 'Roadside Repair & Service',
-    description: 'View and manage all approved mechanic service providers — track dispatches and service quality.',
+    description:
+      'View and manage all approved mechanic service providers — track dispatches and service quality.',
     icon: BuildIcon,
     color: '#78350f',
     path: AdminPath.MECHANIC_MANAGEMENT,
@@ -94,7 +99,8 @@ const MANAGEMENT_TYPES: ManagementType[] = [
     key: 'petrol-bunk',
     displayName: 'Petrol Bunk Management',
     tagline: 'Fuel Station Partners',
-    description: 'View and manage all approved petrol bunk partners — fuel types, locations, and discount configurations.',
+    description:
+      'View and manage all approved petrol bunk partners — fuel types, locations, and discount configurations.',
     icon: LocalGasStationIcon,
     color: '#dc2626',
     path: AdminPath.PETROL_BUNK_MANAGEMENT,
@@ -103,7 +109,8 @@ const MANAGEMENT_TYPES: ManagementType[] = [
     key: 'ev-charging',
     displayName: 'EV Charging Management',
     tagline: 'Electric Vehicle Charging Partners',
-    description: 'View and manage all approved EV charging station partners — charger types, slots, and availability.',
+    description:
+      'View and manage all approved EV charging station partners — charger types, slots, and availability.',
     icon: EvStationIcon,
     color: '#059669',
     path: AdminPath.EV_CHARGING_MANAGEMENT,
@@ -112,7 +119,8 @@ const MANAGEMENT_TYPES: ManagementType[] = [
     key: 'showroom',
     displayName: 'Showroom Management',
     tagline: 'Vehicle Dealership Partners',
-    description: 'View and manage all approved vehicle showrooms and dealerships — listings, brands, and partner deals.',
+    description:
+      'View and manage all approved vehicle showrooms and dealerships — listings, brands, and partner deals.',
     icon: StoreIcon,
     color: '#1d4ed8',
     path: AdminPath.SHOWROOM_MANAGEMENT,
@@ -122,7 +130,8 @@ const MANAGEMENT_TYPES: ManagementType[] = [
     key: 'vehicle-finance',
     displayName: 'Vehicle Finance Management',
     tagline: 'Auto Loan & Finance Providers',
-    description: 'View and manage all approved vehicle finance partners — loan products, interest rates, and approvals.',
+    description:
+      'View and manage all approved vehicle finance partners — loan products, interest rates, and approvals.',
     icon: AccountBalanceIcon,
     color: '#9333ea',
     path: AdminPath.VEHICLE_FINANCE_MANAGEMENT,
@@ -131,7 +140,8 @@ const MANAGEMENT_TYPES: ManagementType[] = [
     key: 'finance-broker',
     displayName: 'Finance Broker Management',
     tagline: 'DSA & Loan Agent Partners',
-    description: 'View and manage all approved finance brokers — commissions, lender tie-ups, and referral performance.',
+    description:
+      'View and manage all approved finance brokers — commissions, lender tie-ups, and referral performance.',
     icon: HandshakeIcon,
     color: '#0f766e',
     path: AdminPath.FINANCE_BROKER_MANAGEMENT,
@@ -140,26 +150,19 @@ const MANAGEMENT_TYPES: ManagementType[] = [
     key: 'insurance',
     displayName: 'Insurance Management',
     tagline: 'Vehicle & Driver Insurance Partners',
-    description: 'View and manage all approved insurance providers — policy types, coverage, and group discount programs.',
+    description:
+      'View and manage all approved insurance providers — policy types, coverage, and group discount programs.',
     icon: SecurityIcon,
     color: '#166534',
     path: AdminPath.INSURANCE_MANAGEMENT,
   },
   // ── Platform ──────────────────────────────────────────────────────────────────
   {
-    key: 'customer',
-    displayName: 'Customer Management',
-    tagline: 'General Customer Accounts',
-    description: 'View and manage all approved customer accounts — profile updates, status changes, and activity history.',
-    icon: VerifiedUserIcon,
-    color: '#0ea5e9',
-    path: AdminPath.USER_MANAGEMENT,
-  },
-  {
     key: 'user',
     displayName: 'User Management',
     tagline: 'Platform User Accounts',
-    description: 'View and manage all platform users — toggle status, reset access, and track registration history.',
+    description:
+      'View and manage all platform users — toggle status, reset access, and track registration history.',
     icon: ManageAccountsIcon,
     color: '#be185d',
     path: AdminPath.USER_MGMT,
@@ -170,7 +173,7 @@ const ONBOARDING: ManagementType['key'][] = ['mobility', 'logistics', 'parcel'];
 const ON_DEMAND: ManagementType['key'][] = ['driver-hire', 'vehicle-rental', 'mechanic'];
 const AUTOMOTIVE: ManagementType['key'][] = ['petrol-bunk', 'ev-charging', 'showroom'];
 const FINANCE: ManagementType['key'][] = ['vehicle-finance', 'finance-broker', 'insurance'];
-const PLATFORM: ManagementType['key'][] = ['customer', 'user'];
+const PLATFORM: ManagementType['key'][] = ['user'];
 
 function getVisuals(color: string) {
   return {
@@ -206,7 +209,9 @@ const ManagementCard = ({ item, onClick }: { item: ManagementType; onClick: () =
       <Box
         sx={{
           position: 'absolute',
-          top: 0, left: 0, right: 0,
+          top: 0,
+          left: 0,
+          right: 0,
           height: '3px',
           background: gradient,
           borderRadius: '16px 16px 0 0',
@@ -217,10 +222,13 @@ const ManagementCard = ({ item, onClick }: { item: ManagementType; onClick: () =
       <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, mt: 0.5 }}>
         <Box
           sx={{
-            width: 52, height: 52,
+            width: 52,
+            height: 52,
             borderRadius: '14px',
             background: gradient,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             boxShadow: `0 6px 18px ${glow}`,
             flexShrink: 0,
           }}
@@ -231,7 +239,9 @@ const ManagementCard = ({ item, onClick }: { item: ManagementType; onClick: () =
           <Typography sx={{ fontWeight: 800, fontSize: '1.05rem', lineHeight: 1.2 }}>
             {item.displayName}
           </Typography>
-          <Typography sx={{ fontSize: '0.72rem', color: 'text.secondary', fontWeight: 500, mt: 0.25 }}>
+          <Typography
+            sx={{ fontSize: '0.72rem', color: 'text.secondary', fontWeight: 500, mt: 0.25 }}
+          >
             {item.tagline}
           </Typography>
         </Box>
@@ -244,7 +254,16 @@ const ManagementCard = ({ item, onClick }: { item: ManagementType; onClick: () =
 
       {/* CTA hint */}
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', mt: 2.5 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, opacity: 0.55, transition: 'opacity 0.2s', '.MuiBox-root:hover &': { opacity: 1 } }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 0.5,
+            opacity: 0.55,
+            transition: 'opacity 0.2s',
+            '.MuiBox-root:hover &': { opacity: 1 },
+          }}
+        >
           <Typography sx={{ fontSize: '0.78rem', fontWeight: 700, color: item.color }}>
             Manage
           </Typography>
@@ -313,10 +332,13 @@ const CustomerManagementLanding = () => {
       >
         <Box
           sx={{
-            width: 48, height: 48,
+            width: 48,
+            height: 48,
             borderRadius: '14px',
             background: 'linear-gradient(135deg, #14b8a6 0%, #0f766e 100%)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             boxShadow: '0 8px 24px rgba(20,184,166,0.4)',
             flexShrink: 0,
           }}
@@ -324,7 +346,14 @@ const CustomerManagementLanding = () => {
           <GroupsIcon sx={{ fontSize: 24, color: '#fff' }} />
         </Box>
         <Box>
-          <Typography sx={{ color: '#f1f5f9', fontWeight: 800, fontSize: '1.25rem', letterSpacing: '-0.01em' }}>
+          <Typography
+            sx={{
+              color: '#f1f5f9',
+              fontWeight: 800,
+              fontSize: '1.25rem',
+              letterSpacing: '-0.01em',
+            }}
+          >
             Customer Management
           </Typography>
           <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.82rem' }}>
