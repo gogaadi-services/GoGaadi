@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cross-env NODE_ENV=production NODE_OPTIONS=--no-warnings webpack --config web/webpack.config.js --mode production",
+  "buildCommand": "node node_modules/vite/bin/vite.js build --config web/vite.config.ts",
   "outputDirectory": "web/dist",
   "installCommand": "npm install",
   "framework": null,
