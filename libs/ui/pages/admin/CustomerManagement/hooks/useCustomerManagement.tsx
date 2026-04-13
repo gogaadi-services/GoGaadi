@@ -495,33 +495,85 @@ export const useCustomerManagement = (category: CustomerManagementCategory) => {
       },
     },
 
-    // ── Vehicle ────────────────────────────────────────────────────────────────
+    // ── Vehicle / Details ──────────────────────────────────────────────────────
     {
       id: 'vehicleType',
-      label: 'Vehicle',
+      label: 'Details',
       minWidth: 138,
       format: (_v: unknown, row: CustomerApprovalRow) => {
         const r = row as CustomerApprovalRow & Record<string, unknown>;
-        const subType = r.vehicleSubType as string | undefined;
-        const number = r.vehicleNumber as string | undefined;
-        const fuel = r.fuelType as string | undefined;
-        return (
-          <Stack spacing={0.15}>
-            <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, textTransform: 'capitalize', color: '#1e293b' }}>
-              {row.vehicleType || '—'}{subType ? ` · ${subType}` : ''}
+        const cat = (r.serviceCategory as string) ?? '';
+        // Mobility / logistics / parcel: show vehicleType + vehicleNumber
+        if (cat === 'mobility' || cat === 'logistics' || cat === 'parcel' || !cat ||
+            (r.vehicleType as string)) {
+          const subType = r.vehicleSubType as string | undefined;
+          const number = r.vehicleNumber as string | undefined;
+          const fuel = r.fuelType as string | undefined;
+          return (
+            <Stack spacing={0.15}>
+              <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, textTransform: 'capitalize', color: '#1e293b' }}>
+                {row.vehicleType || '—'}{subType ? ` · ${subType}` : ''}
+              </Typography>
+              {number && (
+                <Typography sx={{ fontSize: '0.74rem', fontFamily: 'monospace', fontWeight: 700, color: '#1d4ed8', letterSpacing: '0.5px' }}>
+                  {number}
+                </Typography>
+              )}
+              {fuel && (
+                <Typography sx={{ fontSize: '0.67rem', color: '#94a3b8', textTransform: 'capitalize' }}>
+                  {fuel}
+                </Typography>
+              )}
+            </Stack>
+          );
+        }
+        // Driver hire
+        if (cat === 'driver-hire') {
+          const shift = (r.driverHireShift as string) || '—';
+          return (
+            <Stack spacing={0.15}>
+              <Typography sx={{ fontSize: '0.74rem', color: '#475569' }}>Shift Pref.</Typography>
+              <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, textTransform: 'capitalize', color: '#15803d' }}>
+                {shift}
+              </Typography>
+            </Stack>
+          );
+        }
+        // Vehicle rental
+        if (cat === 'vehicle-rental') {
+          const duration = (r.rentalDuration as string) || '—';
+          const pref = (r.rentalVehiclePref as string) || '';
+          return (
+            <Stack spacing={0.15}>
+              <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, textTransform: 'capitalize', color: '#7e22ce' }}>
+                {duration}
+              </Typography>
+              {pref && (
+                <Typography sx={{ fontSize: '0.71rem', color: '#64748b', textTransform: 'capitalize' }}>{pref}</Typography>
+              )}
+            </Stack>
+          );
+        }
+        // Partner / other types
+        const SERVICE_LABELS: Record<string, string> = {
+          'mechanic-hire': 'Mechanic Service',
+          'petrol-bunk': 'Fuel Station',
+          'ev-charging': 'EV Station',
+          showroom: 'Vehicle Showroom',
+          'vehicle-finance': 'Finance Services',
+          'finance-broker': 'Finance Broker',
+          'insurance-partner': 'Insurance',
+          user: 'Platform User',
+        };
+        const label = SERVICE_LABELS[cat];
+        if (label) {
+          return (
+            <Typography sx={{ fontSize: '0.78rem', fontWeight: 600, color: '#475569' }}>
+              {label}
             </Typography>
-            {number && (
-              <Typography sx={{ fontSize: '0.74rem', fontFamily: 'monospace', fontWeight: 700, color: '#1d4ed8', letterSpacing: '0.5px' }}>
-                {number}
-              </Typography>
-            )}
-            {fuel && (
-              <Typography sx={{ fontSize: '0.67rem', color: '#94a3b8', textTransform: 'capitalize' }}>
-                {fuel}
-              </Typography>
-            )}
-          </Stack>
-        );
+          );
+        }
+        return <Typography sx={{ fontSize: '0.78rem', color: '#94a3b8' }}>—</Typography>;
       },
     },
 

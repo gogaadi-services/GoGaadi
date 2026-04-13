@@ -1,11 +1,12 @@
-import { Routes, Route, Navigate, useParams } from 'react-router-dom';
+import { Routes, Route, Navigate, useParams, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { LazyMenuItems } from './routes';
 import { constants } from '@gogaadi/utils';
 import { ErrorBoundary, MainContent, Loader } from '@gogaadi/component';
-import { useAuth } from '@gogaadi/hooks';
+import { useAuth, useLoader } from '@gogaadi/hooks';
 import { AppRoleContext } from '@gogaadi/theme';
 
 const {
@@ -166,7 +167,14 @@ const ConsultantRoutes = () => {
 const AppRoutes = () => {
   const { AdminPath, AuthPath, Path } = constants;
   const { isAuthenticated, isAdmin, isConsultant, isConsultantMode } = useAuth();
+  const { pathname } = useLocation();
+  const { hide } = useLoader();
 
+  // Hide the global overlay loader whenever the route changes — prevents stuck loaders
+  useEffect(() => {
+    hide();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
   // Not authenticated — show auth pages
   if (!isAuthenticated) {
     return (

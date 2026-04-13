@@ -142,8 +142,8 @@ export const useSharedHeader = () => {
     handleSettingsClose();
     showLoader('Switching to Consultant Mode...');
     setTimeout(() => {
-      enterConsultantMode();
       hideLoader();
+      enterConsultantMode();
       navigate(ConsultantPath.PEOPLE_ACCESS);
     }, 1200);
   };
@@ -152,8 +152,8 @@ export const useSharedHeader = () => {
     handleSettingsClose();
     showLoader('Switching to Admin Mode...');
     setTimeout(() => {
-      exitConsultantMode();
       hideLoader();
+      exitConsultantMode();
       navigate(AdminPath.DASHBOARD);
     }, 1200);
   };

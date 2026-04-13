@@ -1610,11 +1610,19 @@ export class AuthController {
 
       case 'create-customer-onboarding': {
         const { data: onboardingData } = req.body as { data: Record<string, unknown> };
-        const isSimpleUser = onboardingData?.serviceCategory === 'user';
+        // Captain onboarding (mobility/logistics/parcel without a customer-only bundle) requires vehicleType.
+        // Driver-hire and vehicle-rental use serviceCategory 'mobility' but carry bundleTypes
+        // that mark them as customer bookings, not captain registrations.
+        // Only captain onboarding types (mobility, logistics, parcel) require a vehicleType.
+        // All other types (driver-hire, vehicle-rental, mechanic-hire, partner types, user) do not.
+        const CAPTAIN_CATEGORIES = ['mobility', 'logistics', 'parcel'];
+        const requiresVehicleType = CAPTAIN_CATEGORIES.includes(
+          String(onboardingData?.serviceCategory),
+        );
         if (
           !onboardingData?.firstName ||
           !onboardingData?.phone ||
-          (!isSimpleUser && !onboardingData?.vehicleType)
+          (requiresVehicleType && !onboardingData?.vehicleType)
         ) {
           res.status(400).json({ message: 'firstName and phone are required' });
           return;

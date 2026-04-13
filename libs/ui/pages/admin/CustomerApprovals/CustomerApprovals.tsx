@@ -30,9 +30,6 @@ const CustomerApprovals = () => {
     tabLists,
     tabs,
     columns,
-    driverHireColumns,
-    vehicleRentalColumns,
-    mechanicHireColumns,
     detailRow,
     setDetailRow,
     actionTarget,
@@ -167,26 +164,32 @@ const CustomerApprovals = () => {
           emptyIcon: PersonAddIcon,
           emptyText: tableSearch ? 'No matching users' : 'No user registrations found',
         },
-        // Tab 2: Driver Hire (no filter — show all)
+        // Tab 2: Driver Hire (pending + under review)
         {
           index: 2,
-          columns: driverHireColumns,
-          data: driverHireRows,
-          applyFilter: false,
+          columns,
+          data: pendingDriverHireRows,
+          applyFilter: true,
+          emptyIcon: HailIcon,
+          emptyText: tableSearch ? 'No matching driver hire requests' : 'No driver hire requests found',
         },
-        // Tab 3: Vehicle Rental
+        // Tab 3: Vehicle Rental (pending + under review)
         {
           index: 3,
-          columns: vehicleRentalColumns,
-          data: vehicleRentalRows,
-          applyFilter: false,
+          columns,
+          data: pendingVehicleRentalRows,
+          applyFilter: true,
+          emptyIcon: CarRentalIcon,
+          emptyText: tableSearch ? 'No matching vehicle rental requests' : 'No vehicle rental requests found',
         },
-        // Tab 4: Mechanic Hire
+        // Tab 4: Mechanic Hire (pending + under review)
         {
           index: 4,
-          columns: mechanicHireColumns,
-          data: mechanicHireRows,
-          applyFilter: false,
+          columns,
+          data: pendingMechanicHireRows,
+          applyFilter: true,
+          emptyIcon: BuildIcon,
+          emptyText: tableSearch ? 'No matching mechanic hire requests' : 'No mechanic hire requests found',
         },
         // Tab 5: Pending
         {

@@ -4,8 +4,6 @@ import { Chip, Typography, Button, Stack, Tooltip, Tab } from '@mui/material';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import HailIcon from '@mui/icons-material/Hail';
 import CarRentalIcon from '@mui/icons-material/CarRental';
@@ -15,10 +13,6 @@ import { useAuthActionMutation } from '@gogaadi/services';
 import { useNotification } from '@gogaadi/hooks';
 import { genCustomerId } from '../dialogs/DetailDialog/DetailDialog';
 
-// Minimal types for hire/rental rows (full pages removed)
-type DriverHireRow = { id?: number; sno?: number; name?: string; email?: string; vehicleType?: string; location?: string; duration?: string; status?: string; [key: string]: unknown };
-type VehicleRentalRow = { id?: number; sno?: number; name?: string; email?: string; vehicleType?: string; location?: string; duration?: string; startDate?: string; status?: string; [key: string]: unknown };
-type MechanicHireRow = { id?: number; sno?: number; name?: string; email?: string; serviceType?: string; location?: string; scheduledDate?: string; status?: string; [key: string]: unknown };
 
 export type ApprovalStatus = 'pending' | 'under_review' | 'approved' | 'rejected';
 
@@ -31,7 +25,7 @@ export interface CustomerApprovalRow {
   email?: string;
   phone: string;
   gender?: string | null;
-  serviceCategory: 'mobility' | 'logistics';
+  serviceCategory: 'mobility' | 'logistics' | 'parcel' | 'driver-hire' | 'vehicle-rental' | 'mechanic-hire' | 'petrol-bunk' | 'ev-charging' | 'showroom' | 'vehicle-finance' | 'finance-broker' | 'insurance-partner' | 'user';
   vehicleType: string;
   vehicleSubType?: string;
   fuelType?: string;
@@ -109,9 +103,9 @@ export const useCustomerApprovals = () => {
   const notify = useNotification();
 
   const [allRows, setAllRows] = useState<CustomerApprovalRow[]>([]);
-  const [driverHireRows, setDriverHireRows] = useState<DriverHireRow[]>([]);
-  const [vehicleRentalRows, setVehicleRentalRows] = useState<VehicleRentalRow[]>([]);
-  const [mechanicHireRows, setMechanicHireRows] = useState<MechanicHireRow[]>([]);
+  const [driverHireRows, setDriverHireRows] = useState<CustomerApprovalRow[]>([]);
+  const [vehicleRentalRows, setVehicleRentalRows] = useState<CustomerApprovalRow[]>([]);
+  const [mechanicHireRows, setMechanicHireRows] = useState<CustomerApprovalRow[]>([]);
   const [userRows, setUserRows] = useState<CustomerApprovalRow[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [tabValue, setTabValue] = useState(0);
@@ -127,20 +121,9 @@ export const useCustomerApprovals = () => {
   const fetchApprovals = useCallback(async () => {
     try {
       setIsLoading(true);
-      const [res, driverHireRes, vehicleRentalRes, mechanicHireRes] = await Promise.all([
-        authAction({ action: 'get-customer-onboardings' })
-          .unwrap()
-          .catch(() => ({ data: [] })),
-        authAction({ action: 'get-driver-hire-requests' })
-          .unwrap()
-          .catch(() => ({ data: [] })),
-        authAction({ action: 'get-vehicle-rental-requests' })
-          .unwrap()
-          .catch(() => ({ data: [] })),
-        authAction({ action: 'get-mechanic-hire-requests' })
-          .unwrap()
-          .catch(() => ({ data: [] })),
-      ]);
+      const res = await authAction({ action: 'get-customer-onboardings' })
+        .unwrap()
+        .catch(() => ({ data: [] }));
       const parseJsonField = (v: unknown): unknown => {
         if (typeof v === 'string') {
           try {
@@ -161,13 +144,12 @@ export const useCustomerApprovals = () => {
         uploadedFiles: parseJsonField(r.uploadedFiles) as string[] | undefined,
       }));
       setAllRows(rows);
-      setDriverHireRows(driverHireRes.data || []);
-      setVehicleRentalRows(vehicleRentalRes.data || []);
-      setMechanicHireRows(mechanicHireRes.data || []);
-      // Platform users: serviceCategory === 'user'
-      setUserRows(
-        rows.filter((r: CustomerApprovalRow) => (r.serviceCategory as string) === 'user'),
-      );
+      // Derive category-specific rows from the main onboarding list
+      const svc = (r: CustomerApprovalRow) => (r.serviceCategory as string) ?? '';
+      setDriverHireRows(rows.filter((r: CustomerApprovalRow) => svc(r) === 'driver-hire'));
+      setVehicleRentalRows(rows.filter((r: CustomerApprovalRow) => svc(r) === 'vehicle-rental'));
+      setMechanicHireRows(rows.filter((r: CustomerApprovalRow) => svc(r) === 'mechanic-hire'));
+      setUserRows(rows.filter((r: CustomerApprovalRow) => svc(r) === 'user'));
     } catch {
       setAllRows([]);
     } finally {
@@ -186,9 +168,9 @@ export const useCustomerApprovals = () => {
   const activeRows = allRows.filter((r) => r.status === 'pending' || r.status === 'under_review');
   const pendingRows = activeRows.filter((r) => r.status === 'pending');
   const underReviewRows = activeRows.filter((r) => r.status === 'under_review');
-  const pendingDriverHireRows = driverHireRows.filter((r) => r.status === 'pending');
-  const pendingVehicleRentalRows = vehicleRentalRows.filter((r) => r.status === 'pending');
-  const pendingMechanicHireRows = mechanicHireRows.filter((r) => r.status === 'pending');
+  const pendingDriverHireRows = driverHireRows.filter((r) => r.status === 'pending' || r.status === 'under_review');
+  const pendingVehicleRentalRows = vehicleRentalRows.filter((r) => r.status === 'pending' || r.status === 'under_review');
+  const pendingMechanicHireRows = mechanicHireRows.filter((r) => r.status === 'pending' || r.status === 'under_review');
   const pendingUserRows = userRows.filter(
     (r) => r.status === 'pending' || r.status === 'under_review',
   );
@@ -211,7 +193,8 @@ export const useCustomerApprovals = () => {
               r.vehicleNumber?.toLowerCase().includes(q) ||
               r.rcNumber?.toLowerCase().includes(q) ||
               r.dlNumber?.toLowerCase().includes(q) ||
-              r.city?.toLowerCase().includes(q),
+              r.city?.toLowerCase().includes(q) ||
+              (r.serviceCategory as string)?.toLowerCase().includes(q),
           );
         })();
     return result;
@@ -265,127 +248,6 @@ export const useCustomerApprovals = () => {
       setActionInProgress(null);
     }
   };
-
-  // ── Extra columns ──────────────────────────────────────────────────────────
-
-  const driverHireColumns: Column<DriverHireRow>[] = [
-    { id: 'sno', label: 'S.No', minWidth: 60, align: 'center', sortable: false },
-    { id: 'name', label: 'Name', minWidth: 150, format: (v: unknown) => String(v || '-') },
-    { id: 'email', label: 'Email', minWidth: 200, format: (v: unknown) => String(v || '-') },
-    {
-      id: 'vehicleType',
-      label: 'Vehicle',
-      minWidth: 130,
-      format: (v: unknown) => String(v || '-'),
-    },
-    { id: 'location', label: 'Location', minWidth: 140, format: (v: unknown) => String(v || '-') },
-    { id: 'duration', label: 'Duration', minWidth: 110, format: (v: unknown) => String(v || '-') },
-    {
-      id: 'status',
-      label: 'Status',
-      minWidth: 120,
-      align: 'center',
-      format: (v: unknown): React.ReactNode => {
-        const s = String(v || '');
-        const colorMap: Record<string, 'warning' | 'info' | 'success' | 'error' | 'default'> = {
-          pending: 'warning',
-          matched: 'info',
-          completed: 'success',
-          rejected: 'error',
-        };
-        return (
-          <Chip
-            label={s.charAt(0).toUpperCase() + s.slice(1)}
-            color={colorMap[s] ?? 'default'}
-            size='small'
-          />
-        );
-      },
-    },
-  ];
-
-  const vehicleRentalColumns: Column<VehicleRentalRow>[] = [
-    { id: 'sno', label: 'S.No', minWidth: 60, align: 'center', sortable: false },
-    { id: 'name', label: 'Name', minWidth: 150, format: (v: unknown) => String(v || '-') },
-    { id: 'email', label: 'Email', minWidth: 200, format: (v: unknown) => String(v || '-') },
-    {
-      id: 'vehicleType',
-      label: 'Vehicle',
-      minWidth: 130,
-      format: (v: unknown) => String(v || '-'),
-    },
-    { id: 'location', label: 'Location', minWidth: 140, format: (v: unknown) => String(v || '-') },
-    { id: 'duration', label: 'Duration', minWidth: 110, format: (v: unknown) => String(v || '-') },
-    {
-      id: 'startDate',
-      label: 'Start Date',
-      minWidth: 120,
-      format: (v: unknown) => String(v || '-'),
-    },
-    {
-      id: 'status',
-      label: 'Status',
-      minWidth: 120,
-      align: 'center',
-      format: (v: unknown): React.ReactNode => {
-        const s = String(v || '');
-        const colorMap: Record<string, 'warning' | 'info' | 'success' | 'error' | 'default'> = {
-          pending: 'warning',
-          active: 'info',
-          completed: 'success',
-          rejected: 'error',
-        };
-        return (
-          <Chip
-            label={s.charAt(0).toUpperCase() + s.slice(1)}
-            color={colorMap[s] ?? 'default'}
-            size='small'
-          />
-        );
-      },
-    },
-  ];
-
-  const mechanicHireColumns: Column<MechanicHireRow>[] = [
-    { id: 'sno', label: 'S.No', minWidth: 60, align: 'center', sortable: false },
-    { id: 'name', label: 'Name', minWidth: 150, format: (v: unknown) => String(v || '-') },
-    { id: 'email', label: 'Email', minWidth: 200, format: (v: unknown) => String(v || '-') },
-    {
-      id: 'serviceType',
-      label: 'Service',
-      minWidth: 130,
-      format: (v: unknown) => String(v || '-'),
-    },
-    { id: 'location', label: 'Location', minWidth: 140, format: (v: unknown) => String(v || '-') },
-    {
-      id: 'scheduledDate',
-      label: 'Scheduled',
-      minWidth: 120,
-      format: (v: unknown) => String(v || '-'),
-    },
-    {
-      id: 'status',
-      label: 'Status',
-      minWidth: 120,
-      align: 'center',
-      format: (v: unknown): React.ReactNode => {
-        const s = String(v || '');
-        const colorMap: Record<string, 'warning' | 'info' | 'success' | 'error' | 'default'> = {
-          pending: 'warning',
-          assigned: 'info',
-          completed: 'success',
-          rejected: 'error',
-        };
-        return (
-          <Chip
-            label={s.charAt(0).toUpperCase() + s.slice(1)}
-            color={colorMap[s] ?? 'default'}
-            size='small'
-          />
-        );
-      },
-    },
-  ];
 
   // ── Tabs ───────────────────────────────────────────────────────────────────
 
@@ -458,27 +320,35 @@ export const useCustomerApprovals = () => {
     {
       id: 'serviceCategory',
       label: 'Service',
-      minWidth: 88,
+      minWidth: 110,
       format: (v: unknown) => {
-        const isMobility = v === 'mobility';
+        const cat = String(v ?? '');
+        const SERVICE_META: Record<string, { label: string; bg: string; color: string }> = {
+          mobility:          { label: 'Mobility',        bg: '#ede9fe', color: '#6d28d9' },
+          logistics:         { label: 'Logistics',       bg: '#fef3c7', color: '#92400e' },
+          parcel:            { label: 'Parcel',          bg: '#fff7ed', color: '#c2410c' },
+          'driver-hire':     { label: 'Driver Hire',     bg: '#f0fdf4', color: '#15803d' },
+          'vehicle-rental':  { label: 'Vehicle Rental',  bg: '#faf5ff', color: '#7e22ce' },
+          'mechanic-hire':   { label: 'Mechanic Hire',   bg: '#fef3c7', color: '#78350f' },
+          'petrol-bunk':     { label: 'Petrol Bunk',     bg: '#fef2f2', color: '#b91c1c' },
+          'ev-charging':     { label: 'EV Charging',     bg: '#f0fdf4', color: '#059669' },
+          showroom:          { label: 'Showroom',        bg: '#eff6ff', color: '#1d4ed8' },
+          'vehicle-finance': { label: 'Vehicle Finance', bg: '#f5f3ff', color: '#9333ea' },
+          'finance-broker':  { label: 'Finance Broker',  bg: '#f0fdfa', color: '#0f766e' },
+          'insurance-partner': { label: 'Insurance',    bg: '#f0fdf4', color: '#166534' },
+          user:              { label: 'User',            bg: '#fdf2f8', color: '#be185d' },
+        };
+        const meta = SERVICE_META[cat] ?? { label: cat || '—', bg: '#f1f5f9', color: '#475569' };
         return (
           <Chip
-            icon={
-              isMobility ? (
-                <DirectionsBusIcon style={{ fontSize: 12 }} />
-              ) : (
-                <LocalShippingIcon style={{ fontSize: 12 }} />
-              )
-            }
-            label={isMobility ? 'Mobility' : 'Logistics'}
+            label={meta.label}
             size='small'
             sx={{
               fontSize: '0.69rem',
               fontWeight: 700,
               height: 20,
-              width: 'fit-content',
-              bgcolor: isMobility ? '#ede9fe' : '#fef3c7',
-              color: isMobility ? '#6d28d9' : '#92400e',
+              bgcolor: meta.bg,
+              color: meta.color,
               border: 'none',
             }}
           />
@@ -705,9 +575,6 @@ export const useCustomerApprovals = () => {
     tabLists,
     tabs,
     columns,
-    driverHireColumns,
-    vehicleRentalColumns,
-    mechanicHireColumns,
     detailRow,
     setDetailRow,
     actionTarget,

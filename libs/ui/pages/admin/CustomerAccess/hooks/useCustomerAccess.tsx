@@ -479,6 +479,77 @@ export const useCustomerAccess = (category: CustomerCategory) => {
       ),
     },
     {
+      id: 'vehicleType',
+      label: 'Details',
+      minWidth: 130,
+      format: (_v: unknown, row: CustomerApprovalRow) => {
+        const r = row as CustomerApprovalRow & Record<string, unknown>;
+        const cat = (r.serviceCategory as string) ?? '';
+        // Mobility / logistics: show vehicleType + vehicleNumber
+        if (cat === 'mobility' || cat === 'logistics' || cat === 'parcel') {
+          return (
+            <Stack spacing={0.1}>
+              <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, textTransform: 'capitalize', color: '#1e293b' }}>
+                {(r.vehicleType as string) || '—'}
+              </Typography>
+              {(r.vehicleNumber as string) && (
+                <Typography sx={{ fontSize: '0.74rem', fontFamily: 'monospace', fontWeight: 700, color: '#1d4ed8' }}>
+                  {r.vehicleNumber as string}
+                </Typography>
+              )}
+            </Stack>
+          );
+        }
+        // Driver hire: shift
+        if (cat === 'driver-hire') {
+          const shift = (r.driverHireShift as string) || '—';
+          return (
+            <Stack spacing={0.1}>
+              <Typography sx={{ fontSize: '0.74rem', color: '#475569' }}>Shift</Typography>
+              <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, textTransform: 'capitalize', color: '#15803d' }}>
+                {shift}
+              </Typography>
+            </Stack>
+          );
+        }
+        // Vehicle rental: duration + vehicle pref
+        if (cat === 'vehicle-rental') {
+          const duration = (r.rentalDuration as string) || '—';
+          const pref = (r.rentalVehiclePref as string) || '';
+          return (
+            <Stack spacing={0.1}>
+              <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, textTransform: 'capitalize', color: '#7e22ce' }}>
+                {duration}
+              </Typography>
+              {pref && (
+                <Typography sx={{ fontSize: '0.71rem', color: '#64748b', textTransform: 'capitalize' }}>{pref}</Typography>
+              )}
+            </Stack>
+          );
+        }
+        // Partner types: show service type label
+        const SERVICE_LABELS: Record<string, string> = {
+          'mechanic-hire': 'Mechanic Service',
+          'petrol-bunk': 'Fuel Station',
+          'ev-charging': 'EV Station',
+          showroom: 'Vehicle Showroom',
+          'vehicle-finance': 'Finance Services',
+          'finance-broker': 'Finance Broker',
+          'insurance-partner': 'Insurance',
+          user: 'Platform User',
+        };
+        const label = SERVICE_LABELS[cat];
+        if (label) {
+          return (
+            <Typography sx={{ fontSize: '0.78rem', fontWeight: 600, color: '#475569' }}>
+              {label}
+            </Typography>
+          );
+        }
+        return <Typography sx={{ fontSize: '0.78rem', color: '#94a3b8' }}>—</Typography>;
+      },
+    },
+    {
       id: 'city',
       label: 'Location',
       minWidth: 90,

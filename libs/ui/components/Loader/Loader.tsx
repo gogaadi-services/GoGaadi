@@ -37,12 +37,15 @@ const Loader: React.FC<DSLoaderProps> = ({
   const { isConsultantMode, isConsultant } = useAuth();
 
   if (globalOverlay) {
+    // Return null when not active — stops CircularProgress animation from rendering at all
+    if (!loaderVisible) return null;
+
     const consultantMode = isConsultantMode || isConsultant;
     const accentColor = consultantMode ? '#34d399' : '#818cf8';
 
     return (
       <Backdrop
-        open={loaderVisible}
+        open
         sx={{
           position: 'fixed',
           top: 0,

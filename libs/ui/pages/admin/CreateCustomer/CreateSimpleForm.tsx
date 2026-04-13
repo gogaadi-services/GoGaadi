@@ -85,7 +85,7 @@ const TYPE_CONFIG: Record<
     shadow: '0 8px 32px rgba(22,163,74,0.35)',
     color: '#16a34a',
     Icon: HailIcon,
-    serviceCategory: 'mobility',
+    serviceCategory: 'driver-hire',
     bundleTypes: ['driver_hire'],
   },
   'vehicle-rental': {
@@ -95,7 +95,7 @@ const TYPE_CONFIG: Record<
     shadow: '0 8px 32px rgba(124,58,237,0.35)',
     color: '#7c3aed',
     Icon: CarRentalIcon,
-    serviceCategory: 'mobility',
+    serviceCategory: 'vehicle-rental',
     bundleTypes: ['rental'],
   },
   'mechanic-hire': {
@@ -105,7 +105,7 @@ const TYPE_CONFIG: Record<
     shadow: '0 8px 32px rgba(120,53,15,0.35)',
     color: '#78350f',
     Icon: BuildIcon,
-    serviceCategory: 'mechanic',
+    serviceCategory: 'mechanic-hire',
     bundleTypes: [],
   },
   'petrol-bunk': {
@@ -292,8 +292,7 @@ const PARTNER_TYPES = [
   'insurance-partner',
 ] as const;
 type PartnerType = (typeof PARTNER_TYPES)[number];
-const isPartnerType = (t: string): t is PartnerType =>
-  PARTNER_TYPES.includes(t as PartnerType);
+const isPartnerType = (t: string): t is PartnerType => PARTNER_TYPES.includes(t as PartnerType);
 
 const FUEL_TYPE_OPTIONS = [
   { id: 'petrol', label: 'Petrol' },
@@ -667,8 +666,7 @@ const CreateSimpleForm = () => {
       if (isPartnerType(simpleType)) {
         payload['businessName'] = form.businessName.trim();
         payload['gstNumber'] = form.gstNumber.trim() || null;
-        if (simpleType === 'petrol-bunk')
-          payload['fuelTypesAvailable'] = form.fuelTypesAvailable;
+        if (simpleType === 'petrol-bunk') payload['fuelTypesAvailable'] = form.fuelTypesAvailable;
         if (simpleType === 'ev-charging') {
           payload['chargerTypes'] = form.chargerTypes;
           payload['numChargers'] = form.numChargers ? Number(form.numChargers) : null;
@@ -698,12 +696,12 @@ const CreateSimpleForm = () => {
         severity: 'success',
       });
       setTimeout(() => navigate(AdminPath.USER_MANAGEMENT), 1500);
-    } catch {
-      setSnackbar({
-        open: true,
-        message: 'Failed to create customer. Please try again.',
-        severity: 'error',
-      });
+    } catch (err: unknown) {
+      const msg =
+        (err as { data?: { message?: string } })?.data?.message ??
+        (err as Error)?.message ??
+        'Failed to create customer. Please try again.';
+      setSnackbar({ open: true, message: msg, severity: 'error' });
     } finally {
       setIsSubmitting(false);
     }
@@ -1296,9 +1294,7 @@ const CreateSimpleForm = () => {
       {/* ── Partner / Business Details ─────────────────────────────────── */}
       {isPartnerType(simpleType) && (
         <Section icon={BusinessIcon} label='Business Details' color='#0891b2'>
-          <Box
-            sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2 }}
-          >
+          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2 }}>
             <TextField
               label='Business / Entity Name'
               value={form.businessName}
