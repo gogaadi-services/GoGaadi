@@ -199,6 +199,20 @@ app.get('/health', (_req, res) => {
 
 /**
  * -------------------------
+ * Frontend Static Files (production)
+ * -------------------------
+ */
+const frontendDist = path.join(__dirname, '../../web/dist');
+if (process.env.NODE_ENV === 'production' && fs.existsSync(frontendDist)) {
+  app.use(express.static(frontendDist));
+  // SPA fallback — serve index.html for all non-API routes
+  app.get('*', (_req, res) => {
+    res.sendFile(path.join(frontendDist, 'index.html'));
+  });
+}
+
+/**
+ * -------------------------
  * Error Handling
  * -------------------------
  */

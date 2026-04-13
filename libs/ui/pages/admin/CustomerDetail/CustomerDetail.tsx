@@ -23,7 +23,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 import BadgeIcon from '@mui/icons-material/Badge';
 import EmailIcon from '@mui/icons-material/Email';
-import PhoneIcon from '@mui/icons-material/Phone';
+import PhoneIcon from '@mui/icons-material/LocalPhone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
@@ -1183,7 +1183,7 @@ const CustomerDetail = () => {
         className={classes.container}
         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >
-        <Loader />
+        <Loader fullScreen />
       </Box>
     );
   if (!row)

@@ -4,10 +4,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import CssBaseline from '@mui/material/CssBaseline';
 import { CollapseProvider } from '@gogaadi/hooks';
-import { store } from 'libs/ui/state';
+import { store } from '@gogaadi/state';
 import { Loader, NotificationModal } from '@gogaadi/component';
 import { DynamicThemeProvider } from '@gogaadi/theme';
 import App from './app';
+import './styles.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -19,7 +20,7 @@ root.render(
         <NotificationModal />
         <BrowserRouter>
           <CollapseProvider>
-            <Suspense fallback={<Loader />}>
+            <Suspense fallback={<Loader fullScreen />}>
               <App />
             </Suspense>
           </CollapseProvider>

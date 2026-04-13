@@ -58,7 +58,7 @@ const FastTag = () => {
       <>
         {keyframes}
         <Box className={classes.container}>
-          <Loader />
+          <Loader fullScreen />
         </Box>
       </>
     );

@@ -64,7 +64,7 @@ const CustomerAccess = () => {
       <>
         {keyframes}
         <Box className={classes.container}>
-          <Loader />
+          <Loader fullScreen />
         </Box>
       </>
     );

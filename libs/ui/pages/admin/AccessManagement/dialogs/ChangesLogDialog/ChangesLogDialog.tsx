@@ -378,7 +378,7 @@ const ChangesLogDialog = ({
       <DialogContent className={classes.dialogContent}>
         {isLoadingLog ? (
           <Box sx={{ p: 4 }}>
-            <Loader />
+            <Loader fullScreen />
           </Box>
         ) : filteredLog.length === 0 ? (
           <Box sx={{ py: 6, textAlign: 'center' }}>

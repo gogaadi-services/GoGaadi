@@ -10,7 +10,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import HailIcon from '@mui/icons-material/Hail';
 import CarRentalIcon from '@mui/icons-material/CarRental';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+import PhoneAndroidIcon from '@mui/icons-material/Smartphone';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';

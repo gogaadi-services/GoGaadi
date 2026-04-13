@@ -14,6 +14,9 @@ COPY . .
 # Generate Prisma Client (schema lives at gateways/prisma/schema.prisma)
 RUN npx prisma generate --schema gateways/prisma/schema.prisma
 
+# Build frontend (outputs to web/dist)
+RUN node node_modules/vite/bin/vite.js build --config web/vite.config.ts
+
 # Expose port
 EXPOSE 3001
 

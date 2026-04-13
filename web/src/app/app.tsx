@@ -175,6 +175,7 @@ const AppRoutes = () => {
     hide();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
+
   // Not authenticated — show auth pages
   if (!isAuthenticated) {
     return (

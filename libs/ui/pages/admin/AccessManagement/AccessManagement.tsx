@@ -162,7 +162,7 @@ const AccessManagement = () => {
       <>
         {keyframes}
         <Box className={classes.container}>
-          <Loader />
+          <Loader fullScreen />
         </Box>
       </>
     );

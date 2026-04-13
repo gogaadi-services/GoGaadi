@@ -8,7 +8,7 @@ import {
 } from '@reduxjs/toolkit/query/react';
 
 const rawBaseQuery = fetchBaseQuery({
-  baseUrl: process.env.API_URL || 'http://localhost:3001',
+  baseUrl: import.meta.env.VITE_API_URL || '',
   prepareHeaders: (headers) => {
     const token = localStorage.getItem('gogaadi_token');
     if (token) {

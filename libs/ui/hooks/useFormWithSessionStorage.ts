@@ -1,7 +1,37 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { FormikConfig, FormikValues } from 'formik';
 import { useForm } from './useForm';
-import { useSessionStorage } from './useSessionStorage';
+
+function useSessionStorage<T>(key: string, initialValue: T): [T, (value: T) => void, () => void] {
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    try {
+      const item = window.sessionStorage.getItem(key);
+      return item ? (JSON.parse(item) as T) : initialValue;
+    } catch {
+      return initialValue;
+    }
+  });
+
+  const setValue = useCallback(
+    (value: T) => {
+      try {
+        setStoredValue(value);
+        window.sessionStorage.setItem(key, JSON.stringify(value));
+      } catch {}
+    },
+    [key],
+  );
+
+  const removeValue = useCallback(() => {
+    try {
+      setStoredValue(initialValue);
+      window.sessionStorage.removeItem(key);
+    } catch {}
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+
+  return [storedValue, setValue, removeValue];
+}
 
 /**
  * Wraps useForm with sessionStorage persistence.

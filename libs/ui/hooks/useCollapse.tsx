@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useDevice } from './useDevice';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 interface CollapseContextType {
   collapsed: boolean;
@@ -9,18 +10,15 @@ interface CollapseContextType {
 const CollapseContext = createContext<CollapseContextType | undefined>(undefined);
 
 export function CollapseProvider({ children }: { children: ReactNode }) {
-  const { isXS, isSM } = useDevice();
-  const isMobileDevice = isXS || isSM;
+  const theme = useTheme();
+  const isMobileDevice = useMediaQuery(theme.breakpoints.down('md'));
 
-  // Initialize collapsed based on current device
   const [collapsed, setCollapsed] = useState(isMobileDevice);
 
-  // Update collapsed automatically if device changes
   useEffect(() => {
-    setCollapsed(!!isMobileDevice);
+    setCollapsed(isMobileDevice);
   }, [isMobileDevice]);
 
-  // Toggle function for user-controlled collapse/expand
   const toggleCollapse = () => setCollapsed((prev) => !prev);
 
   return (

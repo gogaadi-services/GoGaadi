@@ -178,7 +178,7 @@ const UserManagement = () => {
       <>
         {keyframes}
         <Box className={classes.container}>
-          <Loader />
+          <Loader fullScreen />
         </Box>
       </>
     );

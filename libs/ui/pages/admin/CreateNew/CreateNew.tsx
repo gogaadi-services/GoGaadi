@@ -33,7 +33,7 @@ import SecurityIcon from '@mui/icons-material/Security';
 import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import GroupsIcon from '@mui/icons-material/Groups';
-import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+import PhoneAndroidIcon from '@mui/icons-material/Smartphone';
 import { Box } from '@gogaadi/component';
 import { useNavigate } from 'react-router-dom';
 import { constants } from '@gogaadi/utils';

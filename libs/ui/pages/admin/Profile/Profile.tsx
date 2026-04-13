@@ -878,7 +878,7 @@ const Profile = () => {
             />
             {logsLoading ? (
               <Box className={classes.loaderBox}>
-                <Loader />
+                <Loader fullScreen />
               </Box>
             ) : logData.length === 0 ? (
               <Box className={classes.emptyHistory}>

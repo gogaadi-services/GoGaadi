@@ -1,5 +1,5 @@
 import { Link } from '@mui/material';
-import PhoneIcon from '@mui/icons-material/Phone';
+import PhoneIcon from '@mui/icons-material/LocalPhone';
 import { useStyles } from './styles';
 
 export interface DSPhoneLinkProps {

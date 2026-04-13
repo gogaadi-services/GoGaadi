@@ -3,8 +3,8 @@
   "compilerOptions": {
     "outDir": "../dist/out-tsc/administration",
     "jsx": "react-jsx",
-    "types": ["node", "jest"]
+    "types": ["node", "vite/client"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["**/*.stories.ts", "**/*.stories.tsx", "**/webpack.config.js"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts"],
+  "exclude": ["**/*.stories.ts", "**/*.stories.tsx", "node_modules", "dist"]
 }
