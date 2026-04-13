@@ -66,6 +66,7 @@ storybook-static
 *.tmp
 *.temp
 .cache
+temp_extract
 scripts
 public
 .verdaccio

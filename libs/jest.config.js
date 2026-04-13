@@ -3,16 +3,7 @@ module.exports = {
   displayName: 'shared',
   preset: '../../jest.preset.js',
   transform: {
-    '^.+\\.[tj]sx?$': [
-      'babel-jest',
-      {
-        presets: [
-          '@babel/preset-env',
-          ['@babel/preset-react', { runtime: 'automatic' }],
-          '@babel/preset-typescript',
-        ],
-      },
-    ],
+    '^.+\\.[tj]sx?$': ['ts-jest', { tsconfig: 'libs/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../coverage/libs/shared',
