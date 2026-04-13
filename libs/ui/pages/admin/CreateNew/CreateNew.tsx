@@ -320,16 +320,27 @@ const Card = ({ card, onClick }: { card: CardDef; onClick: () => void }) => {
     >
       <Box
         sx={{
-          position: 'absolute', top: 0, left: 0, right: 0,
-          height: '3px', background: gradient, borderRadius: '16px 16px 0 0',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '3px',
+          background: gradient,
+          borderRadius: '16px 16px 0 0',
         }}
       />
       <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, mt: 0.5 }}>
         <Box
           sx={{
-            width: 52, height: 52, borderRadius: '14px', background: gradient,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: `0 6px 18px ${glow}`, flexShrink: 0,
+            width: 52,
+            height: 52,
+            borderRadius: '14px',
+            background: gradient,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: `0 6px 18px ${glow}`,
+            flexShrink: 0,
           }}
         >
           <Icon sx={{ fontSize: 26, color: '#fff' }} />
@@ -338,7 +349,9 @@ const Card = ({ card, onClick }: { card: CardDef; onClick: () => void }) => {
           <Typography sx={{ fontWeight: 800, fontSize: '1.05rem', lineHeight: 1.2 }}>
             {card.displayName}
           </Typography>
-          <Typography sx={{ fontSize: '0.72rem', color: 'text.secondary', fontWeight: 500, mt: 0.25 }}>
+          <Typography
+            sx={{ fontSize: '0.72rem', color: 'text.secondary', fontWeight: 500, mt: 0.25 }}
+          >
             {card.tagline}
           </Typography>
         </Box>
@@ -357,9 +370,17 @@ const Card = ({ card, onClick }: { card: CardDef; onClick: () => void }) => {
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', mt: 2.5 }}>
         <Box
           className='card-cta'
-          sx={{ display: 'flex', alignItems: 'center', gap: 0.5, opacity: 0.45, transition: 'opacity 0.2s' }}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 0.5,
+            opacity: 0.45,
+            transition: 'opacity 0.2s',
+          }}
         >
-          <Typography sx={{ fontSize: '0.78rem', fontWeight: 700, color: card.color }}>Get Started</Typography>
+          <Typography sx={{ fontSize: '0.78rem', fontWeight: 700, color: card.color }}>
+            Get Started
+          </Typography>
           <ArrowForwardIcon sx={{ fontSize: '0.9rem', color: card.color }} />
         </Box>
       </Box>
@@ -382,8 +403,12 @@ const Section = ({
   <>
     <Typography
       sx={{
-        fontSize: '0.72rem', fontWeight: 700, color: 'text.secondary',
-        textTransform: 'uppercase', letterSpacing: '0.6px', mb: 1.5,
+        fontSize: '0.72rem',
+        fontWeight: 700,
+        color: 'text.secondary',
+        textTransform: 'uppercase',
+        letterSpacing: '0.6px',
+        mb: 1.5,
       }}
     >
       {label}
@@ -421,7 +446,12 @@ const CreateNew = () => {
       heroIconShadow='0 8px 24px rgba(99,102,241,0.4)'
     >
       {!consultantMode && (
-        <Section label='Management Accounts' cards={MANAGEMENT_CARDS} cols={2} navigate={navigate} />
+        <Section
+          label='Management Accounts'
+          cards={MANAGEMENT_CARDS}
+          cols={2}
+          navigate={navigate}
+        />
       )}
       <Section
         label='Captain Onboarding'
@@ -430,17 +460,23 @@ const CreateNew = () => {
       />
       <Section
         label='On-Demand Services'
-        cards={CUSTOMER_CARDS.filter((c) => ['driver-hire', 'vehicle-rental', 'mechanic-hire'].includes(c.type))}
+        cards={CUSTOMER_CARDS.filter((c) =>
+          ['driver-hire', 'vehicle-rental', 'mechanic-hire'].includes(c.type),
+        )}
         navigate={navigate}
       />
       <Section
         label='Automotive Partners'
-        cards={CUSTOMER_CARDS.filter((c) => ['petrol-bunk', 'ev-charging', 'showroom'].includes(c.type))}
+        cards={CUSTOMER_CARDS.filter((c) =>
+          ['petrol-bunk', 'ev-charging', 'showroom'].includes(c.type),
+        )}
         navigate={navigate}
       />
       <Section
         label='Finance Partners'
-        cards={CUSTOMER_CARDS.filter((c) => ['vehicle-finance', 'finance-broker', 'insurance-partner'].includes(c.type))}
+        cards={CUSTOMER_CARDS.filter((c) =>
+          ['vehicle-finance', 'finance-broker', 'insurance-partner'].includes(c.type),
+        )}
         navigate={navigate}
       />
       <Section

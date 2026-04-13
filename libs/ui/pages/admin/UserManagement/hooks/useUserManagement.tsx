@@ -13,10 +13,11 @@ import {
   CustomerOnboardingRow,
   EditOnboardingFormShape,
 } from '../types/userManagement.types';
-import { DriverHireRow } from '../../DriverHire/types/driverHire.types';
-import { VehicleRentalRow } from '../../VehicleRental/types/vehicleRental.types';
-import { ParcelRow } from '../../Parcel/types/parcel.types';
-import { MechanicHireRow } from '../../MechanicHire/types/mechanicHire.types';
+// Minimal types for deleted pages
+type DriverHireRow = { id?: number; sno?: number; name?: string; email?: string; vehicleType?: string; location?: string; duration?: string; status?: string; [key: string]: unknown };
+type VehicleRentalRow = { id?: number; sno?: number; name?: string; email?: string; vehicleType?: string; location?: string; duration?: string; startDate?: string; status?: string; [key: string]: unknown };
+type ParcelRow = { id?: number; sno?: number; name?: string; email?: string; parcelType?: string; origin?: string; destination?: string; status?: string; [key: string]: unknown };
+type MechanicHireRow = { id?: number; sno?: number; name?: string; email?: string; serviceType?: string; location?: string; scheduledDate?: string; status?: string; [key: string]: unknown };
 import {
   buildEditForm,
   generateTempPassword,

@@ -14,9 +14,11 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { useAuthActionMutation } from '@gogaadi/services';
 import { useNotification } from '@gogaadi/hooks';
 import { genCustomerId } from '../dialogs/DetailDialog/DetailDialog';
-import { DriverHireRow } from '../../DriverHire/types/driverHire.types';
-import { VehicleRentalRow } from '../../VehicleRental/types/vehicleRental.types';
-import { MechanicHireRow } from '../../MechanicHire/types/mechanicHire.types';
+
+// Minimal types for hire/rental rows (full pages removed)
+type DriverHireRow = { id?: number; sno?: number; name?: string; email?: string; vehicleType?: string; location?: string; duration?: string; status?: string; [key: string]: unknown };
+type VehicleRentalRow = { id?: number; sno?: number; name?: string; email?: string; vehicleType?: string; location?: string; duration?: string; startDate?: string; status?: string; [key: string]: unknown };
+type MechanicHireRow = { id?: number; sno?: number; name?: string; email?: string; serviceType?: string; location?: string; scheduledDate?: string; status?: string; [key: string]: unknown };
 
 export type ApprovalStatus = 'pending' | 'under_review' | 'approved' | 'rejected';
 

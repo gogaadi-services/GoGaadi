@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useMemo, useRef } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -60,6 +60,8 @@ import { useAuthActionMutation, useUploadUserAttachmentsMutation } from '@gogaad
 import { useNotification } from '@gogaadi/hooks';
 import { constants } from '@gogaadi/utils';
 import { useStyles } from './styles';
+import { useCustomerDetailData } from './hooks/useCustomerDetailData';
+import { useUserDetailData } from './hooks/useUserDetailData';
 import { CustomerApprovalRow } from '../CustomerApprovals/hooks/useCustomerApprovals';
 import {
   CustomerOnboardingRow,
@@ -273,17 +275,6 @@ const genCustomerId = (row: CustomerApprovalRow) => {
   if (row.serviceCategory === 'mobility') prefix = 'MOBIL';
   else if (row.serviceCategory === 'logistics') prefix = 'LOGST';
   return `${prefix}${String(Number(row.id) || 0).padStart(5, '0')}`;
-};
-
-const parseJson = (v: unknown): unknown => {
-  if (typeof v === 'string') {
-    try {
-      return JSON.parse(v);
-    } catch {
-      return v;
-    }
-  }
-  return v;
 };
 
 // ── OCR helpers ─────────────────────────────────────────────────────────────
@@ -550,14 +541,61 @@ const IconPill = ({ color, children }: { color: string; children: React.ReactNod
 
 const CustomerDetail = () => {
   const { id } = useParams<{ id: string }>();
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const { classes, cx } = useStyles();
+  const isUserContext = pathname.includes('/user/');
   const [authAction] = useAuthActionMutation();
   const [uploadAttachments] = useUploadUserAttachmentsMutation();
   const notify = useNotification();
 
-  const [row, setRow] = useState<CustomerApprovalRow | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // ── Data hooks — only the active context fires its API ─────────────────────
+  const {
+    record: customerRecord,
+    isLoading: customerLoading,
+    refetch: refetchCustomer,
+  } = useCustomerDetailData(id, !isUserContext);
+
+  const {
+    record: userRecord,
+    isLoading: userLoading,
+    refetch: refetchUser,
+  } = useUserDetailData(id, isUserContext);
+
+  // Active record — cast user to a compatible shape for shared UI sections
+  const row: CustomerApprovalRow | null = isUserContext
+    ? userRecord
+      ? ({
+          id: userRecord.id,
+          customerId: userRecord.customUserId,
+          firstName: userRecord.firstName,
+          lastName: userRecord.lastName,
+          email: userRecord.email,
+          phone: userRecord.phone ?? '',
+          gender: userRecord.gender,
+          city: userRecord.city ?? '',
+          status: (() => {
+            const s = userRecord.status;
+            if (s === 'active') return 'approved';
+            if (s === 'rejected' || s === 'deactivated' || s === 'inactive') return 'rejected';
+            if (s === 'pending_approval') return 'pending';
+            return 'pending';
+          })() as CustomerApprovalRow['status'],
+          adminNotes: userRecord.adminNotes,
+          createdAt: userRecord.createdAt,
+          updatedAt: userRecord.updatedAt,
+          serviceCategory: 'user' as unknown,
+          vehicleType: '',
+          vehicleNumber: '',
+          createdByName: userRecord.createdByName,
+          isSelfRegistered: !userRecord.createdByName,
+        } as CustomerApprovalRow)
+      : null
+    : customerRecord;
+
+  const isLoading = isUserContext ? userLoading : customerLoading;
+  const refetch = isUserContext ? refetchUser : refetchCustomer;
+
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [infoRowOpen, setInfoRowOpen] = useState(false);
   const [navIds, setNavIds] = useState<(string | number)[]>([]);
@@ -668,44 +706,19 @@ const CustomerDetail = () => {
   const [resetPwErrors, setResetPwErrors] = useState<ResetPwErrors>({});
   const [isResettingPw, setIsResettingPw] = useState(false);
 
-  // ── Fetch ──────────────────────────────────────────────────────────────────
-
-  const fetchCustomer = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const res = await authAction({ action: 'get-customer-onboardings' }).unwrap();
-      const all: CustomerApprovalRow[] = (res.data ?? []).map((r: CustomerApprovalRow) => ({
-        ...r,
-        bundleTypes: parseJson(r.bundleTypes) as string[] | undefined,
-        additionalVehicles: parseJson(
-          r.additionalVehicles,
-        ) as CustomerApprovalRow['additionalVehicles'],
-        parcelComboTypes: parseJson(r.parcelComboTypes) as string[] | undefined,
-        uploadedFiles: parseJson(r.uploadedFiles) as string[] | undefined,
-      }));
-      // Look up by saved customerId first, then fall back to numeric id
-      const found =
-        all.find((r) => r.customerId === id) ?? all.find((r) => String(r.id) === String(id));
-      setRow(found ?? null);
-    } catch {
-      setRow(null);
-    } finally {
-      setIsLoading(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
-
+  // ── Nav IDs from localStorage ──────────────────────────────────────────────
   useEffect(() => {
-    fetchCustomer();
     try {
-      const stored = localStorage.getItem('customer_detail_nav_ids');
-      const ts = localStorage.getItem('customer_detail_nav_ids_ts');
+      const navKey = isUserContext ? 'user_detail_nav_ids' : 'customer_detail_nav_ids';
+      const tsKey = isUserContext ? 'user_detail_nav_ids_ts' : 'customer_detail_nav_ids_ts';
+      const stored = localStorage.getItem(navKey);
+      const ts = localStorage.getItem(tsKey);
       if (stored && ts && Date.now() - Number(ts) < 1800000)
         setNavIds(JSON.parse(stored) as (string | number)[]);
     } catch {
       /* ignore */
     }
-  }, [fetchCustomer]);
+  }, [isUserContext]);
 
   // Cleanup blob URLs on unmount
   useEffect(
@@ -716,8 +729,12 @@ const CustomerDetail = () => {
   );
 
   // ── Navigation ─────────────────────────────────────────────────────────────
-  const navigateTo = (targetId: string | number) =>
-    navigate(constants.AdminPath.CUSTOMER_DETAIL.replace(':id', String(targetId)));
+  const navigateTo = (targetId: string | number) => {
+    const path = isUserContext
+      ? constants.AdminPath.USER_DETAIL
+      : constants.AdminPath.CUSTOMER_DETAIL;
+    navigate(path.replace(':id', String(targetId)));
+  };
   const currentIdx = navIds.findIndex((n) => String(n) === String(id));
   const prevId = currentIdx > 0 ? navIds[currentIdx - 1] : null;
   const nextId = currentIdx >= 0 && currentIdx < navIds.length - 1 ? navIds[currentIdx + 1] : null;
@@ -837,7 +854,7 @@ const CustomerDetail = () => {
       newDocFiles.forEach((f) => URL.revokeObjectURL(f.preview));
       setNewDocFiles([]);
       setIsEditing(false);
-      fetchCustomer();
+      refetch();
     } catch {
       notify.error('Failed to save changes');
     } finally {
@@ -954,7 +971,7 @@ const CustomerDetail = () => {
         `Customer ${actionTarget.type === 'approve' ? 'approved' : actionTarget.type === 'reject' ? 'rejected' : 'moved to under review'}.`,
       );
       handleCloseAction();
-      fetchCustomer();
+      refetch();
     } catch {
       notify.error('Action failed.');
     } finally {
@@ -1838,515 +1855,593 @@ const CustomerDetail = () => {
             </Box>
           )}
 
-          {/* ── Vehicle Setup ── */}
-          <Box className={classes.descriptionCard}>
-            <Box className={classes.descriptionCardHeader}>
-              <Typography className={classes.descriptionSectionTitle}>
-                <DirectionsCarIcon sx={{ fontSize: '0.85rem', mr: 0.5, verticalAlign: 'middle' }} />
-                Vehicle Setup
-              </Typography>
-            </Box>
-            <Box className={classes.descriptionCardBody}>
-              <Box
-                sx={{
-                  display: 'grid',
-                  gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
-                  gap: 1.5,
-                }}
-              >
-                {ef && (
-                  <EditableField
-                    icon={<DirectionsCarIcon sx={iconMd} />}
-                    label='Vehicle Type'
-                    value={row.vehicleType ?? ''}
-                    accent='#7c3aed'
-                    editing
-                    editValue={ef.vehicleType}
-                    onEditChange={setField('vehicleType')}
-                  />
-                )}
-                <EditableField
-                  icon={<DirectionsCarIcon sx={iconSm} />}
-                  label='Vehicle Sub-type'
-                  value={row.vehicleSubType ?? ''}
-                  accent='#7c3aed'
-                  editing={!!ef}
-                  editValue={ef?.vehicleSubType}
-                  onEditChange={setField('vehicleSubType')}
-                />
-                <EditableField
-                  icon={<DirectionsCarIcon sx={iconSm} />}
-                  label='Fuel Type'
-                  value={row.fuelType ?? ''}
-                  accent='#7c3aed'
-                  editing={!!ef}
-                  editValue={ef?.fuelType}
-                  onEditChange={setField('fuelType')}
-                />
-                <EditableField
-                  icon={<DirectionsCarIcon sx={iconSm} />}
-                  label='Trip Preference'
-                  value={row.tripPreference?.replace(/_/g, ' ') ?? ''}
-                  accent='#7c3aed'
-                  editing={!!ef}
-                  editValue={ef?.tripPreference}
-                  onEditChange={setField('tripPreference')}
-                />
-                <EditableField
-                  icon={<DirectionsCarIcon sx={iconMd} />}
-                  label='Vehicle Number'
-                  value={row.vehicleNumber ?? ''}
-                  accent='#1d4ed8'
-                  editing={!!ef}
-                  editValue={ef?.vehicleNumber}
-                  onEditChange={setField('vehicleNumber')}
-                />
+          {/* ── Professional Info (users only) ── */}
+          {isUserContext && userRecord && (
+            <Box className={classes.descriptionCard}>
+              <Box className={classes.descriptionCardHeader}>
+                <Typography className={classes.descriptionSectionTitle}>
+                  <BadgeIcon sx={{ fontSize: '0.85rem', mr: 0.5, verticalAlign: 'middle' }} />
+                  Professional Info
+                </Typography>
               </Box>
-            </Box>
-          </Box>
-
-          {/* ── Vehicle Documents ── */}
-          <Box className={classes.descriptionCard}>
-            <Box className={classes.descriptionCardHeader}>
-              <Typography className={classes.descriptionSectionTitle}>
-                <FolderOpenIcon sx={{ fontSize: '0.85rem', mr: 0.5, verticalAlign: 'middle' }} />
-                Vehicle Documents
-              </Typography>
-            </Box>
-            <Box className={classes.descriptionCardBody}>
-              <Box
-                sx={{
-                  display: 'grid',
-                  gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
-                  gap: 1.5,
-                }}
-              >
-                <EditableField
-                  icon={<AssignmentIcon sx={iconSm} />}
-                  label='RC Number'
-                  value={row.rcNumber ?? ''}
-                  accent='#2e7d32'
-                  editing={!!ef}
-                  editValue={ef?.rcNumber}
-                  onEditChange={setField('rcNumber')}
-                />
-                <EditableField
-                  icon={<AssignmentIcon sx={iconSm} />}
-                  label='RC Expiry'
-                  value={fmtDate(row.rcExpiry)}
-                  accent='#2e7d32'
-                  editing={!!ef}
-                  editValue={ef?.rcExpiry}
-                  onEditChange={setField('rcExpiry')}
-                  type='date'
-                />
-                <EditableField
-                  icon={<SecurityIcon sx={iconSm} />}
-                  label='Insurance No.'
-                  value={row.insuranceNumber ?? ''}
-                  accent='#0891b2'
-                  editing={!!ef}
-                  editValue={ef?.insuranceNumber}
-                  onEditChange={setField('insuranceNumber')}
-                />
-                <EditableField
-                  icon={<SecurityIcon sx={iconSm} />}
-                  label='Insurance Expiry'
-                  value={fmtDate(row.insuranceExpiry)}
-                  accent='#0891b2'
-                  editing={!!ef}
-                  editValue={ef?.insuranceExpiry}
-                  onEditChange={setField('insuranceExpiry')}
-                  type='date'
-                />
-                <EditableField
-                  icon={<AirIcon sx={iconSm} />}
-                  label='PUC Number'
-                  value={row.pucNumber ?? ''}
-                  accent='#16a34a'
-                  editing={!!ef}
-                  editValue={ef?.pucNumber}
-                  onEditChange={setField('pucNumber')}
-                />
-                <EditableField
-                  icon={<AirIcon sx={iconSm} />}
-                  label='PUC Expiry'
-                  value={fmtDate(row.pucExpiry)}
-                  accent='#16a34a'
-                  editing={!!ef}
-                  editValue={ef?.pucExpiry}
-                  onEditChange={setField('pucExpiry')}
-                  type='date'
-                />
-                <EditableField
-                  icon={<HealthAndSafetyIcon sx={iconSm} />}
-                  label='Fitness No.'
-                  value={row.fitnessNumber ?? ''}
-                  accent='#7c3aed'
-                  editing={!!ef}
-                  editValue={ef?.fitnessNumber}
-                  onEditChange={setField('fitnessNumber')}
-                />
-                <EditableField
-                  icon={<HealthAndSafetyIcon sx={iconSm} />}
-                  label='Fitness Expiry'
-                  value={fmtDate(row.fitnessExpiry)}
-                  accent='#7c3aed'
-                  editing={!!ef}
-                  editValue={ef?.fitnessExpiry}
-                  onEditChange={setField('fitnessExpiry')}
-                  type='date'
-                />
-                <EditableField
-                  icon={<AssignmentTurnedInIcon sx={iconSm} />}
-                  label='Permit No.'
-                  value={row.permitNumber ?? ''}
-                  accent='#d97706'
-                  editing={!!ef}
-                  editValue={ef?.permitNumber}
-                  onEditChange={setField('permitNumber')}
-                />
-                <EditableField
-                  icon={<AssignmentTurnedInIcon sx={iconSm} />}
-                  label='Permit Expiry'
-                  value={fmtDate(row.permitExpiry)}
-                  accent='#d97706'
-                  editing={!!ef}
-                  editValue={ef?.permitExpiry}
-                  onEditChange={setField('permitExpiry')}
-                  type='date'
-                />
-              </Box>
-            </Box>
-          </Box>
-
-          {/* ── Personal Documents ── */}
-          <Box className={classes.descriptionCard}>
-            <Box className={classes.descriptionCardHeader}>
-              <Typography className={classes.descriptionSectionTitle}>
-                <ContactPageIcon sx={{ fontSize: '0.85rem', mr: 0.5, verticalAlign: 'middle' }} />
-                Personal Documents
-              </Typography>
-            </Box>
-            <Box className={classes.descriptionCardBody}>
-              <Box
-                sx={{
-                  display: 'grid',
-                  gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
-                  gap: 1.5,
-                }}
-              >
-                <EditableField
-                  icon={<DriveEtaIcon sx={iconMd} />}
-                  label='DL Number'
-                  value={row.dlNumber ?? ''}
-                  accent='#e65100'
-                  editing={!!ef}
-                  editValue={ef?.dlNumber}
-                  onEditChange={setField('dlNumber')}
-                />
-                <EditableField
-                  icon={<DriveEtaIcon sx={iconSm} />}
-                  label='DL Expiry'
-                  value={fmtDate(row.dlExpiry)}
-                  accent='#e65100'
-                  editing={!!ef}
-                  editValue={ef?.dlExpiry}
-                  onEditChange={setField('dlExpiry')}
-                  type='date'
-                />
-                <EditableField
-                  icon={<FingerprintIcon sx={iconSm} />}
-                  label='ID Proof Type'
-                  value={row.idProofType?.toUpperCase() ?? ''}
-                  accent='#6366f1'
-                  editing={!!ef}
-                  editValue={ef?.idProofType}
-                  onEditChange={setField('idProofType')}
-                />
-                <EditableField
-                  icon={<ContactPageIcon sx={iconSm} />}
-                  label='ID Number'
-                  value={row.idProofNumber ?? ''}
-                  accent='#6366f1'
-                  editing={!!ef}
-                  editValue={ef?.idProofNumber}
-                  onEditChange={setField('idProofNumber')}
-                />
-              </Box>
-            </Box>
-          </Box>
-
-          {/* ── Bundle Options ── */}
-          <Box className={classes.descriptionCard}>
-            <Box className={classes.descriptionCardHeader}>
-              <Typography className={classes.descriptionSectionTitle}>
-                <LocalOfferIcon sx={{ fontSize: '0.85rem', mr: 0.5, verticalAlign: 'middle' }} />
-                Bundle Options
-              </Typography>
-            </Box>
-            <Box className={classes.descriptionCardBody}>
-              {ef ? (
-                // Edit mode: toggle bundle cards
-                <Box>
-                  <Typography
-                    sx={{ fontSize: '0.72rem', color: '#64748b', mb: 1.5, fontWeight: 600 }}
-                  >
-                    Select bundles for {isMobility ? 'Mobility' : 'Logistics'} service
-                  </Typography>
-                  <Box
-                    sx={{
-                      display: 'grid',
-                      gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
-                      gap: 1.5,
-                      mb: 2,
-                    }}
-                  >
-                    {availableBundles.map((bt) => {
-                      const selected = ef.bundleTypes.includes(bt);
-                      return (
-                        <Box
-                          key={bt}
-                          onClick={() => toggleBundle(bt)}
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'flex-start',
-                            gap: 1.5,
-                            p: '12px 14px',
-                            borderRadius: '14px',
-                            cursor: 'pointer',
-                            background: selected
-                              ? 'linear-gradient(135deg,#fffbeb,#fef3c7)'
-                              : '#f8faff',
-                            border: selected
-                              ? '2px solid #f59e0b'
-                              : '1.5px solid rgba(226,232,255,0.9)',
-                            boxShadow: selected ? '0 4px 16px rgba(245,158,11,0.18)' : 'none',
-                            transition: 'all 0.2s ease',
-                            '&:hover': {
-                              border: `2px solid ${selected ? '#f59e0b' : '#a5b4fc'}`,
-                              background: selected
-                                ? 'linear-gradient(135deg,#fffbeb,#fef3c7)'
-                                : '#eef2ff',
-                            },
-                          }}
-                        >
-                          <Box
-                            sx={{
-                              width: 36,
-                              height: 36,
-                              borderRadius: '10px',
-                              background: selected ? '#f59e0b18' : '#6366f118',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              flexShrink: 0,
-                              mt: 0.25,
-                            }}
-                          >
-                            <LocalOfferIcon
-                              sx={{ fontSize: '1.1rem', color: selected ? '#f59e0b' : '#6366f1' }}
-                            />
-                          </Box>
-                          <Box sx={{ flex: 1 }}>
-                            <Box
-                              sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'space-between',
-                                mb: 0.25,
-                              }}
-                            >
-                              <Typography
-                                sx={{
-                                  fontSize: '0.82rem',
-                                  fontWeight: 700,
-                                  color: selected ? '#92400e' : '#1e293b',
-                                }}
-                              >
-                                {BUNDLE_LABELS[bt]}
-                              </Typography>
-                              {BUNDLE_DISCOUNT_MAP[bt] > 0 && (
-                                <Box
-                                  sx={{
-                                    px: 0.75,
-                                    py: 0.2,
-                                    borderRadius: '8px',
-                                    background: selected ? '#f59e0b' : '#6366f120',
-                                  }}
-                                >
-                                  <Typography
-                                    sx={{
-                                      fontSize: '0.65rem',
-                                      fontWeight: 800,
-                                      color: selected ? '#fff' : '#6366f1',
-                                    }}
-                                  >
-                                    {BUNDLE_DISCOUNT_MAP[bt]}% off
-                                  </Typography>
-                                </Box>
-                              )}
-                            </Box>
-                            <Typography
-                              sx={{
-                                fontSize: '0.7rem',
-                                color: selected ? '#b45309' : '#64748b',
-                                lineHeight: 1.4,
-                              }}
-                            >
-                              {BUNDLE_DESC[bt]}
-                            </Typography>
-                          </Box>
-                          <Checkbox
-                            checked={selected}
-                            onChange={() => toggleBundle(bt)}
-                            size='small'
-                            sx={{
-                              p: 0,
-                              color: '#6366f1',
-                              '&.Mui-checked': { color: '#f59e0b' },
-                              flexShrink: 0,
-                            }}
-                          />
-                        </Box>
-                      );
-                    })}
-                  </Box>
-                  {/* Bundle sub-fields */}
-                  {ef.bundleTypes.includes('driver_hire') && (
-                    <Box sx={{ mb: 2 }}>
-                      <SectionDivider label='Driver Hire Details' isEditing />
-                      <Box
-                        sx={{
-                          display: 'grid',
-                          gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
-                          gap: 1.5,
-                        }}
-                      >
-                        <EditableField
-                          icon={<PersonIcon sx={iconSm} />}
-                          label='Driver Count'
-                          value={
-                            row.driverHireCount !== undefined && row.driverHireCount !== null
-                              ? String(row.driverHireCount)
-                              : ''
-                          }
-                          accent='#f59e0b'
-                          editing
-                          editValue={ef.driverHireCount}
-                          onEditChange={setField('driverHireCount')}
-                        />
-                        <EditableField
-                          icon={<AccessTimeIcon sx={iconSm} />}
-                          label='Shift'
-                          value={row.driverHireShift ?? ''}
-                          accent='#f59e0b'
-                          editing
-                          editValue={ef.driverHireShift}
-                          onEditChange={setField('driverHireShift')}
-                        />
-                        <EditableField
-                          icon={<LocalOfferIcon sx={iconSm} />}
-                          label='Budget'
-                          value={row.driverHireBudget ?? ''}
-                          accent='#f59e0b'
-                          editing
-                          editValue={ef.driverHireBudget}
-                          onEditChange={setField('driverHireBudget')}
-                        />
-                      </Box>
-                    </Box>
-                  )}
-                  {ef.bundleTypes.includes('rental') && (
-                    <Box sx={{ mb: 2 }}>
-                      <SectionDivider label='Rental Details' isEditing />
-                      <EditableField
-                        icon={<CalendarTodayIcon sx={iconSm} />}
-                        label='Rental Duration'
-                        value={row.rentalDuration ?? ''}
-                        accent='#f59e0b'
-                        editing
-                        editValue={ef.rentalDuration}
-                        onEditChange={setField('rentalDuration')}
-                      />
-                    </Box>
-                  )}
-                  <SectionDivider label='Discount' isEditing />
-                  <EditableField
-                    icon={<LocalOfferIcon sx={iconSm} />}
-                    label='Bundle Discount (%)'
-                    value={
-                      row.bundleDiscount !== undefined && row.bundleDiscount !== null
-                        ? `${row.bundleDiscount}%`
-                        : ''
-                    }
-                    accent='#f59e0b'
-                    editing
-                    editValue={ef.bundleDiscount}
-                    onEditChange={setField('bundleDiscount')}
-                  />
-                </Box>
-              ) : bundleTypes.length > 0 ? (
-                // View mode: show selected bundles
+              <Box className={classes.descriptionCardBody}>
                 <Box
                   sx={{
                     display: 'grid',
                     gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
-                    gap: 1,
+                    gap: 1.5,
                   }}
                 >
-                  {bundleTypes.map((bt: string, i: number) => (
+                  <FieldCard
+                    icon={<BadgeIcon sx={{ fontSize: '1rem' }} />}
+                    label='Role'
+                    value={userRecord.role ?? '—'}
+                    accent='#6366f1'
+                  />
+                  {userRecord.businessUnit && (
                     <FieldCard
-                      key={i}
-                      icon={<LocalOfferIcon sx={iconSm} />}
-                      label={`Bundle ${i + 1}`}
-                      value={BUNDLE_LABELS[bt] ?? bt.replace(/_/g, ' ')}
-                      accent='#f59e0b'
+                      icon={<BadgeIcon sx={{ fontSize: '1rem' }} />}
+                      label='Business Unit'
+                      value={userRecord.businessUnit}
+                      accent='#0891b2'
                     />
-                  ))}
-                  {row.bundleDiscount !== null && row.bundleDiscount !== undefined && (
+                  )}
+                  {userRecord.employeeId && (
                     <FieldCard
-                      icon={<LocalOfferIcon sx={iconSm} />}
-                      label='Discount'
-                      value={`${row.bundleDiscount}%`}
+                      icon={<BadgeIcon sx={{ fontSize: '1rem' }} />}
+                      label='Employee ID'
+                      value={userRecord.employeeId}
                       accent='#f59e0b'
                     />
                   )}
-                  {row.rentalDuration && (
+                  {userRecord.reasonForAccess && (
                     <FieldCard
-                      icon={<FolderOpenIcon sx={iconSm} />}
-                      label='Rental Duration'
-                      value={row.rentalDuration}
-                      accent='#f59e0b'
+                      icon={<BadgeIcon sx={{ fontSize: '1rem' }} />}
+                      label='Reason for Access'
+                      value={userRecord.reasonForAccess}
+                      accent='#10b981'
                     />
                   )}
-                  {row.driverHireCount !== null && row.driverHireCount !== undefined && (
+                  {userRecord.accessFromDate && (
                     <FieldCard
-                      icon={<FolderOpenIcon sx={iconSm} />}
-                      label='Driver Count'
-                      value={String(row.driverHireCount)}
-                      accent='#f59e0b'
+                      icon={<CalendarTodayIcon sx={{ fontSize: '1rem' }} />}
+                      label='Access From'
+                      value={fmtDate(userRecord.accessFromDate)}
+                      accent='#4f46e5'
                     />
                   )}
-                  {row.driverHireShift && (
+                  {userRecord.accessToDate && (
                     <FieldCard
-                      icon={<FolderOpenIcon sx={iconSm} />}
-                      label='Driver Shift'
-                      value={row.driverHireShift}
-                      accent='#f59e0b'
+                      icon={<CalendarTodayIcon sx={{ fontSize: '1rem' }} />}
+                      label='Access To'
+                      value={fmtDate(userRecord.accessToDate)}
+                      accent='#dc2626'
                     />
                   )}
                 </Box>
-              ) : (
-                <Typography sx={{ fontSize: '0.825rem', color: '#94a3b8', fontStyle: 'italic' }}>
-                  No bundle options selected.
-                </Typography>
-              )}
+              </Box>
             </Box>
-          </Box>
+          )}
 
-          {/* ── Attached Documents ── */}
-          {(docItems.length > 0 || isEditing) && (
+          {/* ── Vehicle Setup (customers only) ── */}
+          {!isUserContext && (
+            <Box className={classes.descriptionCard}>
+              <Box className={classes.descriptionCardHeader}>
+                <Typography className={classes.descriptionSectionTitle}>
+                  <DirectionsCarIcon
+                    sx={{ fontSize: '0.85rem', mr: 0.5, verticalAlign: 'middle' }}
+                  />
+                  Vehicle Setup
+                </Typography>
+              </Box>
+              <Box className={classes.descriptionCardBody}>
+                <Box
+                  sx={{
+                    display: 'grid',
+                    gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+                    gap: 1.5,
+                  }}
+                >
+                  {ef && (
+                    <EditableField
+                      icon={<DirectionsCarIcon sx={iconMd} />}
+                      label='Vehicle Type'
+                      value={row.vehicleType ?? ''}
+                      accent='#7c3aed'
+                      editing
+                      editValue={ef.vehicleType}
+                      onEditChange={setField('vehicleType')}
+                    />
+                  )}
+                  <EditableField
+                    icon={<DirectionsCarIcon sx={iconSm} />}
+                    label='Vehicle Sub-type'
+                    value={row.vehicleSubType ?? ''}
+                    accent='#7c3aed'
+                    editing={!!ef}
+                    editValue={ef?.vehicleSubType}
+                    onEditChange={setField('vehicleSubType')}
+                  />
+                  <EditableField
+                    icon={<DirectionsCarIcon sx={iconSm} />}
+                    label='Fuel Type'
+                    value={row.fuelType ?? ''}
+                    accent='#7c3aed'
+                    editing={!!ef}
+                    editValue={ef?.fuelType}
+                    onEditChange={setField('fuelType')}
+                  />
+                  <EditableField
+                    icon={<DirectionsCarIcon sx={iconSm} />}
+                    label='Trip Preference'
+                    value={row.tripPreference?.replace(/_/g, ' ') ?? ''}
+                    accent='#7c3aed'
+                    editing={!!ef}
+                    editValue={ef?.tripPreference}
+                    onEditChange={setField('tripPreference')}
+                  />
+                  <EditableField
+                    icon={<DirectionsCarIcon sx={iconMd} />}
+                    label='Vehicle Number'
+                    value={row.vehicleNumber ?? ''}
+                    accent='#1d4ed8'
+                    editing={!!ef}
+                    editValue={ef?.vehicleNumber}
+                    onEditChange={setField('vehicleNumber')}
+                  />
+                </Box>
+              </Box>
+            </Box>
+          )}
+
+          {/* ── Vehicle Documents (customers only) ── */}
+          {!isUserContext && (
+            <Box className={classes.descriptionCard}>
+              <Box className={classes.descriptionCardHeader}>
+                <Typography className={classes.descriptionSectionTitle}>
+                  <FolderOpenIcon sx={{ fontSize: '0.85rem', mr: 0.5, verticalAlign: 'middle' }} />
+                  Vehicle Documents
+                </Typography>
+              </Box>
+              <Box className={classes.descriptionCardBody}>
+                <Box
+                  sx={{
+                    display: 'grid',
+                    gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+                    gap: 1.5,
+                  }}
+                >
+                  <EditableField
+                    icon={<AssignmentIcon sx={iconSm} />}
+                    label='RC Number'
+                    value={row.rcNumber ?? ''}
+                    accent='#2e7d32'
+                    editing={!!ef}
+                    editValue={ef?.rcNumber}
+                    onEditChange={setField('rcNumber')}
+                  />
+                  <EditableField
+                    icon={<AssignmentIcon sx={iconSm} />}
+                    label='RC Expiry'
+                    value={fmtDate(row.rcExpiry)}
+                    accent='#2e7d32'
+                    editing={!!ef}
+                    editValue={ef?.rcExpiry}
+                    onEditChange={setField('rcExpiry')}
+                    type='date'
+                  />
+                  <EditableField
+                    icon={<SecurityIcon sx={iconSm} />}
+                    label='Insurance No.'
+                    value={row.insuranceNumber ?? ''}
+                    accent='#0891b2'
+                    editing={!!ef}
+                    editValue={ef?.insuranceNumber}
+                    onEditChange={setField('insuranceNumber')}
+                  />
+                  <EditableField
+                    icon={<SecurityIcon sx={iconSm} />}
+                    label='Insurance Expiry'
+                    value={fmtDate(row.insuranceExpiry)}
+                    accent='#0891b2'
+                    editing={!!ef}
+                    editValue={ef?.insuranceExpiry}
+                    onEditChange={setField('insuranceExpiry')}
+                    type='date'
+                  />
+                  <EditableField
+                    icon={<AirIcon sx={iconSm} />}
+                    label='PUC Number'
+                    value={row.pucNumber ?? ''}
+                    accent='#16a34a'
+                    editing={!!ef}
+                    editValue={ef?.pucNumber}
+                    onEditChange={setField('pucNumber')}
+                  />
+                  <EditableField
+                    icon={<AirIcon sx={iconSm} />}
+                    label='PUC Expiry'
+                    value={fmtDate(row.pucExpiry)}
+                    accent='#16a34a'
+                    editing={!!ef}
+                    editValue={ef?.pucExpiry}
+                    onEditChange={setField('pucExpiry')}
+                    type='date'
+                  />
+                  <EditableField
+                    icon={<HealthAndSafetyIcon sx={iconSm} />}
+                    label='Fitness No.'
+                    value={row.fitnessNumber ?? ''}
+                    accent='#7c3aed'
+                    editing={!!ef}
+                    editValue={ef?.fitnessNumber}
+                    onEditChange={setField('fitnessNumber')}
+                  />
+                  <EditableField
+                    icon={<HealthAndSafetyIcon sx={iconSm} />}
+                    label='Fitness Expiry'
+                    value={fmtDate(row.fitnessExpiry)}
+                    accent='#7c3aed'
+                    editing={!!ef}
+                    editValue={ef?.fitnessExpiry}
+                    onEditChange={setField('fitnessExpiry')}
+                    type='date'
+                  />
+                  <EditableField
+                    icon={<AssignmentTurnedInIcon sx={iconSm} />}
+                    label='Permit No.'
+                    value={row.permitNumber ?? ''}
+                    accent='#d97706'
+                    editing={!!ef}
+                    editValue={ef?.permitNumber}
+                    onEditChange={setField('permitNumber')}
+                  />
+                  <EditableField
+                    icon={<AssignmentTurnedInIcon sx={iconSm} />}
+                    label='Permit Expiry'
+                    value={fmtDate(row.permitExpiry)}
+                    accent='#d97706'
+                    editing={!!ef}
+                    editValue={ef?.permitExpiry}
+                    onEditChange={setField('permitExpiry')}
+                    type='date'
+                  />
+                </Box>
+              </Box>
+            </Box>
+          )}
+
+          {/* ── Personal Documents (customers only) ── */}
+          {!isUserContext && (
+            <Box className={classes.descriptionCard}>
+              <Box className={classes.descriptionCardHeader}>
+                <Typography className={classes.descriptionSectionTitle}>
+                  <ContactPageIcon sx={{ fontSize: '0.85rem', mr: 0.5, verticalAlign: 'middle' }} />
+                  Personal Documents
+                </Typography>
+              </Box>
+              <Box className={classes.descriptionCardBody}>
+                <Box
+                  sx={{
+                    display: 'grid',
+                    gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+                    gap: 1.5,
+                  }}
+                >
+                  <EditableField
+                    icon={<DriveEtaIcon sx={iconMd} />}
+                    label='DL Number'
+                    value={row.dlNumber ?? ''}
+                    accent='#e65100'
+                    editing={!!ef}
+                    editValue={ef?.dlNumber}
+                    onEditChange={setField('dlNumber')}
+                  />
+                  <EditableField
+                    icon={<DriveEtaIcon sx={iconSm} />}
+                    label='DL Expiry'
+                    value={fmtDate(row.dlExpiry)}
+                    accent='#e65100'
+                    editing={!!ef}
+                    editValue={ef?.dlExpiry}
+                    onEditChange={setField('dlExpiry')}
+                    type='date'
+                  />
+                  <EditableField
+                    icon={<FingerprintIcon sx={iconSm} />}
+                    label='ID Proof Type'
+                    value={row.idProofType?.toUpperCase() ?? ''}
+                    accent='#6366f1'
+                    editing={!!ef}
+                    editValue={ef?.idProofType}
+                    onEditChange={setField('idProofType')}
+                  />
+                  <EditableField
+                    icon={<ContactPageIcon sx={iconSm} />}
+                    label='ID Number'
+                    value={row.idProofNumber ?? ''}
+                    accent='#6366f1'
+                    editing={!!ef}
+                    editValue={ef?.idProofNumber}
+                    onEditChange={setField('idProofNumber')}
+                  />
+                </Box>
+              </Box>
+            </Box>
+          )}
+
+          {/* ── Bundle Options (customers only) ── */}
+          {!isUserContext && (
+            <Box className={classes.descriptionCard}>
+              <Box className={classes.descriptionCardHeader}>
+                <Typography className={classes.descriptionSectionTitle}>
+                  <LocalOfferIcon sx={{ fontSize: '0.85rem', mr: 0.5, verticalAlign: 'middle' }} />
+                  Bundle Options
+                </Typography>
+              </Box>
+              <Box className={classes.descriptionCardBody}>
+                {ef ? (
+                  // Edit mode: toggle bundle cards
+                  <Box>
+                    <Typography
+                      sx={{ fontSize: '0.72rem', color: '#64748b', mb: 1.5, fontWeight: 600 }}
+                    >
+                      Select bundles for {isMobility ? 'Mobility' : 'Logistics'} service
+                    </Typography>
+                    <Box
+                      sx={{
+                        display: 'grid',
+                        gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+                        gap: 1.5,
+                        mb: 2,
+                      }}
+                    >
+                      {availableBundles.map((bt) => {
+                        const selected = ef.bundleTypes.includes(bt);
+                        return (
+                          <Box
+                            key={bt}
+                            onClick={() => toggleBundle(bt)}
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'flex-start',
+                              gap: 1.5,
+                              p: '12px 14px',
+                              borderRadius: '14px',
+                              cursor: 'pointer',
+                              background: selected
+                                ? 'linear-gradient(135deg,#fffbeb,#fef3c7)'
+                                : '#f8faff',
+                              border: selected
+                                ? '2px solid #f59e0b'
+                                : '1.5px solid rgba(226,232,255,0.9)',
+                              boxShadow: selected ? '0 4px 16px rgba(245,158,11,0.18)' : 'none',
+                              transition: 'all 0.2s ease',
+                              '&:hover': {
+                                border: `2px solid ${selected ? '#f59e0b' : '#a5b4fc'}`,
+                                background: selected
+                                  ? 'linear-gradient(135deg,#fffbeb,#fef3c7)'
+                                  : '#eef2ff',
+                              },
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                width: 36,
+                                height: 36,
+                                borderRadius: '10px',
+                                background: selected ? '#f59e0b18' : '#6366f118',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                flexShrink: 0,
+                                mt: 0.25,
+                              }}
+                            >
+                              <LocalOfferIcon
+                                sx={{ fontSize: '1.1rem', color: selected ? '#f59e0b' : '#6366f1' }}
+                              />
+                            </Box>
+                            <Box sx={{ flex: 1 }}>
+                              <Box
+                                sx={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'space-between',
+                                  mb: 0.25,
+                                }}
+                              >
+                                <Typography
+                                  sx={{
+                                    fontSize: '0.82rem',
+                                    fontWeight: 700,
+                                    color: selected ? '#92400e' : '#1e293b',
+                                  }}
+                                >
+                                  {BUNDLE_LABELS[bt]}
+                                </Typography>
+                                {BUNDLE_DISCOUNT_MAP[bt] > 0 && (
+                                  <Box
+                                    sx={{
+                                      px: 0.75,
+                                      py: 0.2,
+                                      borderRadius: '8px',
+                                      background: selected ? '#f59e0b' : '#6366f120',
+                                    }}
+                                  >
+                                    <Typography
+                                      sx={{
+                                        fontSize: '0.65rem',
+                                        fontWeight: 800,
+                                        color: selected ? '#fff' : '#6366f1',
+                                      }}
+                                    >
+                                      {BUNDLE_DISCOUNT_MAP[bt]}% off
+                                    </Typography>
+                                  </Box>
+                                )}
+                              </Box>
+                              <Typography
+                                sx={{
+                                  fontSize: '0.7rem',
+                                  color: selected ? '#b45309' : '#64748b',
+                                  lineHeight: 1.4,
+                                }}
+                              >
+                                {BUNDLE_DESC[bt]}
+                              </Typography>
+                            </Box>
+                            <Checkbox
+                              checked={selected}
+                              onChange={() => toggleBundle(bt)}
+                              size='small'
+                              sx={{
+                                p: 0,
+                                color: '#6366f1',
+                                '&.Mui-checked': { color: '#f59e0b' },
+                                flexShrink: 0,
+                              }}
+                            />
+                          </Box>
+                        );
+                      })}
+                    </Box>
+                    {/* Bundle sub-fields */}
+                    {ef.bundleTypes.includes('driver_hire') && (
+                      <Box sx={{ mb: 2 }}>
+                        <SectionDivider label='Driver Hire Details' isEditing />
+                        <Box
+                          sx={{
+                            display: 'grid',
+                            gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+                            gap: 1.5,
+                          }}
+                        >
+                          <EditableField
+                            icon={<PersonIcon sx={iconSm} />}
+                            label='Driver Count'
+                            value={
+                              row.driverHireCount !== undefined && row.driverHireCount !== null
+                                ? String(row.driverHireCount)
+                                : ''
+                            }
+                            accent='#f59e0b'
+                            editing
+                            editValue={ef.driverHireCount}
+                            onEditChange={setField('driverHireCount')}
+                          />
+                          <EditableField
+                            icon={<AccessTimeIcon sx={iconSm} />}
+                            label='Shift'
+                            value={row.driverHireShift ?? ''}
+                            accent='#f59e0b'
+                            editing
+                            editValue={ef.driverHireShift}
+                            onEditChange={setField('driverHireShift')}
+                          />
+                          <EditableField
+                            icon={<LocalOfferIcon sx={iconSm} />}
+                            label='Budget'
+                            value={row.driverHireBudget ?? ''}
+                            accent='#f59e0b'
+                            editing
+                            editValue={ef.driverHireBudget}
+                            onEditChange={setField('driverHireBudget')}
+                          />
+                        </Box>
+                      </Box>
+                    )}
+                    {ef.bundleTypes.includes('rental') && (
+                      <Box sx={{ mb: 2 }}>
+                        <SectionDivider label='Rental Details' isEditing />
+                        <EditableField
+                          icon={<CalendarTodayIcon sx={iconSm} />}
+                          label='Rental Duration'
+                          value={row.rentalDuration ?? ''}
+                          accent='#f59e0b'
+                          editing
+                          editValue={ef.rentalDuration}
+                          onEditChange={setField('rentalDuration')}
+                        />
+                      </Box>
+                    )}
+                    <SectionDivider label='Discount' isEditing />
+                    <EditableField
+                      icon={<LocalOfferIcon sx={iconSm} />}
+                      label='Bundle Discount (%)'
+                      value={
+                        row.bundleDiscount !== undefined && row.bundleDiscount !== null
+                          ? `${row.bundleDiscount}%`
+                          : ''
+                      }
+                      accent='#f59e0b'
+                      editing
+                      editValue={ef.bundleDiscount}
+                      onEditChange={setField('bundleDiscount')}
+                    />
+                  </Box>
+                ) : bundleTypes.length > 0 ? (
+                  // View mode: show selected bundles
+                  <Box
+                    sx={{
+                      display: 'grid',
+                      gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+                      gap: 1,
+                    }}
+                  >
+                    {bundleTypes.map((bt: string, i: number) => (
+                      <FieldCard
+                        key={i}
+                        icon={<LocalOfferIcon sx={iconSm} />}
+                        label={`Bundle ${i + 1}`}
+                        value={BUNDLE_LABELS[bt] ?? bt.replace(/_/g, ' ')}
+                        accent='#f59e0b'
+                      />
+                    ))}
+                    {row.bundleDiscount !== null && row.bundleDiscount !== undefined && (
+                      <FieldCard
+                        icon={<LocalOfferIcon sx={iconSm} />}
+                        label='Discount'
+                        value={`${row.bundleDiscount}%`}
+                        accent='#f59e0b'
+                      />
+                    )}
+                    {row.rentalDuration && (
+                      <FieldCard
+                        icon={<FolderOpenIcon sx={iconSm} />}
+                        label='Rental Duration'
+                        value={row.rentalDuration}
+                        accent='#f59e0b'
+                      />
+                    )}
+                    {row.driverHireCount !== null && row.driverHireCount !== undefined && (
+                      <FieldCard
+                        icon={<FolderOpenIcon sx={iconSm} />}
+                        label='Driver Count'
+                        value={String(row.driverHireCount)}
+                        accent='#f59e0b'
+                      />
+                    )}
+                    {row.driverHireShift && (
+                      <FieldCard
+                        icon={<FolderOpenIcon sx={iconSm} />}
+                        label='Driver Shift'
+                        value={row.driverHireShift}
+                        accent='#f59e0b'
+                      />
+                    )}
+                  </Box>
+                ) : (
+                  <Typography sx={{ fontSize: '0.825rem', color: '#94a3b8', fontStyle: 'italic' }}>
+                    No bundle options selected.
+                  </Typography>
+                )}
+              </Box>
+            </Box>
+          )}
+
+          {/* ── Attached Documents (customers only) ── */}
+          {!isUserContext && (docItems.length > 0 || isEditing) && (
             <Box className={classes.descriptionCard}>
               <Box className={classes.descriptionCardHeader}>
                 <Typography className={classes.descriptionSectionTitle}>

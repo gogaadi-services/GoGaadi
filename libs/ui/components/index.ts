@@ -1,5 +1,4 @@
 export * from './Accordion';
-export * from './FullScreenLoader';
 export * from './Alert';
 export * from './AutoGrid';
 export * from './Button';

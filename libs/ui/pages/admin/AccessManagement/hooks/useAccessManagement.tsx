@@ -219,14 +219,8 @@ const useAccessManagement = () => {
   const handleRowClick = (row: UserRow) => {
     const rawId = row.id as unknown as number | string;
     const isDraft = rawId === -1 || String(rawId).startsWith('draft_');
-    // Use customUserId as the URL identifier for all users
-    const urlId: string = row.customUserId
-      ? row.customUserId
-      : isDraft
-        ? rawId === -1
-          ? 'draft_local'
-          : String(rawId)
-        : String(rawId);
+    // Use numeric id for real users; customUserId is display-only and the backend won't recognise it
+    const urlId: string = isDraft ? (rawId === -1 ? 'draft_local' : String(rawId)) : String(rawId);
 
     // Build the same rows shown in the current tab (mirrors DataTable rendering exactly)
     const baseData = tabValue === 1 ? admins : tabValue === 2 ? consultants : allUsers;
@@ -241,9 +235,8 @@ const useAccessManagement = () => {
         )
       : allRows;
 
-    // Build nav ID list using customUserId where available
+    // Build nav ID list using numeric user id (matches the URL param used in UserDetail)
     const visibleIds = filteredRows.map((u) => {
-      if (u.customUserId) return u.customUserId;
       const uid = u.id as unknown as number | string;
       if (uid === -1) return 'draft_local';
       if (String(uid).startsWith('draft_')) return String(uid);

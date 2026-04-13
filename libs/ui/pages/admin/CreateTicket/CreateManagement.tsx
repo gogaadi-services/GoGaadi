@@ -72,9 +72,7 @@ const CreateManagement = () => {
           <GroupsIcon sx={{ fontSize: 28, color: '#fff' }} />
         </Box>
         <Box className={classes.managementHeroText}>
-          <Typography className={classes.managementHeroTitle}>
-            Create New People Account
-          </Typography>
+          <Typography className={classes.managementHeroTitle}>Create New People Account</Typography>
           <Typography className={classes.managementHeroSub}>
             Select the type of management account you want to set up
           </Typography>

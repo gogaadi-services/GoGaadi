@@ -449,7 +449,7 @@ const CreateManagementForm = () => {
 
     setIsSubmitting(true);
     try {
-      const createdUser = await authAction({
+      const createdUser = (await authAction({
         action: 'create-management-request',
         firstName: form.firstName,
         lastName: form.lastName,
@@ -467,12 +467,14 @@ const CreateManagementForm = () => {
         userId,
         reportingManagerEmail: reportingManager?.email || undefined,
         referredByEmail: referredBy?.email || undefined,
-      }).unwrap() as any;
+      }).unwrap()) as any;
 
       // Upload attachments if any were added
       const newUserId = createdUser?.data?.id ?? createdUser?.data?.userId;
       if (attachments.length > 0 && newUserId) {
-        await uploadAttachments({ userId: newUserId, files: attachments }).unwrap().catch(() => {});
+        await uploadAttachments({ userId: newUserId, files: attachments })
+          .unwrap()
+          .catch(() => {});
       }
 
       // Clear all fields + server draft on success
