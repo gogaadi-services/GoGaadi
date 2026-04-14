@@ -29,7 +29,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import EmailIcon from '@mui/icons-material/Email';
-import { useStyles } from './styles';
+import { useStyles } from './ResetPasswordDialog.styles';
 import { useNotification, useFieldError } from '@gogaadi/hooks';
 import { UserRow, ResetPwErrors } from '../../types/accessManagement.types';
 import { getPasswordStrength, generateTempPassword } from '../../utils/accessManagement.utils';

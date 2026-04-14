@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { useStyles } from './styles';
+import { useStyles } from './ButtonMenu.styles';
 
 export interface DSButtonMenuItem {
   label: string;

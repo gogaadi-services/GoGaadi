@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import CloseIcon from '@mui/icons-material/Close';
-import { useStyles } from './styles';
+import { useStyles } from './LoginDataDialog.styles';
 import { UserRow } from '../../types/accessManagement.types';
 import ReadField from '../../components/ReadField';
 import { fmtDateTime, fmtDate } from '../../utils/accessManagement.utils';

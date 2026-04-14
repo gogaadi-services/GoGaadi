@@ -1,5 +1,5 @@
 import { Switch as MUISwitch, FormControlLabel, FormHelperText } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './Switch.styles';
 
 export interface DSSwitchProps {
   label?: string | React.ReactNode;

@@ -24,7 +24,7 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import { useFieldError } from '@gogaadi/hooks';
-import { useStyles } from './styles';
+import { useStyles } from './EditUserDialog.styles';
 import { UserRow, EditFormShape } from '../../types/accessManagement.types';
 import { SOURCE_LABELS, fmtDateTimeUser } from '../../utils/accessManagement.utils';
 

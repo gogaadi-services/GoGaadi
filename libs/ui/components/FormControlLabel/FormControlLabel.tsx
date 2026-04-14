@@ -1,5 +1,5 @@
 import { FormControlLabel as MUIFormControlLabel } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './FormControlLabel.styles';
 
 export interface DSFormControlLabelProps {
   label: string | React.ReactNode;

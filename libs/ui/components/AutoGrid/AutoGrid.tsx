@@ -1,6 +1,6 @@
 import { Children, type FC } from 'react';
 import { Grid, Box } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './AutoGrid.styles';
 
 export interface DSAutoGridProps {
   children: React.ReactNode;

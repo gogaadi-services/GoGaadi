@@ -1,5 +1,5 @@
 import { Backdrop, CircularProgress, Box, LinearProgress, Typography } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './Loader.styles';
 import { useAuth, useLoader } from '@gogaadi/hooks';
 
 export interface DSLoaderProps {

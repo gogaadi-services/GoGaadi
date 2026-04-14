@@ -1,5 +1,5 @@
 import { Box, Typography } from '../';
-import { useStyles } from './styles';
+import { useStyles } from './NotFound.styles';
 
 const NotFound = () => {
   const { classes } = useStyles();

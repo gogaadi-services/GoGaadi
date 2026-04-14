@@ -4,7 +4,7 @@ import WarningIcon from '@mui/icons-material/Warning';
 import ErrorIcon from '@mui/icons-material/Error';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
-import { useStyles } from './styles';
+import { useStyles } from './HelpBox.styles';
 
 export interface DSHelpBoxProps {
   title?: string;

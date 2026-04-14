@@ -29,7 +29,7 @@ import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import { useFieldError } from '@gogaadi/hooks';
-import { useStyles } from './styles';
+import { useStyles } from './ChangeProfileDialog.styles';
 import { UserRow, ChangeProfileErrors } from '../../types/accessManagement.types';
 import { ROLE_CHANGE_REASON_CODES } from '../../utils/accessManagement.utils';
 

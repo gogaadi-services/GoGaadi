@@ -1,5 +1,5 @@
 import { Box as MUIBox } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './Box.styles';
 
 export interface DSBoxProps extends React.ComponentProps<typeof MUIBox> {
   children?: React.ReactNode;

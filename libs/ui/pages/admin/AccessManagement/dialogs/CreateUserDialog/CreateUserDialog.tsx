@@ -33,7 +33,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { FormikProps } from 'formik';
-import { useStyles } from './styles';
+import { useStyles } from './CreateUserDialog.styles';
 import { useNotification } from '@gogaadi/hooks';
 import {
   getDraftDaysRemaining,

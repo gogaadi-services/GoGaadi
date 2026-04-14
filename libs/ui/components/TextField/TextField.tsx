@@ -1,5 +1,5 @@
 import { TextField as MUITextField, InputAdornment } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './TextField.styles';
 import React from 'react';
 
 export interface DSTextFieldProps {

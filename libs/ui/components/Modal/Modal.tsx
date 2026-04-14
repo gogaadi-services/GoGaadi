@@ -1,6 +1,6 @@
 import { Modal as MUIModal, Fade, Box } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { useStyles } from './styles';
+import { useStyles } from './Modal.styles';
 
 export interface DSModalProps {
   open: boolean;

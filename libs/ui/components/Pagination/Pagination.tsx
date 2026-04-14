@@ -1,5 +1,5 @@
 import { Pagination as MUIPagination } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './Pagination.styles';
 
 export interface DSPaginationProps {
   count: number;

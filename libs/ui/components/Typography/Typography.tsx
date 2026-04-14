@@ -1,5 +1,5 @@
 import { Typography as MUITypography } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './Typography.styles';
 
 export interface HeadingProps {
   text?: string;

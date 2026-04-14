@@ -1,5 +1,5 @@
 import { Switch as MUISwitch, FormControlLabel, FormHelperText } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './Toggle.styles';
 
 export interface DSToggleProps {
   label?: string;

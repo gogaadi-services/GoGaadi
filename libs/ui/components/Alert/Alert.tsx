@@ -1,5 +1,5 @@
 import { Alert as MUIAlert } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './Alert.styles';
 
 export interface DSAlertProps {
   severity?: 'error' | 'info' | 'success' | 'warning';

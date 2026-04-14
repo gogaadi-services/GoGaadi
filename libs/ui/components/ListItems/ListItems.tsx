@@ -1,5 +1,5 @@
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './ListItems.styles';
 
 export interface DSListItem {
   id: string | number;
@@ -44,7 +44,7 @@ const ListItems: React.FC<DSListItemsProps> = ({
     <List
       dense={dense}
       disablePadding={disablePadding}
-      className={cx(classes.root, classes[variant], className)}
+      className={cx(classes.root, className)}
       sx={{ maxHeight, overflow: maxHeight ? 'auto' : undefined }}
       {...rest}
     >

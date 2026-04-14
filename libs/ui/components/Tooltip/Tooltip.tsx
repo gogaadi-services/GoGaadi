@@ -1,5 +1,5 @@
 import { Tooltip as MUITooltip } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './Tooltip.styles';
 
 export interface DSTooltipProps {
   title: string | React.ReactNode;

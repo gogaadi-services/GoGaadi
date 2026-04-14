@@ -22,7 +22,7 @@ import {
   FilterList as FilterListIcon,
   Search as SearchIcon,
 } from '@mui/icons-material';
-import { useStyles } from './styles';
+import { useStyles } from './DataTable.styles';
 
 export interface Column<T> {
   id: keyof T | string;

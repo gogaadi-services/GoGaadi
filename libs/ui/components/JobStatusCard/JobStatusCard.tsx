@@ -12,7 +12,7 @@ import {
   JOB_STATUS_CONFIG,
   JOB_PRIORITY_COLORS,
 } from '@gogaadi/interfaces';
-import { useStyles } from './styles';
+import { useStyles } from './JobStatusCard.styles';
 
 /**
  * JobStatusCard Props

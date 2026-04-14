@@ -31,7 +31,7 @@ import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import { useStyles } from './styles';
+import { useStyles } from './ChangesLogDialog.styles';
 import { UserRow, ChangeLogEntry } from '../../types/accessManagement.types';
 import {
   LOG_COLUMNS,

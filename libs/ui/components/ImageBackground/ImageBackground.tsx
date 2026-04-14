@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './ImageBackground.styles';
 
 export interface DSImageBackgroundProps {
   src: string;

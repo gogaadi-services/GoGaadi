@@ -2,7 +2,7 @@ import MuiDrawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { useStyles } from './styles';
+import { useStyles } from './Drawer.styles';
 
 export interface DrawerProps {
   open: boolean;

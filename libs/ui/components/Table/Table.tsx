@@ -9,7 +9,7 @@ import {
   TableSortLabel,
   Checkbox,
 } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './Table.styles';
 
 export interface DSTableColumn {
   id: string;

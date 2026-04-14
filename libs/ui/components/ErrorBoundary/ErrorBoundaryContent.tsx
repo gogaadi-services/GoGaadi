@@ -1,7 +1,7 @@
 import { FC, ErrorInfo } from 'react';
 import { Box, Button, Typography, Container, Paper } from '@mui/material';
 import { ErrorOutline } from '@mui/icons-material';
-import { useStyles } from './styles';
+import { useStyles } from './ErrorBoundary.styles';
 
 interface ErrorBoundaryContentProps {
   error: Error | null;

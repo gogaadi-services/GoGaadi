@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Box, Button } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { useStyles } from './styles';
+import { useStyles } from './UploadFile.styles';
 
 export interface DSUploadFileProps {
   onChange: (files: FileList | null) => void;

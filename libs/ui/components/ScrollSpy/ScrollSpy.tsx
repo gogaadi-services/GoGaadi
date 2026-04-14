@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './ScrollSpy.styles';
 
 export interface DSScrollSpySection {
   id: string;

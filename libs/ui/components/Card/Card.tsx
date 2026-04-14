@@ -1,5 +1,5 @@
 import { Card as MUICard, CardHeader, CardContent, CardActions } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './Card.styles';
 
 export interface DSCardProps {
   title?: string | React.ReactNode;

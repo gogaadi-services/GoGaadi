@@ -1,6 +1,6 @@
 import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useStyles } from './styles';
+import { useStyles } from './Topbar.styles';
 
 export interface DSTopbarProps {
   title?: string;

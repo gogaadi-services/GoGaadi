@@ -1,5 +1,5 @@
 import { Checkbox as MUICheckbox, FormControlLabel, FormHelperText, Box } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './Checkbox.styles';
 
 export interface DSCheckboxProps {
   label?: string | React.ReactNode;

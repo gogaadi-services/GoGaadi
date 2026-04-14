@@ -7,7 +7,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { hideNotification, NotificationSeverity } from '../../slices';
-import { useStyles } from './styles';
+import { useStyles } from './NotificationModal.styles';
 
 const severityConfig: Record<
   NotificationSeverity,

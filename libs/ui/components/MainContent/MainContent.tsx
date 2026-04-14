@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Box } from '@mui/material';
 import { useCollapse } from '../../hooks';
-import { useStyles } from './styles';
+import { useStyles } from './MainContent.styles';
 
 export interface DSMainContentProps {
   children: ReactNode;

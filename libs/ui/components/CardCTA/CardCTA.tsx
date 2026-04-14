@@ -1,5 +1,5 @@
 import { Card, CardMedia, CardContent, CardActions, Button, Typography } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './CardCTA.styles';
 
 export interface DSCardCTAProps {
   title: string;

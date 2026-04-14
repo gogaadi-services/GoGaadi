@@ -1,5 +1,5 @@
 import { SxProps, TextField, Theme } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './DatePicker.styles';
 
 export interface DSDatePickerProps {
   value?: string | Date | null;

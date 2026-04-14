@@ -5,7 +5,7 @@ import {
   MenuItem,
   FormHelperText,
 } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './Select.styles';
 
 export interface DSSelectOption {
   value: string | number;

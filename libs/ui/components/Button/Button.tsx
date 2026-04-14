@@ -1,5 +1,5 @@
 import { Button as MUIButton, CircularProgress } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './Button.styles';
 
 export interface DSButtonProps {
   label?: string;

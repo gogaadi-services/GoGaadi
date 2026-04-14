@@ -1,5 +1,5 @@
 import { TextField } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './ReadOnlyField.styles';
 
 export interface DSReadOnlyFieldProps {
   label?: string;

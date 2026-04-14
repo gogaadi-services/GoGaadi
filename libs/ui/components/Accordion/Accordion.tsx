@@ -5,7 +5,7 @@ import {
   Typography,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useStyles } from './styles/Accordion.styles';
+import { useStyles } from './Accordion.styles';
 
 interface DSAccordionProps {
   title: string | React.ReactNode;

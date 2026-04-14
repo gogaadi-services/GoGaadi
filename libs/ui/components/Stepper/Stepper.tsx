@@ -1,5 +1,5 @@
 import { Stepper as MUIStepper, Step, StepLabel, StepContent } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './Stepper.styles';
 
 export interface DSStepperStep {
   label: string;
@@ -46,7 +46,7 @@ const Stepper: React.FC<DSStepperProps> = ({
     <MUIStepper
       activeStep={activeStep}
       orientation={orientation}
-      className={cx(classes.root, classes[variant], className)}
+      className={cx(classes.root, className)}
       alternativeLabel={alternativeLabel}
       nonLinear={nonLinear}
       connector={connector}

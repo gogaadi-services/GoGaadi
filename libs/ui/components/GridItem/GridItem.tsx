@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './GridItem.styles';
 
 export interface DSGridItemProps {
   children?: React.ReactNode;

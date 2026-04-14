@@ -1,5 +1,5 @@
 import { Link as MUILink } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './Link.styles';
 
 export interface DSLinkProps {
   href?: string;

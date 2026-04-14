@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button, Stepper, Step, StepLabel } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './Wizard.styles';
 
 export interface DSWizardStep {
   title: string;

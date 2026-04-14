@@ -6,7 +6,7 @@ import {
   FormControl,
   FormHelperText,
 } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './RadioGroup.styles';
 
 export interface DSRadioOption {
   value: string | number;
