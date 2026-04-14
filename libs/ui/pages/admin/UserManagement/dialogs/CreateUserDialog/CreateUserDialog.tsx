@@ -352,11 +352,11 @@ const ID_PROOF_OPTIONS = [
 // ─── Bundle Configuration ─────────────────────────────────────────────────────
 // Bundles are 100% optional. Each bundle unlocks a platform commission discount.
 // Business logic:
-//   rental       → Captain's own vehicle is in repair / unavailable. They rent
+//   rental       → Consultant's own vehicle is in repair / unavailable. They rent
 //                  a verified platform vehicle to keep earning.
-//   driver_hire  → Captain owns a vehicle but cannot drive (busy / ill / trip).
+//   driver_hire  → Consultant owns a vehicle but cannot drive (busy / ill / trip).
 //                  Platform matches a verified driver to operate their vehicle.
-//   multi_vehicle→ Captain has 2+ vehicles (e.g. bike + cab). Register all under
+//   multi_vehicle→ Consultant has 2+ vehicles (e.g. bike + cab). Register all under
 //                  one profile and switch service type based on daily demand.
 //
 // Discount stacking:
@@ -390,7 +390,7 @@ type BundleEntry = {
   // bonus-earning bundles (shown instead of discount chip)
   bonusLabel?: string;
   bonusSub?: string;
-  // eligibility — if set, only shown when captain matches
+  // eligibility — if set, only shown when consultant matches
   eligibleVehicles?: string[];
   eligibleCategory?: string;
 };
@@ -433,10 +433,10 @@ const BUNDLE_CONFIG: BundleEntry[] = [
     Icon: GarageIcon,
   },
   // ── Smart Combo Bundles ────────────────────────────────────────────────────
-  // parcel_combo: bike / auto / cab captain accepts a small parcel delivery
+  // parcel_combo: bike / auto / cab consultant accepts a small parcel delivery
   //   WHILE on a passenger trip going the same direction.
-  //   Smart-match finds parcels within 1.5 km of the captain's drop point.
-  //   Captain earns both the ride fare AND the parcel delivery fee.
+  //   Smart-match finds parcels within 1.5 km of the consultant's drop point.
+  //   Consultant earns both the ride fare AND the parcel delivery fee.
   {
     id: 'parcel_combo',
     title: 'Parcel + Ride Combo',
@@ -453,9 +453,9 @@ const BUNDLE_CONFIG: BundleEntry[] = [
     eligibleVehicles: ['bike', 'auto', 'cab'],
     eligibleCategory: 'mobility',
   },
-  // cargo_coride: lorry / tata_ace / dcm captain doing an outstation cargo trip
+  // cargo_coride: lorry / tata_ace / dcm consultant doing an outstation cargo trip
   //   offers a seat to a co-passenger heading in the same direction.
-  //   Co-passenger books at a subsidised fare; captain retains 100% of that.
+  //   Co-passenger books at a subsidised fare; consultant retains 100% of that.
   {
     id: 'cargo_coride',
     title: 'Cargo Co-Ride',
@@ -1199,7 +1199,7 @@ const CreateUserDialog = ({ open, onClose, onSubmit }: CreateUserDialogProps) =>
               Service Category
             </Typography>
             <Typography variant='body2' color='text.secondary' sx={{ mb: 2.5 }}>
-              What type of service will this captain provide?
+              What type of service will this consultant provide?
             </Typography>
             <Grid container spacing={2.5}>
               {[
@@ -3171,7 +3171,7 @@ const CreateUserDialog = ({ open, onClose, onSubmit }: CreateUserDialogProps) =>
 
             <Alert severity='success'>
               All required details entered. Click <strong>Submit Registration</strong> to onboard
-              this captain. Document images can be verified and managed separately after
+              this consultant. Document images can be verified and managed separately after
               registration.
             </Alert>
           </Box>

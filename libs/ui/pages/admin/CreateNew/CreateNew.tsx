@@ -87,14 +87,14 @@ const MANAGEMENT_CARDS: CardDef[] = [
   },
 ];
 
-// ── Customer / captain cards ───────────────────────────────────────────────────
+// ── Customer / consultant cards ───────────────────────────────────────────────────
 const CUSTOMER_CARDS: CardDef[] = [
   {
     type: 'mobility',
     displayName: 'Mobility',
     tagline: 'Passenger Transport',
     description:
-      'Register a captain for ride-hailing and passenger transport — Bike, Auto Rickshaw, Cab, and Shuttle services across the city or outstation.',
+      'Register a consultant for ride-hailing and passenger transport — Bike, Auto Rickshaw, Cab, and Shuttle services across the city or outstation.',
     perks: [
       { icon: TwoWheelerIcon, text: 'Bike, Auto, Cab & Shuttle rides' },
       { icon: AutoAwesomeIcon, text: 'On-demand & scheduled bookings' },
@@ -109,7 +109,7 @@ const CUSTOMER_CARDS: CardDef[] = [
     displayName: 'Logistics',
     tagline: 'Goods Transport',
     description:
-      'Onboard a captain for freight and cargo services — Tata Ace, DCM, Lorry, and full-truckload for goods movement across the city or outstation.',
+      'Onboard a consultant for freight and cargo services — Tata Ace, DCM, Lorry, and full-truckload for goods movement across the city or outstation.',
     perks: [
       { icon: LocalShippingIcon, text: 'Tata Ace, DCM & Lorry' },
       { icon: BusinessIcon, text: 'B2B & commercial freight' },
@@ -124,7 +124,7 @@ const CUSTOMER_CARDS: CardDef[] = [
     displayName: 'Parcel Delivery',
     tagline: 'Last-Mile Delivery',
     description:
-      'Register a captain for parcel and last-mile delivery services — Bike, Auto, and Tata Ace for fast document, food, and goods delivery.',
+      'Register a consultant for parcel and last-mile delivery services — Bike, Auto, and Tata Ace for fast document, food, and goods delivery.',
     perks: [
       { icon: Inventory2Icon, text: 'Documents, food & general goods' },
       { icon: LocationOnIcon, text: 'Local & outstation delivery' },
@@ -454,7 +454,7 @@ const CreateNew = () => {
         />
       )}
       <Section
-        label='Captain Onboarding'
+        label='Consultant Onboarding'
         cards={CUSTOMER_CARDS.filter((c) => ['mobility', 'logistics', 'parcel'].includes(c.type))}
         navigate={navigate}
       />

@@ -13,8 +13,8 @@ type StyleOverride = CSSObject;
  */
 export interface AppStyleConfig {
   admin?: Record<string, StyleOverride>;
+  consultant?: Record<string, StyleOverride>;
   user?: Record<string, StyleOverride>;
-  captain?: Record<string, StyleOverride>;
 }
 
 /**
@@ -84,12 +84,12 @@ export const useStylesTss = () => {
  *         fontWeight: 600,
  *       },
  *     },
- *     user: {
+ *     consultant: {
  *       root: {
  *         color: 'blue',
  *       },
  *     },
- *     captain: {
+ *     user: {
  *       root: {
  *         color: 'green',
  *       },
@@ -112,7 +112,7 @@ export const createAppStyles = <RuleName extends string = string>(
     const useBaseStyles = makeUseStyles<RuleName>(baseStyles);
     const baseResult = useBaseStyles();
 
-    // Get overrides for the current role ('admin', 'user', or 'captain') from AppRoleContext
+    // Get overrides for the current role ('admin', 'consultant', or 'user') from AppRoleContext
     const appOverrides = appConfig?.[appRole] || {};
 
     // Merge base classes with role-specific overrides

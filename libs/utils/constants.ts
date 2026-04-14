@@ -1,7 +1,6 @@
 const ADMIN_BASE = '/app/admin';
 const CONSULTANT_BASE = '/app/consultant';
 const USER_BASE = '/app/user';
-const CAPTAIN_BASE = '/app/captain';
 
 const AdminPath = {
   // Governance
@@ -55,7 +54,7 @@ const AdminPath = {
 
   // Fleet — split by category
 
-  // People Access — Captain Onboarding
+  // People Access — Consultant Onboarding
   MOBILITY_ACCESS: `${ADMIN_BASE}/mobility-access`,
   LOGISTICS_ACCESS: `${ADMIN_BASE}/logistics-access`,
   PARCEL_ACCESS: `${ADMIN_BASE}/parcel-access`,
@@ -89,7 +88,7 @@ const AdminPath = {
   // People Access — Platform User
   USER_ACCESS: `${ADMIN_BASE}/user-access`,
 
-  // People Management — Captain Onboarding
+  // People Management — Consultant Onboarding
   MOBILITY_MANAGEMENT: `${ADMIN_BASE}/mobility-management`,
   LOGISTICS_MANAGEMENT: `${ADMIN_BASE}/logistics-management`,
   PARCEL_MANAGEMENT: `${ADMIN_BASE}/parcel-management`,
@@ -239,18 +238,10 @@ const UserPath = {
   PROBLEM_MANAGEMENT: `${USER_BASE}/problem-management`,
 };
 
-const CaptainPath = {
-  DASHBOARD: `${CAPTAIN_BASE}/dashboard`,
-  CHANGE_MANAGEMENT: `${CAPTAIN_BASE}/change-management`,
-  PROBLEM_MANAGEMENT: `${CAPTAIN_BASE}/problem-management`,
-  CREATE_TICKET: `${CAPTAIN_BASE}/create-ticket`,
-};
-
 export const constants = {
   Path,
   AdminPath,
   ConsultantPath,
   AuthPath,
   UserPath,
-  CaptainPath,
 };

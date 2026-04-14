@@ -86,7 +86,7 @@ export const useDashboard = () => {
   // ── Category splits ────────────────────────────────────────────────────────
   const mobilityOnboardings = onboardings.filter((r) => r.serviceCategory === 'mobility');
   const logisticsOnboardings = onboardings.filter((r) => r.serviceCategory === 'logistics');
-  const approvedCaptains = mobilityOnboardings.filter((r) => r.status === 'approved');
+  const approvedConsultants = mobilityOnboardings.filter((r) => r.status === 'approved');
 
   // ── Status breakdown ───────────────────────────────────────────────────────
   const statusCounts = { approved: 0, pending: 0, under_review: 0, rejected: 0 };
@@ -250,14 +250,14 @@ export const useDashboard = () => {
     }));
 
   // ── Top captains ───────────────────────────────────────────────────────────
-  const topCaptainsList = approvedCaptains
+  const topConsultantsList = approvedConsultants
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 5);
 
   return {
     isLoading,
     // Counts
-    captainsOnline: approvedCaptains.length,
+    captainsOnline: approvedConsultants.length,
     totalOnboardings: onboardings.length,
     mobilityCount: mobilityOnboardings.length,
     logisticsCount: logisticsOnboardings.length,
@@ -298,7 +298,7 @@ export const useDashboard = () => {
     // Recent activity
     recentOnboardings,
     // Top captains
-    topCaptainsList,
+    topConsultantsList,
   };
 };
 

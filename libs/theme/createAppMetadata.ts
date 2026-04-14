@@ -5,13 +5,13 @@ import { useAppRole } from './AppRoleContext';
  */
 export interface AppMetadataConfig<T = Record<string, unknown>> {
   admin?: T;
+  consultant?: T;
   user?: T;
-  captain?: T;
 }
 
 /**
  * Creates metadata that works across all apps with app-specific overrides.
- * Reads the current role ('admin' | 'user' | 'captain') from AppRoleContext to pick
+ * Reads the current role ('admin' | 'consultant' | 'user') from AppRoleContext to pick
  * the correct override key.
  *
  * @param baseMetadata - Base metadata object
@@ -27,11 +27,11 @@ export interface AppMetadataConfig<T = Record<string, unknown>> {
  *     admin: {
  *       title: 'Welcome to Admin Dashboard',
  *     },
+ *     consultant: {
+ *       title: 'Welcome to Consultant Dashboard',
+ *     },
  *     user: {
  *       title: 'Welcome to User Dashboard',
- *     },
- *     captain: {
- *       title: 'Welcome to Captain Dashboard',
  *     },
  *   }
  * );
@@ -40,10 +40,11 @@ export const createAppMetadata = <T extends Record<string, unknown>>(
   baseMetadata: T,
   appConfig?: AppMetadataConfig<Partial<T>>,
 ): T => {
+
   const appRole = useAppRole();
 
-  // Get overrides for the current role ('admin', 'user', or 'captain')
-  const appOverrides = appConfig?.[appRole] || {};
+  // Get overrides for the current role ('admin', 'consultant', or 'user')
+  const appOverrides = appConfig?.[appRole] ?? {};
 
   return {
     ...baseMetadata,

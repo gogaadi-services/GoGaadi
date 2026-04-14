@@ -243,7 +243,7 @@ const Dashboard = () => {
     serviceCategoryCounts,
     healthMetrics,
     recentOnboardings,
-    topCaptainsList,
+    topConsultantsList,
   } = useDashboard();
 
   const V = (n: number) => (dashLoading ? '—' : n.toLocaleString());
@@ -262,7 +262,7 @@ const Dashboard = () => {
       trendLabel: 'pending review',
     },
     {
-      label: 'Approved Captains',
+      label: 'Approved Consultants',
       value: V(captainsOnline),
       sub: `${V(mobilityCount)} mobility onboardings`,
       Icon: LocalTaxiIcon,
@@ -419,7 +419,7 @@ const Dashboard = () => {
       bg: '#f5f3ff',
     },
     {
-      label: 'Approved Captains',
+      label: 'Approved Consultants',
       value: V(captainsOnline),
       sub: 'Approved & active',
       Icon: LocalTaxiIcon,
@@ -515,7 +515,7 @@ const Dashboard = () => {
             show: true,
             total: {
               show: true,
-              label: 'Captains',
+              label: 'Consultants',
               fontSize: '11px',
               color: '#64748b',
               fontWeight: 700,
@@ -585,27 +585,27 @@ const Dashboard = () => {
     bg: CITY_BGS[idx % CITY_BGS.length],
   }));
 
-  // ── Top Captains ──────────────────────────────────────────────────────────
+  // ── Top Consultants ──────────────────────────────────────────────────────────
   const CAPTAIN_COLORS = ['#4f46e5', '#10b981', '#f59e0b', '#0ea5e9', '#8b5cf6'];
   const CAPTAIN_BGS = ['#eef2ff', '#f0fdf4', '#fffbeb', '#f0f9ff', '#f5f3ff'];
-  const topCaptainsDisplay = topCaptainsList.map((captain, idx) => {
-    const name = `${captain.firstName} ${captain.lastName}`.trim();
+  const topConsultantsDisplay = topConsultantsList.map((consultant, idx) => {
+    const name = `${consultant.firstName} ${consultant.lastName}`.trim();
     const initials = name
       .split(' ')
       .map((n: string) => n[0])
       .join('')
       .toUpperCase()
       .slice(0, 2);
-    const vt = (captain.vehicleType || '')
+    const vt = (consultant.vehicleType || '')
       .replace(/_/g, ' ')
       .replace(/\b\w/g, (c: string) => c.toUpperCase());
     return {
       initials,
       name,
-      city: captain.city || '—',
-      sub: vt || 'Captain',
+      city: consultant.city || '—',
+      sub: vt || 'Consultant',
       earning: 'Approved',
-      rating: captain.vehicleNumber || '—',
+      rating: consultant.vehicleNumber || '—',
       bg: CAPTAIN_BGS[idx % CAPTAIN_BGS.length],
       color: CAPTAIN_COLORS[idx % CAPTAIN_COLORS.length],
       top: idx === 0,
@@ -987,17 +987,17 @@ const Dashboard = () => {
         </Box>
 
         {/* ══ TOP CAPTAINS + LIVE ACTIVITY ═══════════════════════════════════ */}
-        <SectionLabel label='Captains & Live Feed' classes={classes} />
+        <SectionLabel label='Consultants & Live Feed' classes={classes} />
         <Box className={classes.twoColRow}>
           <Box className={classes.panel}>
             <Box className={classes.panelHead}>
-              <Typography className={classes.panelTitle}>Top Captains</Typography>
+              <Typography className={classes.panelTitle}>Top Consultants</Typography>
               <Box className={classes.panelBadge} sx={{ background: '#f0fdf4', color: '#10b981' }}>
                 {dashLoading ? '…' : `${captainsOnline} Approved`}
               </Box>
             </Box>
             <Box className={classes.panelBody}>
-              {topCaptainsDisplay.map(
+              {topConsultantsDisplay.map(
                 ({ initials, name, city, sub, earning, rating, bg, color, top }) => (
                   <Box key={name} className={classes.captainItem}>
                     <Box sx={{ position: 'relative' }}>

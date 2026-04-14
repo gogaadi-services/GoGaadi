@@ -71,14 +71,14 @@ async function createTables() {
       "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
 
-    CREATE TABLE IF NOT EXISTS "CaptainProfile" (
+    CREATE TABLE IF NOT EXISTS "ConsultantProfile" (
       "id" SERIAL PRIMARY KEY,
       "userId" INTEGER UNIQUE NOT NULL,
       "application" TEXT NOT NULL,
       "captainRole" TEXT,
       "slaWorkingCalendar" TEXT,
       "slaExceptionCalendar" TEXT,
-      "leadCaptain" TEXT,
+      "leadConsultant" TEXT,
       "applicationManager" TEXT,
       "isPocLead" BOOLEAN NOT NULL DEFAULT false,
       "isActive" BOOLEAN NOT NULL DEFAULT true,
@@ -86,7 +86,7 @@ async function createTables() {
       "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
 
-    CREATE TABLE IF NOT EXISTS "CaptainRole" (
+    CREATE TABLE IF NOT EXISTS "ConsultantRole" (
       "id" SERIAL PRIMARY KEY,
       "application" TEXT NOT NULL,
       "roleName" TEXT NOT NULL,
@@ -180,21 +180,21 @@ async function clearAndSeed() {
     DELETE FROM "CustomerOnboarding" WHERE true;
     DELETE FROM "LoginLog" WHERE true;
     DELETE FROM "UserChangeLog" WHERE true;
-    DELETE FROM "CaptainProfile" WHERE true;
-    DELETE FROM "CaptainRole" WHERE true;
+    DELETE FROM "ConsultantProfile" WHERE true;
+    DELETE FROM "ConsultantRole" WHERE true;
     DELETE FROM "User" WHERE true;
     ALTER SEQUENCE "DeviceToken_id_seq" RESTART WITH 1;
     ALTER SEQUENCE "CustomerOnboarding_id_seq" RESTART WITH 1;
     ALTER SEQUENCE "LoginLog_id_seq" RESTART WITH 1;
     ALTER SEQUENCE "User_id_seq" RESTART WITH 1;
     ALTER SEQUENCE "UserChangeLog_id_seq" RESTART WITH 1;
-    ALTER SEQUENCE "CaptainProfile_id_seq" RESTART WITH 1;
-    ALTER SEQUENCE "CaptainRole_id_seq" RESTART WITH 1;
+    ALTER SEQUENCE "ConsultantProfile_id_seq" RESTART WITH 1;
+    ALTER SEQUENCE "ConsultantRole_id_seq" RESTART WITH 1;
   `);
 
   console.log('Existing data cleared.');
 
-  // Seed default users (admin, user, captain)
+  // Seed default users (admin, user, consultant)
   const adminPassword = await bcrypt.hash('admin123', 10);
   const userPassword = await bcrypt.hash('user123', 10);
   const captainPassword = await bcrypt.hash('captain123', 10);
@@ -205,7 +205,7 @@ async function clearAndSeed() {
     INSERT INTO "User" ("firstName", "lastName", "email", "password", "phone", "businessUnit", "employeeId", "name", "role", "status", "source", "lastActivityAt", "failedLoginAttempts", "isActive", "mustResetPassword", "firstActivationDate", "createdAt", "updatedAt")
       VALUES ('Regular', 'User', 'user@gogaadi.com', '${userPassword}', '+1-555-0002', 'Corporate Services', 'EMP002', 'Regular User', 'user', 'active', 'admin', NOW() - INTERVAL '3 hours', 0, true, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
     INSERT INTO "User" ("firstName", "lastName", "email", "password", "phone", "businessUnit", "employeeId", "reasonForAccess", "name", "role", "status", "source", "lastActivityAt", "failedLoginAttempts", "isActive", "mustResetPassword", "firstActivationDate", "createdAt", "updatedAt")
-      VALUES ('Captain', 'User', 'captain@gogaadi.com', '${captainPassword}', '+1-555-0003', 'Professional Services', 'CON001', 'Assigned to gogaadi implementation project', 'Captain User', 'captain', 'active', 'admin', NOW() - INTERVAL '1 day', 0, true, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+      VALUES ('Consultant', 'User', 'consultant@gogaadi.com', '${captainPassword}', '+1-555-0003', 'Professional Services', 'CON001', 'Assigned to gogaadi implementation project', 'Consultant User', 'consultant', 'active', 'admin', NOW() - INTERVAL '1 day', 0, true, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
   `);
 
   console.log('Data seeded successfully!');

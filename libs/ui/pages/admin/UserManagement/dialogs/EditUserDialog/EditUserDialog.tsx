@@ -222,7 +222,7 @@ const EditUserDialog = ({
               <InputLabel>Role</InputLabel>
               <Select value={editForm.role} label='Role'>
                 <MenuItem value='user'>User</MenuItem>
-                <MenuItem value='captain'>Captain</MenuItem>
+                <MenuItem value='consultant'>Consultant</MenuItem>
                 <MenuItem value='admin'>Admin</MenuItem>
               </Select>
             </FormControl>
@@ -267,13 +267,13 @@ const EditUserDialog = ({
             />
           </Grid>
 
-          {/* Captain fields */}
-          {editForm.role === 'captain' && (
+          {/* Consultant fields */}
+          {editForm.role === 'consultant' && (
             <>
               <Grid size={{ xs: 12 }}>
                 <Divider />
                 <Typography variant='subtitle2' color='secondary' sx={{ mt: 1 }}>
-                  Captain Info
+                  Consultant Info
                 </Typography>
               </Grid>
               <Grid size={{ xs: 6 }}>

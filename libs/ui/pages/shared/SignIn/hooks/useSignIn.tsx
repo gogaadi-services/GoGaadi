@@ -24,8 +24,8 @@ const useSignIn = () => {
         let destination = constants.UserPath.DASHBOARD;
         if (role === UserRole.ADMIN) {
           destination = constants.AdminPath.DASHBOARD;
-        } else if (role === UserRole.CAPTAIN) {
-          destination = constants.CaptainPath.DASHBOARD;
+        } else if (role === UserRole.consultant) {
+          destination = constants.ConsultantPath.DASHBOARD;
         }
         navigate(destination, { replace: true });
       } catch (err: unknown) {

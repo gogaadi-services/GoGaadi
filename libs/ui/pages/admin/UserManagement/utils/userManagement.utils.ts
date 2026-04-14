@@ -419,5 +419,5 @@ export const AdminCreateUserSchema = yup.object({
   role: yup
     .string()
     .required('required')
-    .oneOf(['user', 'captain', 'admin'], 'Role must be user, captain, or admin'),
+    .oneOf(['user', 'consultant', 'admin'], 'Role must be user, consultant, or admin'),
 });

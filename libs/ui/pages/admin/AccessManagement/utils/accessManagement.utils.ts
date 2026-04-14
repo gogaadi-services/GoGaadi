@@ -163,8 +163,8 @@ export const buildRefId = (role: string, id: number | string): string => {
       ? 'ADMIN'
       : role === 'consultant'
         ? 'CONSULT'
-        : role === 'captain'
-          ? 'CAPTAIN'
+        : role === 'consultant'
+          ? 'Consultant'
           : 'USER';
   const isDraft = String(id).startsWith('draft_') || (id as number) === -1;
   const type = isDraft ? 'DRAFT' : 'ROLE';
@@ -434,5 +434,5 @@ export const AdminCreateUserSchema = yup.object({
   role: yup
     .string()
     .required('required')
-    .oneOf(['user', 'captain', 'admin'], 'Role must be user, captain, or admin'),
+    .oneOf(['user', 'consultant', 'admin'], 'Role must be user, consultant, or admin'),
 });

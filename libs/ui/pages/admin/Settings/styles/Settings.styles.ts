@@ -10,5 +10,5 @@ export const useStyles = createAppStyles((theme: Theme) => getBaseStyles(theme),
     panel: {},
   },
   user: {},
-  captain: {},
+  consultant: {},
 });

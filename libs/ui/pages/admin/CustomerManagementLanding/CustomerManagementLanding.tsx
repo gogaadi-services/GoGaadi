@@ -329,7 +329,7 @@ const CustomerManagementLanding = () => {
       heroSubtitle='Select a service type to view and manage approved accounts'
     >
       <Section
-        label='Captain Onboarding'
+        label='Consultant Onboarding'
         keys={ONBOARDING}
         navigate={navigate}
         managementTypes={MANAGEMENT_TYPES}

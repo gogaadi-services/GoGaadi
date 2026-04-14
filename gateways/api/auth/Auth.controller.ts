@@ -94,13 +94,13 @@ type AuthAction =
   | 'get-change-log'
   | 'activate-user'
   | 'deactivate-user'
-  | 'get-captain-profiles'
-  | 'create-captain-profile'
-  | 'update-captain-profile'
-  | 'get-captain-roles'
-  | 'create-captain-role'
-  | 'update-captain-role'
-  | 'delete-captain-role'
+  | 'get-consultant-profiles'
+  | 'create-consultant-profile'
+  | 'update-consultant-profile'
+  | 'get-consultant-roles'
+  | 'create-consultant-role'
+  | 'update-consultant-role'
+  | 'delete-consultant-role'
   | 'get-login-logs'
   | 'get-customer-onboardings'
   | 'create-customer-onboarding'
@@ -207,13 +207,13 @@ export class AuthController {
         case 'get-change-log':
         case 'activate-user':
         case 'deactivate-user':
-        case 'get-captain-profiles':
-        case 'create-captain-profile':
-        case 'update-captain-profile':
-        case 'get-captain-roles':
-        case 'create-captain-role':
-        case 'update-captain-role':
-        case 'delete-captain-role':
+        case 'get-consultant-profiles':
+        case 'create-consultant-profile':
+        case 'update-consultant-profile':
+        case 'get-consultant-roles':
+        case 'create-consultant-role':
+        case 'update-consultant-role':
+        case 'delete-consultant-role':
         case 'get-login-logs':
         case 'get-customer-onboardings':
         case 'create-customer-onboarding':
@@ -986,13 +986,13 @@ export class AuthController {
            <p>This link expires in 24 hours.</p>`,
         ).catch(console.error);
 
-        // If captain — send profile reminder
-        if (approvedRole === 'captain') {
+        // If consultant — send profile reminder
+        if (approvedRole === 'consultant') {
           sendEmail(
             user.email,
-            'gogaadi — Please Update Your Captain Profile',
-            `<h2>Action Required: Captain Profile</h2>
-             <p>After activating your account, please update your captain profile in the system.</p>`,
+            'gogaadi — Please Update Your Consultant Profile',
+            `<h2>Action Required: Consultant Profile</h2>
+             <p>After activating your account, please update your consultant profile in the system.</p>`,
           ).catch(console.error);
         }
 
@@ -1505,32 +1505,32 @@ export class AuthController {
         break;
       }
 
-      // ── Captain Profiles ─────────────────────────────────────────────────
-      case 'get-captain-profiles': {
+      // ── Consultant Profiles ─────────────────────────────────────────────────
+      case 'get-consultant-profiles': {
         const profiles = await (db as any).captainProfile.findMany({
           orderBy: { createdAt: 'desc' },
         });
-        res.json({ message: 'Captain profiles retrieved', data: profiles });
+        res.json({ message: 'Consultant profiles retrieved', data: profiles });
         break;
       }
 
-      case 'create-captain-profile': {
+      case 'create-consultant-profile': {
         const { data: profileData } = req.body as { data: Record<string, any> };
         if (!profileData?.userId || !profileData?.application) {
           res.status(400).json({ message: 'userId and application are required' });
           return;
         }
         const profile = await (db as any).captainProfile.create({ data: profileData });
-        // Mark captain profile as updated
+        // Mark consultant profile as updated
         await db.user.update({
           where: { id: profileData.userId },
           data: { captainProfileUpdated: true },
         });
-        res.status(201).json({ message: 'Captain profile created', data: profile });
+        res.status(201).json({ message: 'Consultant profile created', data: profile });
         break;
       }
 
-      case 'update-captain-profile': {
+      case 'update-consultant-profile': {
         const { profileId, data: profileData } = req.body as {
           profileId: number;
           data: Record<string, any>;
@@ -1548,31 +1548,31 @@ export class AuthController {
             where: { id: profileData.userId },
             data: { captainProfileUpdated: true },
           });
-        res.json({ message: 'Captain profile updated', data: profile });
+        res.json({ message: 'Consultant profile updated', data: profile });
         break;
       }
 
-      // ── Captain Roles ────────────────────────────────────────────────────
-      case 'get-captain-roles': {
+      // ── Consultant Roles ────────────────────────────────────────────────────
+      case 'get-consultant-roles': {
         const roles = await (db as any).captainRole.findMany({
           orderBy: { application: 'asc' },
         });
-        res.json({ message: 'Captain roles retrieved', data: roles });
+        res.json({ message: 'Consultant roles retrieved', data: roles });
         break;
       }
 
-      case 'create-captain-role': {
+      case 'create-consultant-role': {
         const { data: roleData } = req.body as { data: Record<string, any> };
         if (!roleData?.application || !roleData?.roleName) {
           res.status(400).json({ message: 'application and roleName are required' });
           return;
         }
         const role = await (db as any).captainRole.create({ data: roleData });
-        res.status(201).json({ message: 'Captain role created', data: role });
+        res.status(201).json({ message: 'Consultant role created', data: role });
         break;
       }
 
-      case 'update-captain-role': {
+      case 'update-consultant-role': {
         const { roleId, data: roleData } = req.body as {
           roleId: number;
           data: Record<string, any>;
@@ -1585,18 +1585,18 @@ export class AuthController {
           where: { id: roleId },
           data: roleData,
         });
-        res.json({ message: 'Captain role updated', data: role });
+        res.json({ message: 'Consultant role updated', data: role });
         break;
       }
 
-      case 'delete-captain-role': {
+      case 'delete-consultant-role': {
         const { roleId } = req.body as { roleId: number };
         if (!roleId) {
           res.status(400).json({ message: 'roleId is required' });
           return;
         }
         await (db as any).captainRole.delete({ where: { id: roleId } });
-        res.json({ message: 'Captain role deleted' });
+        res.json({ message: 'Consultant role deleted' });
         break;
       }
 
@@ -1610,10 +1610,10 @@ export class AuthController {
 
       case 'create-customer-onboarding': {
         const { data: onboardingData } = req.body as { data: Record<string, unknown> };
-        // Captain onboarding (mobility/logistics/parcel without a customer-only bundle) requires vehicleType.
+        // Consultant onboarding (mobility/logistics/parcel without a customer-only bundle) requires vehicleType.
         // Driver-hire and vehicle-rental use serviceCategory 'mobility' but carry bundleTypes
-        // that mark them as customer bookings, not captain registrations.
-        // Only captain onboarding types (mobility, logistics, parcel) require a vehicleType.
+        // that mark them as customer bookings, not consultant registrations.
+        // Only consultant onboarding types (mobility, logistics, parcel) require a vehicleType.
         // All other types (driver-hire, vehicle-rental, mechanic-hire, partner types, user) do not.
         const CAPTAIN_CATEGORIES = ['mobility', 'logistics', 'parcel'];
         const requiresVehicleType = CAPTAIN_CATEGORIES.includes(

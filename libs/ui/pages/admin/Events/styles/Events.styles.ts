@@ -9,5 +9,5 @@ export const useStyles = createAppStyles((theme: Theme) => getBaseStyles(theme),
     contentCard: {},
   },
   user: {},
-  captain: {},
+  consultant: {},
 });

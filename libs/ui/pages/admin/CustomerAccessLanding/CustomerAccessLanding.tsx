@@ -424,7 +424,7 @@ const CustomerAccessLanding = () => {
         )}
       </Box>
 
-      <Section label='Captain Onboarding' keys={ONBOARDING} counts={counts} navigate={navigate} accessTypes={ACCESS_TYPES} />
+      <Section label='Consultant Onboarding' keys={ONBOARDING} counts={counts} navigate={navigate} accessTypes={ACCESS_TYPES} />
       <Section label='On-Demand Services' keys={ON_DEMAND} counts={counts} navigate={navigate} accessTypes={ACCESS_TYPES} />
       <Section label='Automotive Partners' keys={AUTOMOTIVE} counts={counts} navigate={navigate} accessTypes={ACCESS_TYPES} />
       <Section label='Finance Partners' keys={FINANCE} counts={counts} navigate={navigate} accessTypes={ACCESS_TYPES} />

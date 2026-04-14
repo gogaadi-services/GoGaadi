@@ -1095,7 +1095,7 @@ const CreateCustomerForm = () => {
           <Box>
             <Alert severity='info' sx={{ borderRadius: 2, mb: 2 }}>
               Bundles are <strong>optional</strong>. Select any that apply — they unlock platform
-              benefits and commission discounts for the captain.
+              benefits and commission discounts for the consultant.
             </Alert>
 
             {/* Rent & Ride */}

@@ -15,7 +15,7 @@ export interface ISignUpInput {
   businessUnit: string;
   password: string;
   confirmPassword: string;
-  role: 'user' | 'admin' | 'captain';
+  role: 'user' | 'admin' | 'consultant';
 }
 
 export interface ISignUpResponse {

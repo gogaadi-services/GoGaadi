@@ -255,7 +255,7 @@ const ChangeProfileDialog = ({
                             {s.label}
                           </MenuItem>
                         ))
-                    : (['user', 'captain', 'admin'] as const)
+                    : (['user', 'consultant', 'admin'] as const)
                         .filter((r) => r !== selectedRow?.role)
                         .map((r) => (
                           <MenuItem key={r} value={r}>

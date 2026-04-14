@@ -59,7 +59,7 @@ model User {
   lastDeactivationDate    DateTime?
   // tracking
   lastActivityAt          DateTime?
-  // captain fields
+  // consultant fields
   captainProfileUpdated Boolean  @default(false)
   application              String?
   applicationLead          String?
@@ -83,14 +83,14 @@ model UserChangeLog {
   createdAt     DateTime @default(now())
 }
 
-model CaptainProfile {
+model ConsultantProfile {
   id                   Int      @id @default(autoincrement())
   userId               Int      @unique
   application          String
   captainRole       String?
   slaWorkingCalendar   String?
   slaExceptionCalendar String?
-  leadCaptain       String?
+  leadConsultant       String?
   applicationManager   String?
   isPocLead            Boolean  @default(false)
   isActive             Boolean  @default(true)
@@ -98,7 +98,7 @@ model CaptainProfile {
   updatedAt            DateTime @updatedAt
 }
 
-model CaptainRole {
+model ConsultantRole {
   id          Int      @id @default(autoincrement())
   application String
   roleName    String
@@ -205,7 +205,7 @@ model CustomerOnboarding {
   // Uploaded document file keys (JSON array e.g. ["rcFront","rcBack","dlFront"])
   uploadedFiles        String?
 
-  // Bundle Options (optional — captain may apply one or more bundles)
+  // Bundle Options (optional — consultant may apply one or more bundles)
   // bundleTypes: JSON array e.g. ["rental","driver_hire","parcel_combo"]
   bundleTypes          String?   // JSON
   bundleDiscount       Float?    // calculated % commission discount
@@ -224,13 +224,13 @@ model CustomerOnboarding {
   additionalVehicles   String?   // JSON: [{vehicleType,vehicleNumber,fuelType}]
 
   // Parcel + Ride Combo Bundle (bike / auto / cab only)
-  // Captain accepts a small parcel delivery while on a passenger trip
+  // Consultant accepts a small parcel delivery while on a passenger trip
   parcelComboTypes     String?   // JSON: ["documents","food","general","fragile"]
   parcelMaxWeight      String?   // '2kg' | '5kg' | '10kg' | '15kg'
   parcelRadiusPref     String?   // '0.5km' | '1km' | '1.5km' | '2km'
 
   // Cargo Co-Ride Bundle (lorry / tata_ace / dcm only)
-  // Captain accepts a co-passenger on an outstation cargo trip
+  // Consultant accepts a co-passenger on an outstation cargo trip
   cargoCoRideMax       String?   // 1 or 2 co-passengers max
   cargoCoRideHaulPref  String?   // 'short' | 'medium' | 'long'
   cargoCoRideRatePref  String?   // 'platform_suggested' | 'negotiable'

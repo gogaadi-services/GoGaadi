@@ -96,8 +96,6 @@ const useAccessManagement = () => {
   // ── Login data dialog ─────────────────────────────────────────────────────────
   const [loginDataOpen, setLoginDataOpen] = useState(false);
 
-  // ── Captain profile dialog ─────────────────────────────────────────────────
-
   // ── Change profile (role) dialog ──────────────────────────────────────────────
   const [changeProfileOpen, setChangeProfileOpen] = useState(false);
   const [changeProfileRole, setChangeProfileRole] = useState('');
@@ -724,7 +722,7 @@ const useAccessManagement = () => {
           if (!role || role === '-') return '-';
           const colorMap: Record<string, 'warning' | 'success' | 'primary'> = {
             admin: 'warning',
-            captain: 'success',
+            consultant: 'success',
             user: 'primary',
           };
           return (

@@ -15,7 +15,7 @@ export const useStyles = createAppStyles((theme: Theme) => getBaseStyles(theme),
     description: {},
     tableContainer: {},
   },
-  captain: {
+  consultant: {
     container: {},
     title: {},
     description: {},

@@ -8,5 +8,5 @@ export const useStyles = createAppStyles((theme: Theme) => getBaseStyles(theme),
     title: {},
   },
   user: {},
-  captain: {},
+  consultant: {},
 });

@@ -861,7 +861,7 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     [theme.breakpoints.down('sm')]: { fontSize: '0.72rem', minWidth: 38 },
   },
 
-  // ── Captain List ─────────────────────────────────────────────────────────────
+  // ── Consultant List ─────────────────────────────────────────────────────────────
   captainItem: {
     display: 'flex',
     alignItems: 'center',

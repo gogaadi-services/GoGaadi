@@ -32,16 +32,16 @@ export const useAuth = () => {
   };
 
   const isAdmin = user?.role === UserRole.ADMIN;
-  const isCaptain = user?.role === UserRole.CAPTAIN;
   const isConsultant = user?.role === UserRole.CONSULTANT;
+  const isUser = user?.role === UserRole.USER;
 
   return {
     user,
     token,
     isAuthenticated,
     isAdmin,
-    isCaptain,
     isConsultant,
+    isUser,
     isConsultantMode,
     enterConsultantMode,
     exitConsultantMode,

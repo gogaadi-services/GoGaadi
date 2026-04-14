@@ -46,13 +46,13 @@ type CustomerType =
   | 'insurance-partner';
 
 const CUSTOMER_TYPES = [
-  // ── Captain Onboarding ───────────────────────────────────────────────────────
+  // ── Consultant Onboarding ───────────────────────────────────────────────────────
   {
     type: 'mobility' as CustomerType,
     displayName: 'Mobility',
     tagline: 'Passenger Transport',
     description:
-      'Register a captain for ride-hailing and passenger transport — Bike, Auto Rickshaw, Cab, and Shuttle services across the city or outstation.',
+      'Register a consultant for ride-hailing and passenger transport — Bike, Auto Rickshaw, Cab, and Shuttle services across the city or outstation.',
     perks: [
       { icon: TwoWheelerIcon, text: 'Bike, Auto, Cab & Shuttle rides' },
       { icon: AutoAwesomeIcon, text: 'On-demand & scheduled bookings' },
@@ -66,7 +66,7 @@ const CUSTOMER_TYPES = [
     displayName: 'Logistics',
     tagline: 'Goods Transport',
     description:
-      'Onboard a captain for freight and cargo services — Tata Ace, DCM, Lorry, and full-truckload for goods movement across the city or outstation.',
+      'Onboard a consultant for freight and cargo services — Tata Ace, DCM, Lorry, and full-truckload for goods movement across the city or outstation.',
     perks: [
       { icon: LocalShippingIcon, text: 'Tata Ace, DCM & Lorry' },
       { icon: BusinessIcon, text: 'B2B & commercial freight' },
@@ -80,7 +80,7 @@ const CUSTOMER_TYPES = [
     displayName: 'Parcel Delivery',
     tagline: 'Last-Mile Delivery',
     description:
-      'Register a captain for parcel and last-mile delivery services — Bike, Auto, and Tata Ace for fast document, food, and goods delivery across the city.',
+      'Register a consultant for parcel and last-mile delivery services — Bike, Auto, and Tata Ace for fast document, food, and goods delivery across the city.',
     perks: [
       { icon: Inventory2Icon, text: 'Documents, food & general goods' },
       { icon: LocationOnIcon, text: 'Local & outstation delivery' },
@@ -208,7 +208,7 @@ const CUSTOMER_TYPES = [
     displayName: 'Insurance Partner',
     tagline: 'Vehicle & Driver Insurance Provider',
     description:
-      'Partner an insurance provider with GoGaadi — offer vehicle insurance, health cover, and driver protection plans to the entire operator and captain network.',
+      'Partner an insurance provider with GoGaadi — offer vehicle insurance, health cover, and driver protection plans to the entire operator and consultant network.',
     perks: [
       { icon: SecurityIcon, text: 'Vehicle & commercial insurance' },
       { icon: HealthAndSafetyIcon, text: 'Driver health & accident cover' },
@@ -344,7 +344,7 @@ const CreateCustomer = () => {
         </Box>
       </Box>
 
-      {renderSection('Captain Onboarding', ONBOARDING_TYPES)}
+      {renderSection('Consultant Onboarding', ONBOARDING_TYPES)}
       {renderSection('On-Demand Services', SERVICE_TYPES)}
       {renderSection('Automotive Partners', AUTOMOTIVE_TYPES)}
       {renderSection('Finance Partners', FINANCE_TYPES)}

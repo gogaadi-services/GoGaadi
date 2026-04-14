@@ -8,7 +8,6 @@ import { store } from '@gogaadi/state';
 import { Loader, NotificationModal } from '@gogaadi/component';
 import { DynamicThemeProvider } from '@gogaadi/theme';
 import App from './app';
-import './styles.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 

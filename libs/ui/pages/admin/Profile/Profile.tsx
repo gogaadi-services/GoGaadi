@@ -59,7 +59,7 @@ function getStrength(pw: string): { score: number; label: string; color: string 
 // ─── Role chip color ──────────────────────────────────────────────────────────
 function roleChipColor(role?: string): 'warning' | 'primary' | 'success' | 'default' {
   if (role === 'admin') return 'warning';
-  if (role === 'captain') return 'success';
+  if (role === 'consultant') return 'success';
   return 'primary';
 }
 

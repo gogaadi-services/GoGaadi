@@ -1,6 +1,6 @@
 import { Box, Typography, Avatar, SelectChangeEvent } from '@mui/material';
 import { constants } from '@gogaadi/utils';
-import { useStyles } from './styles';
+import { useStyles } from './SignUp.styles';
 import useSignUp, { STEPS } from './hooks/useSignUp';
 import StepProgress from './components/StepProgress';
 import PersonalStep from './components/PersonalStep';

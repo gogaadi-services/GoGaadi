@@ -13,7 +13,7 @@ const FEATURES = [
   { icon: DirectionsBusIcon, label: 'DCMs, lorries & Tata Ace freight' },
   { icon: NfcIcon, label: 'FASTag & toll expense management' },
   { icon: GpsFixedIcon, label: 'Live GPS fleet tracking' },
-  { icon: AccountBalanceWalletIcon, label: 'Trip cost & captain settlements' },
+  { icon: AccountBalanceWalletIcon, label: 'Trip cost & consultant settlements' },
   { icon: LocalShippingIcon, label: 'End-to-end logistics visibility' },
 ];
 

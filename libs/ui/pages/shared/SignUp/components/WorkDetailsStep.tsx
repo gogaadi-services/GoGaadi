@@ -20,7 +20,7 @@ const DEPARTMENT_OPTIONS = [
   'Technology & Engineering',
   'Sales & Business Development',
   'Customer Support',
-  'Driver / Captain Onboarding',
+  'Driver / Consultant Onboarding',
   'Compliance & Legal',
   'Human Resources',
   'Marketing',

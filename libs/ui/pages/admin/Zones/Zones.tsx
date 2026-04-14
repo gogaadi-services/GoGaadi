@@ -1,7 +1,7 @@
 import { Box } from '@gogaadi/component';
 import { Typography } from '@mui/material';
 import MapIcon from '@mui/icons-material/Map';
-import { useStyles } from './styles';
+import { useStyles } from './Zones.styles';
 
 const Zones = () => {
   const { classes } = useStyles();

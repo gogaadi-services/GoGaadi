@@ -5,9 +5,8 @@
 
 export enum UserRole {
   ADMIN = 'admin',
-  USER = 'user',
-  CAPTAIN = 'captain',
   CONSULTANT = 'consultant',
+  USER = 'user',
 }
 
 export enum UserStatus {
@@ -93,14 +92,14 @@ export interface IUserChangeLog {
   createdAt: string;
 }
 
-export interface ICaptainProfile {
+export interface IConsultantProfile {
   id: number;
   userId: number;
   application: string;
   captainRole: string | null;
   slaWorkingCalendar: string | null;
   slaExceptionCalendar: string | null;
-  leadCaptain: string | null;
+  leadConsultant: string | null;
   applicationManager: string | null;
   isPocLead: boolean;
   isActive: boolean;
@@ -108,7 +107,7 @@ export interface ICaptainProfile {
   updatedAt: string;
 }
 
-export interface ICaptainRole {
+export interface IConsultantRole {
   id: number;
   application: string;
   roleName: string;
@@ -141,13 +140,13 @@ export type AuthAction =
   | 'generate-temp-password'
   | 'reset-user-password'
   | 'get-change-log'
-  | 'get-captain-profiles'
-  | 'create-captain-profile'
-  | 'update-captain-profile'
-  | 'get-captain-roles'
-  | 'create-captain-role'
-  | 'update-captain-role'
-  | 'delete-captain-role'
+  | 'get-consultant-profiles'
+  | 'create-consultant-profile'
+  | 'update-consultant-profile'
+  | 'get-consultant-roles'
+  | 'create-consultant-role'
+  | 'update-consultant-role'
+  | 'delete-consultant-role'
   | 'get-login-logs'
   | 'deactivate-user'
   | 'activate-user'

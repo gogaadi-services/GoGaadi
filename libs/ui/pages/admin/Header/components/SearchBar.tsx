@@ -9,8 +9,8 @@ const genUserId = (role: string, id: number | string): string => {
       ? 'ADMIN'
       : role === 'consultant'
         ? 'CONSULT'
-        : role === 'captain'
-          ? 'CAPTAIN'
+        : role === 'consultant'
+          ? 'consultant'
           : 'USER';
   const num = Number(String(id).replace('draft_', '')) || 0;
   return `${prefix}${String(num).padStart(5, '0')}`;

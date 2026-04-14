@@ -15,7 +15,7 @@ A full-stack ride-hailing and mobility platform similar to **Uber, Rapido, and O
 Go Gaadi is a mobility-as-a-service platform where:
 
 - **Users** request rides, hire drivers, or rent vehicles
-- **Captains** are verified drivers who fulfill ride and service requests
+- **Consultants** are verified drivers who fulfill ride and service requests
 - **Admins** manage the entire platform — users, captains, bookings, and content
 
 Think of it as the backend operations layer for a company like Rapido or Ola — where admins control who can drive, approve requests, manage fleets, and monitor platform activity.
@@ -44,15 +44,15 @@ Think of it as the backend operations layer for a company like Rapido or Ola —
 | Role | Who They Are | What They Can Do |
 |------|-------------|-----------------|
 | **Admin** | Platform operator | Full control — manage users, captains, bookings, content, approvals |
-| **Captain** | Driver / service provider | Accept trips, manage their profile and availability |
+| **Consultant** | Driver / service provider | Accept trips, manage their profile and availability |
 | **User** | Passenger / customer | Request rides, hire drivers, rent vehicles |
 
 ### How roles work
 
 1. A new person signs up — they start as a **User** by default
-2. If they want to be a **Captain**, they submit a role request
+2. If they want to be a **Consultant**, they submit a role request
 3. An **Admin** reviews and approves or rejects the request
-4. Once approved as Captain, they can accept bookings
+4. Once approved as Consultant, they can accept bookings
 
 ---
 
@@ -65,11 +65,11 @@ Think of it as the backend operations layer for a company like Rapido or Ola —
 - View booking history
 - Manage their profile
 
-### For Captains
+### For Consultants
 - Receive and accept ride/hire requests
 - View their assigned trips
 - Manage availability
-- Build their captain profile (vehicle, role, SLA calendar)
+- Build their consultant profile (vehicle, role, SLA calendar)
 
 ### For Admins
 
@@ -81,7 +81,7 @@ Think of it as the backend operations layer for a company like Rapido or Ola —
 
 **People & Organizations**
 - Customer Management — create, edit, activate/deactivate users
-- Captain Management — approve captains, view captain profiles
+- Consultant Management — approve captains, view consultant profiles
 - Driver Hire requests — match users with available drivers
 - Vehicle Rental requests — assign vehicles to rental requests
 - Organizations — manage partner or corporate accounts
@@ -127,7 +127,7 @@ npm run prisma:seed
 
 ```
 admin@gogaadi.com    / admin123     → Admin role
-captain@gogaadi.com  / captain123   → Captain role
+consultant@gogaadi.com  / captain123   → Consultant role
 user@gogaadi.com     / user123      → User role
 ```
 
@@ -142,7 +142,7 @@ gogaadi/
 │   │   ├── admin/                # Admin API routes
 │   │   ├── auth/                 # Auth routes (signin, signup, OTP)
 │   │   ├── user/                 # User API routes
-│   │   └── captain/              # Captain API routes
+│   │   └── consultant/              # Consultant API routes
 │   ├── prisma/
 │   │   ├── schema.prisma         # Database schema
 │   │   ├── seed.ts               # Seed data
@@ -273,7 +273,7 @@ docker-compose logs -f
 | `/admin/events` | Platform events |
 | `/admin/access-request` | Role change approvals |
 | `/admin/users` | All registered users |
-| `/admin/captains` | Captain profiles |
+| `/admin/captains` | Consultant profiles |
 | `/admin/driver-hire` | Driver hire requests |
 | `/admin/vehicle-rental` | Vehicle rental requests |
 | `/admin/user-management` | Create/edit/deactivate users |
@@ -301,7 +301,7 @@ docker-compose logs -f
 
 ### Admin Auth Actions (`/api/auth/action`)
 
-All admin user/captain management flows go through a single action endpoint:
+All admin user/consultant management flows go through a single action endpoint:
 
 | Action | Description |
 |--------|-------------|
@@ -309,9 +309,9 @@ All admin user/captain management flows go through a single action endpoint:
 | `create-user` | Create a new user |
 | `update-user` | Edit user details |
 | `activate-user` / `deactivate-user` | Toggle user access |
-| `get-pending-role-requests` | Get pending captain/admin requests |
+| `get-pending-role-requests` | Get pending consultant/admin requests |
 | `approve-role-request` / `reject-role-request` | Handle role requests |
-| `get-captain-profiles` | List captain profiles |
+| `get-consultant-profiles` | List consultant profiles |
 | `get-driver-hire-requests` | List driver hire requests |
 | `match-driver-hire` / `reject-driver-hire` | Process driver hire |
 | `get-vehicle-rental-requests` | List vehicle rental requests |
@@ -493,7 +493,7 @@ Authorization: Bearer <token>
 |-------|----------|------|
 | `admin@gogaadi.com` | `admin123` | admin |
 | `user@gogaadi.com` | `user123` | user |
-| `captain@gogaadi.com` | `captain123` | captain |
+| `consultant@gogaadi.com` | `captain123` | consultant |
 
 ---
 
