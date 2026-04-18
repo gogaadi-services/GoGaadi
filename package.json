@@ -13,14 +13,14 @@
     "typescript"
   ],
   "scripts": {
-    "build": "node node_modules/vite/bin/vite.js build --config web/vite.config.ts",
-    "build:administration": "node node_modules/vite/bin/vite.js build --config web/vite.config.ts",
+    "build": "vite build --config web/vite.config.mts",
+    "build:administration": "vite build --config web/vite.config.mts",
     "build:backend": "tsc --project tsconfig.backend.json",
     "build:backend:clean": "rimraf dist && npm run build:backend",
-    "serve:administration": "node node_modules/vite/bin/vite.js preview --config web/vite.config.ts",
+    "serve:administration": "vite preview --config web/vite.config.mts",
     "start:backend": "ts-node -r tsconfig-paths/register --project=tsconfig.app.json gateways/src/index.ts",
     "dev:backend": "nodemon --config nodemon.json",
-    "dev:admin-web": "node node_modules/vite/bin/vite.js --config web/vite.config.ts",
+    "dev:admin-web": "vite --config web/vite.config.mts",
     "dev:mobile": "cd mobile && npm run start",
     "dev:mobile:android": "cd mobile && npm run android",
     "dev:mobile:ios": "cd mobile && npm run ios",

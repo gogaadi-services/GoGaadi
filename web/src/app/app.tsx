@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate, useParams, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
+import React from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
@@ -160,12 +161,26 @@ const ConsultantRoutes = () => {
 
       {/* Create new */}
       <Route path={ConsultantPath.CREATE_NEW} element={<AdminCreateNewPage />} />
+
+      {/* Catch-all: block access to any admin URL — redirect to consultant home */}
+      <Route path={Path.NOT_FOUND} element={<Navigate to={ConsultantPath.PEOPLE_ACCESS} replace />} />
     </Routes>
   );
 };
 
+// Guard: blocks consultant role from accessing admin URLs
+const ConsultantRoleGuard = ({ children }: { children: React.ReactNode }) => {
+  const { ConsultantPath } = constants;
+  const { isConsultant } = useAuth();
+  const { pathname } = useLocation();
+  if (isConsultant && pathname.startsWith('/app/admin')) {
+    return <Navigate to={ConsultantPath.PEOPLE_ACCESS} replace />;
+  }
+  return <>{children}</>;
+};
+
 const AppRoutes = () => {
-  const { AdminPath, AuthPath, Path } = constants;
+  const { AdminPath, ConsultantPath, AuthPath, Path } = constants;
   const { isAuthenticated, isAdmin, isConsultant, isConsultantMode } = useAuth();
   const { pathname } = useLocation();
   const { hide } = useLoader();
@@ -396,6 +411,12 @@ const AppRoutes = () => {
 
               {/* Supporting */}
               <Route path={AdminPath.PROFILE} element={<AdminProfilePage />} />
+
+              {/* Admin navigating to consultant URLs → redirect to dashboard */}
+              <Route
+                path='/app/consultant/*'
+                element={<Navigate to={AdminPath.DASHBOARD} replace />}
+              />
 
               <Route path={Path.NOT_FOUND} element={<NotFoundPage />} />
             </Routes>

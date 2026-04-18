@@ -447,7 +447,7 @@ export class AuthController {
 
     // Notify admin (fire and forget)
     sendEmail(
-      process.env.ADMIN_EMAIL || 'admin@gogaadi.com',
+      process.env.ADMIN_EMAIL || 'admin@gogaadi.in',
       'gogaadi — New Access Request',
       `<h2>New Access Request</h2>
        <p><strong>${fullName}</strong> (${validatedData.email}) has signed up and is requesting <strong>${validatedData.role}</strong> access.</p>

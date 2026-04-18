@@ -2,72 +2,70 @@ import { lazy } from 'react';
 
 // Lazy-loaded pages
 export const LazyMenuItems = {
-  // Admin layout
-  AdminHeaderPage: lazy(() => import('@gogaadi/pages/admin/Header')),
-  AdminSideNavPage: lazy(() => import('@gogaadi/pages/admin/SideNav')),
+  // Admin layout (shared components, role-aware)
+  AdminHeaderPage: lazy(() => import('@gogaadi/pages/shared/Header')),
+  AdminSideNavPage: lazy(() => import('@gogaadi/pages/shared/SideNav')),
 
-  // Consultant layout
-  ConsultantHeaderPage: lazy(() => import('@gogaadi/pages/consultant/Header')),
-  ConsultantSideNavPage: lazy(() => import('@gogaadi/pages/consultant/SideNav')),
+  // Consultant layout (same shared components, role-aware)
+  ConsultantHeaderPage: lazy(() => import('@gogaadi/pages/shared/Header')),
+  ConsultantSideNavPage: lazy(() => import('@gogaadi/pages/shared/SideNav')),
 
-  // Team pages
-  AdminCustomerDetailPage: lazy(() => import('@gogaadi/pages/admin/CustomerDetail')),
-  AdminAccessRequestsPage: lazy(() => import('@gogaadi/pages/admin/AccessRequests')),
+  // Customer & User Detail (shared component)
+  AdminCustomerDetailPage: lazy(() => import('@gogaadi/pages/shared/Customer/CustomerDetail')),
+
+  // People pages (new structure)
+  AdminAccessRequestsPage: lazy(() => import('@gogaadi/pages/admin/People/PeopleRequests')),
+  AdminAccessManagementPage: lazy(() => import('@gogaadi/pages/admin/People/PeopleManagement')),
 
   // Governance pages
   AdminDashboardPage: lazy(() => import('@gogaadi/pages/admin/Dashboard')),
-  AdminAccessManagementPage: lazy(() => import('@gogaadi/pages/admin/AccessManagement')),
-  AdminAuditTrailsPage: lazy(() => import('@gogaadi/pages/admin/AuditTrails')),
-  AdminEventsPage: lazy(() => import('@gogaadi/pages/admin/Events')),
-
-  // Administration pages
-  AdminSubscriptionsPage: lazy(() => import('@gogaadi/pages/admin/Subscriptions')),
-  AdminCollectionsPage: lazy(() => import('@gogaadi/pages/admin/Collections')),
-  AdminCategoriesPage: lazy(() => import('@gogaadi/pages/admin/Categories')),
-  AdminTagsPage: lazy(() => import('@gogaadi/pages/admin/FastTag')),
-  AdminSettingsPage: lazy(() => import('@gogaadi/pages/admin/Settings')),
+  AdminAuditTrailsPage: lazy(() => import('@gogaadi/pages/admin/Configuration/Reports/AuditTrails')),
+  AdminEventsPage: lazy(() => import('@gogaadi/pages/admin/Configuration/Events')),
 
   // Finance pages
-  AdminTransactionsPage: lazy(() => import('@gogaadi/pages/admin/Transactions')),
-  AdminDriverEarningsPage: lazy(() => import('@gogaadi/pages/admin/DriverEarnings')),
-  AdminCommissionsPage: lazy(() => import('@gogaadi/pages/admin/Commissions')),
-
-  // Requests pages
-  AdminCreateNewPage: lazy(() => import('@gogaadi/pages/admin/CreateNew')),
-  AdminKycPage: lazy(() => import('@gogaadi/pages/admin/Kyc')),
-  AdminCreateManagementFormPage: lazy(() =>
-    import('@gogaadi/pages/admin/CreateTicket').then((m) => ({ default: m.CreateManagementForm })),
-  ),
-  AdminCreateCustomerFormPage: lazy(() =>
-    import('@gogaadi/pages/admin/CreateCustomer').then((m) => ({ default: m.CreateCustomerForm })),
-  ),
-  AdminCreateCustomerSimpleFormPage: lazy(() =>
-    import('@gogaadi/pages/admin/CreateCustomer').then((m) => ({ default: m.CreateSimpleForm })),
-  ),
-
-  // Reports pages
-  AdminAnalyticsPage: lazy(() => import('@gogaadi/pages/admin/Analytics')),
+  AdminSubscriptionsPage: lazy(() => import('@gogaadi/pages/admin/Finance/Subscriptions')),
+  AdminCollectionsPage: lazy(() => import('@gogaadi/pages/admin/Finance/Collections')),
+  AdminTagsPage: lazy(() => import('@gogaadi/pages/admin/Finance/FastTag')),
+  AdminTransactionsPage: lazy(() => import('@gogaadi/pages/admin/Finance/Transactions')),
+  AdminDriverEarningsPage: lazy(() => import('@gogaadi/pages/admin/Configuration/DriverEarnings')),
+  AdminCommissionsPage: lazy(() => import('@gogaadi/pages/admin/Finance/Commissions')),
 
   // Configuration pages
-  AdminPricingPage: lazy(() => import('@gogaadi/pages/admin/Pricing')),
-  AdminServiceTypesPage: lazy(() => import('@gogaadi/pages/admin/ServiceTypes')),
-  AdminBusinessRulesPage: lazy(() => import('@gogaadi/pages/admin/BusinessRules')),
-  AdminFeatureFlagsPage: lazy(() => import('@gogaadi/pages/admin/FeatureFlags')),
-  AdminZonesPage: lazy(() => import('@gogaadi/pages/admin/Zones')),
-  AdminIntegrationsPage: lazy(() => import('@gogaadi/pages/admin/Integrations')),
+  AdminCategoriesPage: lazy(() => import('@gogaadi/pages/admin/Configuration/Categories')),
+  AdminSettingsPage: lazy(() => import('@gogaadi/pages/shared/Settings')),
+  AdminPricingPage: lazy(() => import('@gogaadi/pages/admin/Configuration/Pricing')),
+  AdminServiceTypesPage: lazy(() => import('@gogaadi/pages/admin/Configuration/ServiceTypes')),
+  AdminBusinessRulesPage: lazy(() => import('@gogaadi/pages/admin/Configuration/BusinessRules')),
+  AdminFeatureFlagsPage: lazy(() => import('@gogaadi/pages/admin/Configuration/FeatureFlags')),
+  AdminZonesPage: lazy(() => import('@gogaadi/pages/admin/Configuration/Zones')),
+  AdminIntegrationsPage: lazy(() => import('@gogaadi/pages/admin/Configuration/Integrations')),
+  AdminKycPage: lazy(() => import('@gogaadi/pages/admin/Configuration/Kyc')),
 
-  // Customer landing pages (sidebar entry points)
-  AdminCustomerAccessLandingPage: lazy(() => import('@gogaadi/pages/admin/CustomerAccessLanding')),
-  AdminCustomerManagementLandingPage: lazy(
-    () => import('@gogaadi/pages/admin/CustomerManagementLanding'),
+  // Reports pages
+  AdminAnalyticsPage: lazy(() => import('@gogaadi/pages/admin/Configuration/Reports/Analytics')),
+
+  // Requests pages (all from shared/Service)
+  AdminCreateNewPage: lazy(() => import('@gogaadi/pages/shared/Service')),
+  AdminCreateManagementFormPage: lazy(() =>
+    import('@gogaadi/pages/shared/Service').then((m) => ({ default: m.CreateManagementForm })),
+  ),
+  AdminCreateCustomerFormPage: lazy(() =>
+    import('@gogaadi/pages/shared/Service').then((m) => ({ default: m.CreateCustomerForm })),
+  ),
+  AdminCreateCustomerSimpleFormPage: lazy(() =>
+    import('@gogaadi/pages/shared/Service').then((m) => ({ default: m.CreateSimpleForm })),
   ),
 
+  // Customer landing pages (sidebar entry points)
+  AdminCustomerAccessLandingPage: lazy(() => import('@gogaadi/pages/shared/Customer/LandingPage')),
+  AdminCustomerManagementLandingPage: lazy(() => import('@gogaadi/pages/shared/Customer/LandingPage')),
+
   // Customer unified pages (individual service type views)
-  AdminCustomerAccessPage: lazy(() => import('@gogaadi/pages/admin/CustomerAccess')),
-  AdminCustomerManagementPage: lazy(() => import('@gogaadi/pages/admin/CustomerManagement')),
+  AdminCustomerAccessPage: lazy(() => import('@gogaadi/pages/shared/Customer/CustomerAccess')),
+  AdminCustomerManagementPage: lazy(() => import('@gogaadi/pages/shared/Customer/CustomerManagement')),
 
   // Supporting pages
-  AdminProfilePage: lazy(() => import('@gogaadi/pages/admin/Profile')),
+  AdminProfilePage: lazy(() => import('@gogaadi/pages/shared/Profile')),
 
   // Auth pages (shared/public)
   SignInPage: lazy(() => import('@gogaadi/pages/shared/SignIn')),

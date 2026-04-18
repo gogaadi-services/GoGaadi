@@ -197,15 +197,15 @@ async function clearAndSeed() {
   // Seed default users (admin, user, consultant)
   const adminPassword = await bcrypt.hash('admin123', 10);
   const userPassword = await bcrypt.hash('user123', 10);
-  const captainPassword = await bcrypt.hash('captain123', 10);
+  const captainPassword = await bcrypt.hash('consultant123', 10);
 
   await pool.query(`
     INSERT INTO "User" ("firstName", "lastName", "email", "password", "phone", "businessUnit", "employeeId", "name", "role", "status", "source", "lastActivityAt", "failedLoginAttempts", "isActive", "mustResetPassword", "firstActivationDate", "createdAt", "updatedAt")
-      VALUES ('Admin', 'User', 'admin@gogaadi.com', '${adminPassword}', '+1-555-0001', 'Technology', 'EMP001', 'Admin User', 'admin', 'active', 'admin', NOW() - INTERVAL '15 minutes', 0, true, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+      VALUES ('Admin', 'User', 'admin@gogaadi.in', '${adminPassword}', '+1-555-0001', 'Technology', 'EMP001', 'Admin User', 'admin', 'active', 'admin', NOW() - INTERVAL '15 minutes', 0, true, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
     INSERT INTO "User" ("firstName", "lastName", "email", "password", "phone", "businessUnit", "employeeId", "name", "role", "status", "source", "lastActivityAt", "failedLoginAttempts", "isActive", "mustResetPassword", "firstActivationDate", "createdAt", "updatedAt")
-      VALUES ('Regular', 'User', 'user@gogaadi.com', '${userPassword}', '+1-555-0002', 'Corporate Services', 'EMP002', 'Regular User', 'user', 'active', 'admin', NOW() - INTERVAL '3 hours', 0, true, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+      VALUES ('Regular', 'User', 'user@gogaadi.in', '${userPassword}', '+1-555-0002', 'Corporate Services', 'EMP002', 'Regular User', 'user', 'active', 'admin', NOW() - INTERVAL '3 hours', 0, true, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
     INSERT INTO "User" ("firstName", "lastName", "email", "password", "phone", "businessUnit", "employeeId", "reasonForAccess", "name", "role", "status", "source", "lastActivityAt", "failedLoginAttempts", "isActive", "mustResetPassword", "firstActivationDate", "createdAt", "updatedAt")
-      VALUES ('Consultant', 'User', 'consultant@gogaadi.com', '${captainPassword}', '+1-555-0003', 'Professional Services', 'CON001', 'Assigned to gogaadi implementation project', 'Consultant User', 'consultant', 'active', 'admin', NOW() - INTERVAL '1 day', 0, true, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+      VALUES ('Consultant', 'User', 'consultant@gogaadi.in', '${captainPassword}', '+1-555-0003', 'Professional Services', 'CON001', 'Assigned to gogaadi implementation project', 'Consultant User', 'consultant', 'active', 'admin', NOW() - INTERVAL '1 day', 0, true, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
   `);
 
   console.log('Data seeded successfully!');

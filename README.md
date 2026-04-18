@@ -126,9 +126,9 @@ npm run prisma:seed
 ### Default Test Accounts (after seeding)
 
 ```
-admin@gogaadi.com    / admin123     → Admin role
-consultant@gogaadi.com  / captain123   → Consultant role
-user@gogaadi.com     / user123      → User role
+admin@gogaadi.in    / admin123     → Admin role
+consultant@gogaadi.in  / consultant123   → Consultant role
+user@gogaadi.in     / user123      → User role
 ```
 
 ---
@@ -232,7 +232,7 @@ SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=your-email@gmail.com
 SMTP_PASS=your-app-password
-SMTP_FROM=gogaadi <noreply@gogaadi.com>
+SMTP_FROM=gogaadi <noreply@gogaadi.in>
 ```
 
 > **Dev tip:** In `NODE_ENV=development`, OTPs are printed to the console — you don't need real SMTP to test sign-up or password reset.
@@ -464,7 +464,7 @@ Authorization: Bearer <token>
 ```json
 {
   "action": "signin",
-  "email": "admin@gogaadi.com",
+  "email": "admin@gogaadi.in",
   "password": "admin123"
 }
 ```
@@ -478,7 +478,7 @@ Authorization: Bearer <token>
     "user": {
       "userId": 1,
       "userName": "Admin User",
-      "userEmail": "admin@gogaadi.com",
+      "userEmail": "admin@gogaadi.in",
       "role": "admin",
       "isActive": true
     },
@@ -491,9 +491,9 @@ Authorization: Bearer <token>
 
 | Email | Password | Role |
 |-------|----------|------|
-| `admin@gogaadi.com` | `admin123` | admin |
-| `user@gogaadi.com` | `user123` | user |
-| `consultant@gogaadi.com` | `captain123` | consultant |
+| `admin@gogaadi.in` | `admin123` | admin |
+| `user@gogaadi.in` | `user123` | user |
+| `consultant@gogaadi.in` | `consultant123` | consultant |
 
 ---
 
@@ -639,7 +639,7 @@ All auth endpoints use a single **POST** `/api/auth` with an `action` field.
       "firstName": "Admin",
       "lastName": "User",
       "name": "Admin User",
-      "email": "admin@gogaadi.com",
+      "email": "admin@gogaadi.in",
       "role": "admin",
       "isActive": true,
       "status": "approved",
@@ -802,7 +802,7 @@ Example: `GET /api/admin/incidents/number/INC0000001`
   "urgency": "medium",
   "channel": "portal",
   "assignmentGroup": "IT Support Team",
-  "createdBy": "admin@gogaadi.com",
+  "createdBy": "admin@gogaadi.in",
   "status": "new",
   "client": "Acme Corp",
   "callerPhone": "+1-555-0000",
@@ -860,7 +860,7 @@ Base path: `/api/admin/incidents/:id/comments`
   "isSelfNote": false,
   "notifyAssigneesOnly": false,
   "status": "in_progress",
-  "createdBy": "admin@gogaadi.com"
+  "createdBy": "admin@gogaadi.in"
 }
 ```
 
@@ -890,7 +890,7 @@ Base path: `/api/admin/incidents/:id/time-entries`
   "externalComment": "Investigated driver compatibility",
   "internalComment": "Need to escalate to vendor",
   "isNonBillable": false,
-  "createdBy": "admin@gogaadi.com"
+  "createdBy": "admin@gogaadi.in"
 }
 ```
 
@@ -922,7 +922,7 @@ Base path: `/api/admin/incidents/:id/resolutions`
   "rootCauseIdentified": true,
   "rootCause": "Outdated printer drivers caused compatibility issue",
   "internalNote": "Recommend updating all printers on floor 3",
-  "createdBy": "admin@gogaadi.com"
+  "createdBy": "admin@gogaadi.in"
 }
 ```
 
@@ -953,7 +953,7 @@ Returns the audit log for an incident (read-only).
       "description": "Status changed from new to in_progress",
       "previousValue": "new",
       "newValue": "in_progress",
-      "performedBy": "admin@gogaadi.com",
+      "performedBy": "admin@gogaadi.in",
       "createdAt": "2025-02-12T10:00:00Z"
     }
   ]
