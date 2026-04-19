@@ -8,6 +8,7 @@ const root = path.resolve(__dirname, '..');
 
 export default defineConfig({
   root: __dirname,
+  envDir: root,
   plugins: [react()],
 
   resolve: {
