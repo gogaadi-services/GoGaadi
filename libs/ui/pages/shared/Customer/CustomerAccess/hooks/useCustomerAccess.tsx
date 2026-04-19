@@ -319,6 +319,7 @@ export const useCustomerAccess = (category: CustomerCategory) => {
   const [tabValue, setTabValue] = useState(0);
   const [tableSearch, setTableSearch] = useState('');
   const [actionInProgress, setActionInProgress] = useState<number | string | null>(null);
+  const [selectedPerson, setSelectedPerson] = useState<CustomerApprovalRow | null>(null);
 
   const fetchData = useCallback(async () => {
     try {
@@ -424,7 +425,8 @@ export const useCustomerAccess = (category: CustomerCategory) => {
       format: (_v: unknown, row: CustomerApprovalRow) => (
         <Typography
           component='span'
-          sx={{ fontWeight: 700, fontSize: '0.84rem', color: '#1e293b' }}
+          sx={{ fontWeight: 700, fontSize: '0.84rem', color: 'primary.main', cursor: 'pointer', '&:hover': { textDecoration: 'underline' } }}
+          onClick={(e) => { e.stopPropagation(); setSelectedPerson(row); }}
         >
           {`${row.firstName} ${row.lastName}`.trim() || '—'}
         </Typography>
@@ -657,5 +659,9 @@ export const useCustomerAccess = (category: CustomerCategory) => {
     getFilteredData,
     isMultiType,
     vehicleSubTypes,
+    selectedPerson,
+    setSelectedPerson,
+    actionInProgress,
+    handleDirectAction,
   };
 };

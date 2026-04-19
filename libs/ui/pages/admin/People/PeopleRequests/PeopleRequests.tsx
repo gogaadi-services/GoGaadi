@@ -9,6 +9,7 @@ import { useAdminKeyframes } from '@gogaadi/hooks';
 import { useStyles } from './styles';
 import { usePeopleRequests } from './hooks/useAccessRequests';
 import TabPanel from './components/TabPanel';
+import PersonDetailDialog from './dialogs/PersonDetailDialog';
 
 const PeopleRequests = () => {
   const { classes } = useStyles();
@@ -24,6 +25,10 @@ const PeopleRequests = () => {
     columns,
     tabs,
     getFilteredData,
+    selectedPerson,
+    setSelectedPerson,
+    actionInProgress,
+    handleDirectAction,
   } = usePeopleRequests();
 
   if (isLoading) {
@@ -202,6 +207,14 @@ const PeopleRequests = () => {
           </TabPanel>
         ))}
       </Box>
+
+      <PersonDetailDialog
+        open={!!selectedPerson}
+        row={selectedPerson}
+        actionInProgress={actionInProgress}
+        onClose={() => setSelectedPerson(null)}
+        onAction={(row, type) => { setSelectedPerson(null); handleDirectAction(row, type); }}
+      />
     </>
   );
 };

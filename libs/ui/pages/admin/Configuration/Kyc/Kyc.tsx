@@ -1,7 +1,7 @@
 import { Box } from '@gogaadi/component';
 import { Typography } from '@mui/material';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
-import { useStyles } from './styles';
+import { useStyles } from './Kyc.styles';
 
 const Kyc = () => {
   const { classes } = useStyles();

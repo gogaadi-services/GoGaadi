@@ -65,9 +65,9 @@ import { useUserDetailData } from './hooks/useUserDetailData';
 import { CustomerApprovalRow, CustomerOnboardingRow } from '../types';
 import { ChangeLogEntry, ResetPwErrors } from '../../../admin/People/PeopleManagement/types/peopleManagement.types';
 import ActionDialog from '../CustomerAccess/dialogs/ActionDialog';
-import ChangesLogDialog from '../../../admin/People/PeopleManagement/dialogs/ChangesLogDialog/ChangesLogDialog';
-import LoginDataDialog from '../../../admin/People/PeopleManagement/dialogs/LoginDataDialog/LoginDataDialog';
-import ResetPasswordDialog from '../../../admin/People/PeopleManagement/dialogs/ResetPasswordDialog/ResetPasswordDialog';
+import ChangesLogDialog from './dialogs/ChangesLogDialog/ChangesLogDialog';
+import LoginDataDialog from './dialogs/LoginDataDialog/LoginDataDialog';
+import ResetPasswordDialog from './dialogs/ResetPasswordDialog/ResetPasswordDialog';
 import { generateTempPassword } from '../../../admin/People/PeopleManagement/utils/peopleManagement.utils';
 import Tesseract from 'tesseract.js';
 

@@ -39,7 +39,7 @@ import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 
 import { useAdminKeyframes, useCurrentDate } from '../../../hooks';
 import { useAuth } from '@gogaadi/hooks';
-import { useStyles } from './styles';
+import { useStyles } from './Dashboard.styles';
 import { DATE_FORMATS } from '../../../../utils';
 import { useDashboard } from './hooks/useDashboard';
 
@@ -126,7 +126,7 @@ const vehicleTypeDistOptions: ApexOptions = {
   dataLabels: { enabled: false },
   plotOptions: { pie: { donut: { size: '68%' } } },
   stroke: { width: 0 },
-  tooltip: { y: { formatter: (v) => `${v.toLocaleString()} captains` } },
+  tooltip: { y: { formatter: (v) => `${v.toLocaleString()} consultant` } },
 };
 
 // Bar – access request pipeline base config
@@ -214,7 +214,7 @@ const Dashboard = () => {
   // ── Live API data ─────────────────────────────────────────────────────────────
   const {
     isLoading: dashLoading,
-    captainsOnline,
+    consultantOnline,
     totalOnboardings,
     mobilityCount,
     logisticsCount,
@@ -263,7 +263,7 @@ const Dashboard = () => {
     },
     {
       label: 'Approved Consultants',
-      value: V(captainsOnline),
+      value: V(consultantOnline),
       sub: `${V(mobilityCount)} mobility onboardings`,
       Icon: LocalTaxiIcon,
       color: '#10b981',
@@ -420,7 +420,7 @@ const Dashboard = () => {
     },
     {
       label: 'Approved Consultants',
-      value: V(captainsOnline),
+      value: V(consultantOnline),
       sub: 'Approved & active',
       Icon: LocalTaxiIcon,
       color: '#10b981',
@@ -586,8 +586,8 @@ const Dashboard = () => {
   }));
 
   // ── Top Consultants ──────────────────────────────────────────────────────────
-  const CAPTAIN_COLORS = ['#4f46e5', '#10b981', '#f59e0b', '#0ea5e9', '#8b5cf6'];
-  const CAPTAIN_BGS = ['#eef2ff', '#f0fdf4', '#fffbeb', '#f0f9ff', '#f5f3ff'];
+  const consultant_COLORS = ['#4f46e5', '#10b981', '#f59e0b', '#0ea5e9', '#8b5cf6'];
+  const consultant_BGS = ['#eef2ff', '#f0fdf4', '#fffbeb', '#f0f9ff', '#f5f3ff'];
   const topConsultantsDisplay = topConsultantsList.map((consultant, idx) => {
     const name = `${consultant.firstName} ${consultant.lastName}`.trim();
     const initials = name
@@ -606,8 +606,8 @@ const Dashboard = () => {
       sub: vt || 'Consultant',
       earning: 'Approved',
       rating: consultant.vehicleNumber || '—',
-      bg: CAPTAIN_BGS[idx % CAPTAIN_BGS.length],
-      color: CAPTAIN_COLORS[idx % CAPTAIN_COLORS.length],
+      bg: consultant_BGS[idx % consultant_BGS.length],
+      color: consultant_COLORS[idx % consultant_COLORS.length],
       top: idx === 0,
     };
   });
@@ -881,7 +881,7 @@ const Dashboard = () => {
                   className={classes.panelBadge}
                   sx={{ background: '#fffbeb', color: '#f59e0b' }}
                 >
-                  {dashLoading ? '…' : `${vehicleTypeDistTotal.toLocaleString()} captains`}
+                  {dashLoading ? '…' : `${vehicleTypeDistTotal.toLocaleString()} consultant`}
                 </Box>
               </Box>
               <Box sx={{ p: 1 }}>
@@ -986,22 +986,22 @@ const Dashboard = () => {
           </Box>
         </Box>
 
-        {/* ══ TOP CAPTAINS + LIVE ACTIVITY ═══════════════════════════════════ */}
+        {/* ══ TOP consultant + LIVE ACTIVITY ═══════════════════════════════════ */}
         <SectionLabel label='Consultants & Live Feed' classes={classes} />
         <Box className={classes.twoColRow}>
           <Box className={classes.panel}>
             <Box className={classes.panelHead}>
               <Typography className={classes.panelTitle}>Top Consultants</Typography>
               <Box className={classes.panelBadge} sx={{ background: '#f0fdf4', color: '#10b981' }}>
-                {dashLoading ? '…' : `${captainsOnline} Approved`}
+                {dashLoading ? '…' : `${consultantOnline} Approved`}
               </Box>
             </Box>
             <Box className={classes.panelBody}>
               {topConsultantsDisplay.map(
                 ({ initials, name, city, sub, earning, rating, bg, color, top }) => (
-                  <Box key={name} className={classes.captainItem}>
+                  <Box key={name} className={classes.consultantItem}>
                     <Box sx={{ position: 'relative' }}>
-                      <Box className={classes.captainAvatar} sx={{ background: bg, color }}>
+                      <Box className={classes.consultantAvatar} sx={{ background: bg, color }}>
                         {initials}
                       </Box>
                       {top && (
@@ -1017,16 +1017,16 @@ const Dashboard = () => {
                       )}
                     </Box>
                     <Box sx={{ flex: 1 }}>
-                      <Typography className={classes.captainName}>{name}</Typography>
-                      <Typography className={classes.captainSub}>
+                      <Typography className={classes.consultantName}>{name}</Typography>
+                      <Typography className={classes.consultantub}>
                         {city} · {sub}
                       </Typography>
                     </Box>
                     <Box>
-                      <Typography className={classes.captainEarn} sx={{ color }}>
+                      <Typography className={classes.consultantEarn} sx={{ color }}>
                         {earning}
                       </Typography>
-                      <Typography className={classes.captainRate}>★ {rating}</Typography>
+                      <Typography className={classes.consultantRate}>★ {rating}</Typography>
                     </Box>
                   </Box>
                 ),

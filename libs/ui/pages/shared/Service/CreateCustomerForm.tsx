@@ -50,7 +50,7 @@ import { Box, Button } from '@gogaadi/component';
 
 import { useStyles } from './styles/CreateCustomerForm.styles';
 import useCreateCustomerForm from './hooks/useCreateCustomerForm';
-import { ReviewModal } from './dialogs/ReviewModal/ReviewModal';
+import { ReviewModal } from './ReviewModal';
 import InlineSelect from './components/InlineSelect';
 import UploadField from './components/UploadField';
 import DocSection from './components/DocSection';

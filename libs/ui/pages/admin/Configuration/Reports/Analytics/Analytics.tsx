@@ -1,7 +1,7 @@
 import { Box } from '@gogaadi/component';
 import { Typography } from '@mui/material';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
-import { useStyles } from './styles';
+import { useStyles } from './Analytics.styles';
 
 const Analytics = () => {
   const { classes } = useStyles();

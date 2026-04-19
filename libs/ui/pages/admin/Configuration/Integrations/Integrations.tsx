@@ -1,7 +1,7 @@
 import { Box } from '@gogaadi/component';
 import { Typography } from '@mui/material';
 import ExtensionIcon from '@mui/icons-material/Extension';
-import { useStyles } from './styles';
+import { useStyles } from './Integrations.styles';
 
 const Integrations = () => {
   const { classes } = useStyles();

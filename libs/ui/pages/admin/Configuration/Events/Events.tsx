@@ -1,6 +1,6 @@
 import { Box } from '@gogaadi/component';
 import { Typography } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './Events.styles';
 
 const Events = () => {
   const { classes } = useStyles();

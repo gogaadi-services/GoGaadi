@@ -1,7 +1,7 @@
 import { Box } from '@gogaadi/component';
 import { Typography } from '@mui/material';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import { useStyles } from './styles';
+import { useStyles } from './DriverEarnings.styles';
 
 const DriverEarnings = () => {
   const { classes } = useStyles();

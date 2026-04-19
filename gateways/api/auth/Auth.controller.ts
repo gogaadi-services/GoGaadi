@@ -1233,7 +1233,7 @@ export class AuthController {
           'accessToDate',
           'reasonForAccess',
           'mustResetPassword',
-          'captainProfileUpdated',
+          'consultantProfileUpdated',
         ];
 
         const sanitizedUpdate: Record<string, unknown> = {};
@@ -1507,7 +1507,7 @@ export class AuthController {
 
       // ── Consultant Profiles ─────────────────────────────────────────────────
       case 'get-consultant-profiles': {
-        const profiles = await (db as any).captainProfile.findMany({
+        const profiles = await (db as any).consultantProfile.findMany({
           orderBy: { createdAt: 'desc' },
         });
         res.json({ message: 'Consultant profiles retrieved', data: profiles });
@@ -1520,11 +1520,11 @@ export class AuthController {
           res.status(400).json({ message: 'userId and application are required' });
           return;
         }
-        const profile = await (db as any).captainProfile.create({ data: profileData });
+        const profile = await (db as any).consultantProfile.create({ data: profileData });
         // Mark consultant profile as updated
         await db.user.update({
           where: { id: profileData.userId },
-          data: { captainProfileUpdated: true },
+          data: { consultantProfileUpdated: true },
         });
         res.status(201).json({ message: 'Consultant profile created', data: profile });
         break;
@@ -1539,14 +1539,14 @@ export class AuthController {
           res.status(400).json({ message: 'profileId is required' });
           return;
         }
-        const profile = await (db as any).captainProfile.update({
+        const profile = await (db as any).consultantProfile.update({
           where: { id: profileId },
           data: profileData,
         });
         if (profileData.userId)
           await db.user.update({
             where: { id: profileData.userId },
-            data: { captainProfileUpdated: true },
+            data: { consultantProfileUpdated: true },
           });
         res.json({ message: 'Consultant profile updated', data: profile });
         break;
@@ -1554,7 +1554,7 @@ export class AuthController {
 
       // ── Consultant Roles ────────────────────────────────────────────────────
       case 'get-consultant-roles': {
-        const roles = await (db as any).captainRole.findMany({
+        const roles = await (db as any).consultantRole.findMany({
           orderBy: { application: 'asc' },
         });
         res.json({ message: 'Consultant roles retrieved', data: roles });
@@ -1567,7 +1567,7 @@ export class AuthController {
           res.status(400).json({ message: 'application and roleName are required' });
           return;
         }
-        const role = await (db as any).captainRole.create({ data: roleData });
+        const role = await (db as any).consultantRole.create({ data: roleData });
         res.status(201).json({ message: 'Consultant role created', data: role });
         break;
       }
@@ -1581,7 +1581,7 @@ export class AuthController {
           res.status(400).json({ message: 'roleId is required' });
           return;
         }
-        const role = await (db as any).captainRole.update({
+        const role = await (db as any).consultantRole.update({
           where: { id: roleId },
           data: roleData,
         });
@@ -1595,7 +1595,7 @@ export class AuthController {
           res.status(400).json({ message: 'roleId is required' });
           return;
         }
-        await (db as any).captainRole.delete({ where: { id: roleId } });
+        await (db as any).consultantRole.delete({ where: { id: roleId } });
         res.json({ message: 'Consultant role deleted' });
         break;
       }
@@ -1615,8 +1615,8 @@ export class AuthController {
         // that mark them as customer bookings, not consultant registrations.
         // Only consultant onboarding types (mobility, logistics, parcel) require a vehicleType.
         // All other types (driver-hire, vehicle-rental, mechanic-hire, partner types, user) do not.
-        const CAPTAIN_CATEGORIES = ['mobility', 'logistics', 'parcel'];
-        const requiresVehicleType = CAPTAIN_CATEGORIES.includes(
+        const consultant_CATEGORIES = ['mobility', 'logistics', 'parcel'];
+        const requiresVehicleType = consultant_CATEGORIES.includes(
           String(onboardingData?.serviceCategory),
         );
         if (

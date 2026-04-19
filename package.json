@@ -43,6 +43,8 @@
     "prisma:regenerate": "ts-node gateways/prisma/scripts/regenerate-migration.ts",
     "prisma:deploy": "prisma migrate deploy ",
     "prisma:seed": "ts-node --project tsconfig.app.json gateways/prisma/seed.ts",
+    "seed:admin": "ts-node --project tsconfig.app.json gateways/prisma/seed-admin.ts",
+    "db:migrate": "ts-node --project tsconfig.app.json gateways/prisma/migrate-schema.ts",
     "prisma:studio": "prisma studio ",
     "prisma:reset": "prisma migrate reset --force ",
     "prepare": "husky install || true"

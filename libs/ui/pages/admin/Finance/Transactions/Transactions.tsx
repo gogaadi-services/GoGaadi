@@ -1,7 +1,7 @@
 import { Box } from '@gogaadi/component';
 import { Typography } from '@mui/material';
 import PaymentsIcon from '@mui/icons-material/Payments';
-import { useStyles } from './styles';
+import { useStyles } from './Transactions.styles';
 
 const Transactions = () => {
   const { classes } = useStyles();

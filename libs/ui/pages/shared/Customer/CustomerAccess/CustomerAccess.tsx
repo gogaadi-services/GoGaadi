@@ -5,15 +5,18 @@ import {
   Divider,
   TextField,
   InputAdornment,
+  Tooltip,
 } from '@mui/material';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import SearchIcon from '@mui/icons-material/Search';
 import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { useLocation } from 'react-router-dom';
 import { useAdminKeyframes } from '@gogaadi/hooks';
 import { useStyles } from './styles';
 import { useCustomerAccess, getCategoryFromPath } from './hooks/useCustomerAccess';
 import TabPanel from './components/TabPanel';
+import CustomerPersonDetailDialog from './dialogs/CustomerPersonDetailDialog';
 
 const CustomerAccess = () => {
   const { classes } = useStyles();
@@ -38,6 +41,10 @@ const CustomerAccess = () => {
     getFilteredData,
     isMultiType,
     vehicleSubTypes,
+    selectedPerson,
+    setSelectedPerson,
+    actionInProgress,
+    handleDirectAction,
   } = useCustomerAccess(category);
 
   if (isLoading) {
@@ -172,21 +179,54 @@ const CustomerAccess = () => {
           >
             {multiTypeStatCards.map(({ label, value, Icon, color, tabIndex, sub1, sub1Label, sub1Color, sub2, sub2Label, sub2Color }) => {
               const isActive = tabValue === tabIndex;
+              const pendingCount = sub1Label === 'pending' ? sub1 : 0;
               return (
-                <Box
-                  key={label}
-                  className={classes.statCard}
-                  onClick={() => { setTabValue(tabIndex); setTableSearch(''); }}
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    outline: isActive ? `2px solid ${color}` : 'none',
-                    outlineOffset: 2,
-                    transform: isActive ? 'translateY(-6px)' : undefined,
-                    boxShadow: isActive ? `0 16px 40px ${color}30, 0 4px 16px ${color}18` : undefined,
-                    '&::before': { background: `linear-gradient(90deg, ${color}cc, ${color})` },
-                  }}
-                >
+                <Box key={label} sx={{ position: 'relative' }}>
+                  {/* Notification bell — sits outside overflow:hidden card */}
+                  <Tooltip title={pendingCount > 0 ? `${pendingCount} pending approval` : 'No pending requests'} arrow>
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: -10,
+                        right: -10,
+                        zIndex: 10,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 0.4,
+                        bgcolor: pendingCount > 0 ? '#d97706' : '#94a3b8',
+                        color: '#fff',
+                        borderRadius: '20px',
+                        px: pendingCount > 0 ? 1 : 0.75,
+                        py: 0.25,
+                        boxShadow: pendingCount > 0 ? '0 2px 8px rgba(217,119,6,0.5)' : '0 1px 4px rgba(0,0,0,0.15)',
+                        fontSize: '0.65rem',
+                        fontWeight: 700,
+                        minWidth: 24,
+                        justifyContent: 'center',
+                        animation: pendingCount > 0 ? 'pulse 2s ease-in-out infinite' : 'none',
+                        '@keyframes pulse': {
+                          '0%,100%': { boxShadow: '0 2px 8px rgba(217,119,6,0.5)' },
+                          '50%': { boxShadow: '0 2px 16px rgba(217,119,6,0.85)' },
+                        },
+                      }}
+                    >
+                      <NotificationsActiveIcon sx={{ fontSize: '0.72rem' }} />
+                      {pendingCount > 0 && <span>{pendingCount}</span>}
+                    </Box>
+                  </Tooltip>
+                  <Box
+                    className={classes.statCard}
+                    onClick={() => { setTabValue(tabIndex); setTableSearch(''); }}
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      outline: isActive ? `2px solid ${color}` : 'none',
+                      outlineOffset: 2,
+                      transform: isActive ? 'translateY(-6px)' : undefined,
+                      boxShadow: isActive ? `0 16px 40px ${color}30, 0 4px 16px ${color}18` : undefined,
+                      '&::before': { background: `linear-gradient(90deg, ${color}cc, ${color})` },
+                    }}
+                  >
                   <Box className={classes.statCardTop} sx={{ flex: 1, alignItems: 'flex-start' }}>
                     <Box>
                       <Typography className={classes.statValue} sx={{ color }}>
@@ -217,6 +257,7 @@ const CustomerAccess = () => {
                       </Typography>
                     </Box>
                   </Box>
+                  </Box>
                 </Box>
               );
             })}
@@ -229,20 +270,53 @@ const CustomerAccess = () => {
             {statCards.map(
               ({ label, value, Icon, cls, color, tabIndex, sub1, sub1Label, sub1Color, sub2, sub2Label, sub2Color }) => {
                 const isActive = tabValue === tabIndex;
+                const pendingCount = sub1Label === 'pending' || sub1Label === 'awaiting' ? sub1 : 0;
                 return (
-                  <Box
-                    key={label}
-                    className={`${classes.statCard} ${cls}`}
-                    onClick={() => { setTabValue(tabIndex); setTableSearch(''); }}
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      outline: isActive ? `2px solid ${color}` : 'none',
-                      outlineOffset: 2,
-                      transform: isActive ? 'translateY(-6px)' : undefined,
-                      boxShadow: isActive ? `0 16px 40px ${color}30, 0 4px 16px ${color}18` : undefined,
-                    }}
-                  >
+                  <Box key={label} sx={{ position: 'relative' }}>
+                    {/* Notification bell — sits outside overflow:hidden card */}
+                    <Tooltip title={pendingCount > 0 ? `${pendingCount} pending approval` : 'No pending requests'} arrow>
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          top: -10,
+                          right: -10,
+                          zIndex: 10,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 0.4,
+                          bgcolor: pendingCount > 0 ? '#d97706' : '#94a3b8',
+                          color: '#fff',
+                          borderRadius: '20px',
+                          px: pendingCount > 0 ? 1 : 0.75,
+                          py: 0.25,
+                          boxShadow: pendingCount > 0 ? '0 2px 8px rgba(217,119,6,0.5)' : '0 1px 4px rgba(0,0,0,0.15)',
+                          fontSize: '0.65rem',
+                          fontWeight: 700,
+                          minWidth: 24,
+                          justifyContent: 'center',
+                          animation: pendingCount > 0 ? 'pulse 2s ease-in-out infinite' : 'none',
+                          '@keyframes pulse': {
+                            '0%,100%': { boxShadow: '0 2px 8px rgba(217,119,6,0.5)' },
+                            '50%': { boxShadow: '0 2px 16px rgba(217,119,6,0.85)' },
+                          },
+                        }}
+                      >
+                        <NotificationsActiveIcon sx={{ fontSize: '0.72rem' }} />
+                        {pendingCount > 0 && <span>{pendingCount}</span>}
+                      </Box>
+                    </Tooltip>
+                    <Box
+                      className={`${classes.statCard} ${cls}`}
+                      onClick={() => { setTabValue(tabIndex); setTableSearch(''); }}
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        outline: isActive ? `2px solid ${color}` : 'none',
+                        outlineOffset: 2,
+                        transform: isActive ? 'translateY(-6px)' : undefined,
+                        boxShadow: isActive ? `0 16px 40px ${color}30, 0 4px 16px ${color}18` : undefined,
+                      }}
+                    >
                     <Box className={classes.statCardTop} sx={{ flex: 1, alignItems: 'flex-start' }}>
                       <Box>
                         <Typography className={classes.statValue} sx={{ color }}>
@@ -272,6 +346,7 @@ const CustomerAccess = () => {
                           {` ${sub2Label}`}
                         </Typography>
                       </Box>
+                    </Box>
                     </Box>
                   </Box>
                 );
@@ -333,6 +408,14 @@ const CustomerAccess = () => {
           </TabPanel>
         ))}
       </Box>
+
+      <CustomerPersonDetailDialog
+        open={!!selectedPerson}
+        row={selectedPerson}
+        actionInProgress={actionInProgress}
+        onClose={() => setSelectedPerson(null)}
+        onAction={(row, type) => { setSelectedPerson(null); handleDirectAction(row, type); }}
+      />
     </>
   );
 };

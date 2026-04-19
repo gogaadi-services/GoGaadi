@@ -60,7 +60,7 @@ model User {
   // tracking
   lastActivityAt          DateTime?
   // consultant fields
-  captainProfileUpdated Boolean  @default(false)
+  consultantProfileUpdated Boolean  @default(false)
   application              String?
   applicationLead          String?
   attachments              String?   // JSON array of { name, url, size }
@@ -87,7 +87,7 @@ model ConsultantProfile {
   id                   Int      @id @default(autoincrement())
   userId               Int      @unique
   application          String
-  captainRole       String?
+  consultantRole       String?
   slaWorkingCalendar   String?
   slaExceptionCalendar String?
   leadConsultant       String?

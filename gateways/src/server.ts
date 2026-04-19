@@ -1,23 +1,5 @@
-// Load environment variables from .env file
 import dotenv from 'dotenv';
 dotenv.config();
-
-// Load env.gateway.json values into process.env (without overwriting existing vars)
-import path from 'path';
-import fs from 'fs';
-
-const envGatewayPath = path.resolve(__dirname, '../../env/src/env.gateway.json');
-try {
-  const envGatewayContent = fs.readFileSync(envGatewayPath, 'utf-8');
-  const envGatewayVars = JSON.parse(envGatewayContent);
-  for (const [key, value] of Object.entries(envGatewayVars)) {
-    if (!process.env[key] && value !== '' && value !== null && value !== undefined) {
-      process.env[key] = String(value);
-    }
-  }
-} catch {
-  // env.gateway.json not found or invalid — rely on .env / system env vars
-}
 
 // Import Express app instance
 import app from './app';

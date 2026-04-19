@@ -21,8 +21,7 @@ export default defineConfig({
       '@gogaadi/store': path.resolve(root, 'libs/ui/store/index.ts'),
       '@gogaadi/slices': path.resolve(root, 'libs/ui/slices/index.ts'),
       '@gogaadi/state': path.resolve(root, 'libs/ui/state/index.ts'),
-      '@gogaadi/mocks': path.resolve(root, 'libs/ui/mocks/index.ts'),
-      'libs/ui/state': path.resolve(root, 'libs/ui/state/index.ts'),
+'libs/ui/state': path.resolve(root, 'libs/ui/state/index.ts'),
     },
   },
 

@@ -1,7 +1,7 @@
 import { Box } from '@gogaadi/component';
 import { Typography } from '@mui/material';
 import RuleIcon from '@mui/icons-material/Rule';
-import { useStyles } from './styles';
+import { useStyles } from './BusinessRules.styles';
 
 const BusinessRules = () => {
   const { classes } = useStyles();

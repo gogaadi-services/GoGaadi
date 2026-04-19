@@ -6,7 +6,7 @@ import DraftsIcon from '@mui/icons-material/Drafts';
 import StarIcon from '@mui/icons-material/Star';
 import SearchIcon from '@mui/icons-material/Search';
 import { IAuthUser } from '@gogaadi/interfaces';
-import { useStyles } from './styles';
+import { useStyles } from './Collections.styles';
 import { useCollections } from './hooks/useCollections';
 import TabPanel from './components/TabPanel';
 import DetailDialog from './dialogs/DetailDialog/DetailDialog';

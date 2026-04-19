@@ -6,7 +6,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import StarIcon from '@mui/icons-material/Star';
 import SearchIcon from '@mui/icons-material/Search';
 import { IAuthUser } from '@gogaadi/interfaces';
-import { useStyles } from './styles';
+import { useStyles } from './Categories.styles';
 import { useCategories } from './hooks/useCategories';
 import TabPanel from './components/TabPanel';
 import DetailDialog from './dialogs/DetailDialog/DetailDialog';

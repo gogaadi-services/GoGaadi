@@ -1,7 +1,7 @@
 import { Box } from '@gogaadi/component';
 import { Typography } from '@mui/material';
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
-import { useStyles } from './styles';
+import { useStyles } from './ServiceTypes.styles';
 
 const ServiceTypes = () => {
   const { classes } = useStyles();

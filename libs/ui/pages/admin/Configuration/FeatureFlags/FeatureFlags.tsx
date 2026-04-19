@@ -1,7 +1,7 @@
 import { Box } from '@gogaadi/component';
 import { Typography } from '@mui/material';
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
-import { useStyles } from './styles';
+import { useStyles } from './FeatureFlags.styles';
 
 const FeatureFlags = () => {
   const { classes } = useStyles();

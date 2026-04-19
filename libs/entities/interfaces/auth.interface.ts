@@ -59,7 +59,7 @@ export interface IAuthUser {
   accessToDate: string | null;
   application: string | null;
   applicationLead: string | null;
-  captainProfileUpdated: boolean;
+  consultantProfileUpdated: boolean;
   mustResetPassword: boolean;
   gender: string | null;
   city: string | null;
@@ -96,7 +96,7 @@ export interface IConsultantProfile {
   id: number;
   userId: number;
   application: string;
-  captainRole: string | null;
+  consultantRole: string | null;
   slaWorkingCalendar: string | null;
   slaExceptionCalendar: string | null;
   leadConsultant: string | null;

@@ -22,9 +22,12 @@ async function createTables() {
       "password" TEXT NOT NULL,
       "phone" TEXT,
       "reasonForAccess" TEXT,
+      "customUserId" TEXT UNIQUE,
       "employeeId" TEXT,
       "businessUnit" TEXT,
       "dateOfBirth" TEXT,
+      "gender" TEXT,
+      "city" TEXT,
       "profilePicture" TEXT,
       "name" TEXT NOT NULL,
       "role" TEXT NOT NULL DEFAULT 'user',
@@ -50,9 +53,10 @@ async function createTables() {
       "firstActivationDate" TIMESTAMP(3),
       "lastDeactivationDate" TIMESTAMP(3),
       "lastActivityAt" TIMESTAMP(3),
-      "captainProfileUpdated" BOOLEAN NOT NULL DEFAULT false,
+      "consultantProfileUpdated" BOOLEAN NOT NULL DEFAULT false,
       "application" TEXT,
       "applicationLead" TEXT,
+      "attachments" TEXT,
       "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
       "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
@@ -75,7 +79,7 @@ async function createTables() {
       "id" SERIAL PRIMARY KEY,
       "userId" INTEGER UNIQUE NOT NULL,
       "application" TEXT NOT NULL,
-      "captainRole" TEXT,
+      "consultantRole" TEXT,
       "slaWorkingCalendar" TEXT,
       "slaExceptionCalendar" TEXT,
       "leadConsultant" TEXT,
@@ -117,22 +121,36 @@ async function createTables() {
       "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
 
+    CREATE TABLE IF NOT EXISTS "ManagementDraft" (
+      "id"        SERIAL PRIMARY KEY,
+      "createdBy" INTEGER NOT NULL,
+      "type"      TEXT NOT NULL,
+      "formData"  TEXT NOT NULL,
+      "expiresAt" TIMESTAMP(3) NOT NULL,
+      "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      UNIQUE ("createdBy", "type")
+    );
+
     CREATE TABLE IF NOT EXISTS "CustomerOnboarding" (
       "id" SERIAL PRIMARY KEY,
+      "customerId" TEXT UNIQUE,
       "firstName" TEXT NOT NULL,
       "lastName" TEXT NOT NULL,
+      "gender" TEXT,
       "phone" TEXT NOT NULL,
+      "emergencyContact" TEXT,
       "email" TEXT,
       "city" TEXT NOT NULL,
       "area" TEXT,
       "pincode" TEXT,
       "serviceCategory" TEXT NOT NULL,
-      "vehicleType" TEXT NOT NULL,
+      "vehicleType" TEXT,
       "vehicleSubType" TEXT,
-      "fuelType" TEXT NOT NULL,
-      "tripPreference" TEXT NOT NULL,
-      "vehicleNumber" TEXT NOT NULL,
-      "rcNumber" TEXT NOT NULL,
+      "fuelType" TEXT,
+      "tripPreference" TEXT,
+      "vehicleNumber" TEXT,
+      "rcNumber" TEXT,
       "rcExpiry" TEXT,
       "insuranceNumber" TEXT,
       "insuranceExpiry" TEXT,
@@ -142,27 +160,36 @@ async function createTables() {
       "fitnessExpiry" TEXT,
       "permitNumber" TEXT,
       "permitExpiry" TEXT,
-      "dlNumber" TEXT NOT NULL,
+      "dlNumber" TEXT,
       "dlExpiry" TEXT,
-      "idProofType" TEXT NOT NULL,
+      "idProofType" TEXT,
       "idProofNumber" TEXT,
+      "idProofExpiry" TEXT,
+      "createdByName" TEXT,
+      "createdByEmail" TEXT,
+      "createdByPhone" TEXT,
+      "isSelfRegistered" BOOLEAN NOT NULL DEFAULT false,
+      "uploadedFiles" TEXT,
       "bundleTypes" TEXT,
       "bundleDiscount" FLOAT,
       "rentalVehiclePref" TEXT,
       "rentalDuration" TEXT,
       "rentalPickupZone" TEXT,
-      "driverHireCount" INTEGER,
+      "driverHireCount" TEXT,
       "driverHireShift" TEXT,
       "driverHireBudget" TEXT,
       "additionalVehicles" TEXT,
       "parcelComboTypes" TEXT,
       "parcelMaxWeight" TEXT,
       "parcelRadiusPref" TEXT,
-      "cargoCoRideMax" INTEGER,
+      "cargoCoRideMax" TEXT,
       "cargoCoRideHaulPref" TEXT,
       "cargoCoRideRatePref" TEXT,
+      "accessFromDate" TIMESTAMP(3),
+      "accessToDate" TIMESTAMP(3),
       "status" TEXT NOT NULL DEFAULT 'pending',
       "adminNotes" TEXT,
+      "reviewedAt" TIMESTAMP(3),
       "submittedAt" TIMESTAMP(3),
       "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
       "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -182,6 +209,7 @@ async function clearAndSeed() {
     DELETE FROM "UserChangeLog" WHERE true;
     DELETE FROM "ConsultantProfile" WHERE true;
     DELETE FROM "ConsultantRole" WHERE true;
+    DELETE FROM "ManagementDraft" WHERE true;
     DELETE FROM "User" WHERE true;
     ALTER SEQUENCE "DeviceToken_id_seq" RESTART WITH 1;
     ALTER SEQUENCE "CustomerOnboarding_id_seq" RESTART WITH 1;
@@ -190,6 +218,7 @@ async function clearAndSeed() {
     ALTER SEQUENCE "UserChangeLog_id_seq" RESTART WITH 1;
     ALTER SEQUENCE "ConsultantProfile_id_seq" RESTART WITH 1;
     ALTER SEQUENCE "ConsultantRole_id_seq" RESTART WITH 1;
+    ALTER SEQUENCE "ManagementDraft_id_seq" RESTART WITH 1;
   `);
 
   console.log('Existing data cleared.');
@@ -197,7 +226,7 @@ async function clearAndSeed() {
   // Seed default users (admin, user, consultant)
   const adminPassword = await bcrypt.hash('admin123', 10);
   const userPassword = await bcrypt.hash('user123', 10);
-  const captainPassword = await bcrypt.hash('consultant123', 10);
+  const consultantPassword = await bcrypt.hash('consultant123', 10);
 
   await pool.query(`
     INSERT INTO "User" ("firstName", "lastName", "email", "password", "phone", "businessUnit", "employeeId", "name", "role", "status", "source", "lastActivityAt", "failedLoginAttempts", "isActive", "mustResetPassword", "firstActivationDate", "createdAt", "updatedAt")
@@ -205,7 +234,7 @@ async function clearAndSeed() {
     INSERT INTO "User" ("firstName", "lastName", "email", "password", "phone", "businessUnit", "employeeId", "name", "role", "status", "source", "lastActivityAt", "failedLoginAttempts", "isActive", "mustResetPassword", "firstActivationDate", "createdAt", "updatedAt")
       VALUES ('Regular', 'User', 'user@gogaadi.in', '${userPassword}', '+1-555-0002', 'Corporate Services', 'EMP002', 'Regular User', 'user', 'active', 'admin', NOW() - INTERVAL '3 hours', 0, true, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
     INSERT INTO "User" ("firstName", "lastName", "email", "password", "phone", "businessUnit", "employeeId", "reasonForAccess", "name", "role", "status", "source", "lastActivityAt", "failedLoginAttempts", "isActive", "mustResetPassword", "firstActivationDate", "createdAt", "updatedAt")
-      VALUES ('Consultant', 'User', 'consultant@gogaadi.in', '${captainPassword}', '+1-555-0003', 'Professional Services', 'CON001', 'Assigned to gogaadi implementation project', 'Consultant User', 'consultant', 'active', 'admin', NOW() - INTERVAL '1 day', 0, true, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+      VALUES ('Consultant', 'User', 'consultant@gogaadi.in', '${consultantPassword}', '+1-555-0003', 'Professional Services', 'CON001', 'Assigned to gogaadi implementation project', 'Consultant User', 'consultant', 'active', 'admin', NOW() - INTERVAL '1 day', 0, true, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
   `);
 
   console.log('Data seeded successfully!');

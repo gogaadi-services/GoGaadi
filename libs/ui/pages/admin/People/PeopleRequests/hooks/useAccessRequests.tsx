@@ -22,6 +22,7 @@ export const usePeopleRequests = () => {
   const [tabValue, setTabValue] = useState(0);
   const [tableSearch, setTableSearch] = useState('');
   const [actionInProgress, setActionInProgress] = useState<number | null>(null);
+  const [selectedPerson, setSelectedPerson] = useState<AccessRequestRow | null>(null);
 
   const fetchRequests = useCallback(async () => {
     try {
@@ -119,7 +120,12 @@ export const usePeopleRequests = () => {
       label: 'Name',
       minWidth: 170,
       format: (_v: unknown, row: AccessRequestRow): React.ReactNode => (
-        <Typography variant='body2' fontWeight={500}>
+        <Typography
+          variant='body2'
+          fontWeight={500}
+          sx={{ color: 'primary.main', cursor: 'pointer', '&:hover': { textDecoration: 'underline' } }}
+          onClick={(e) => { e.stopPropagation(); setSelectedPerson(row); }}
+        >
           {String(row.name || '-')}
         </Typography>
       ),
@@ -262,5 +268,9 @@ export const usePeopleRequests = () => {
     columns,
     tabs,
     getFilteredData: (list: AccessRequestRow[]) => getFilteredData(list, tableSearch),
+    selectedPerson,
+    setSelectedPerson,
+    actionInProgress,
+    handleDirectAction,
   };
 };

@@ -41,6 +41,7 @@ import { constants } from '@gogaadi/utils';
 import { useFieldError, useAuth, useLocalStorage } from '@gogaadi/hooks';
 import { useAuthActionMutation, useUploadUserAttachmentsMutation } from '@gogaadi/services';
 import { useStyles } from './styles/CreateTicket.styles';
+import ManagementReviewDialog from './dialogs/ManagementReviewDialog';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -312,6 +313,7 @@ const CreateManagementForm = () => {
   const [employeeList, setEmployeeList] = useState<{ name: string; email: string }[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDrafting, setIsDrafting] = useState(false);
+  const [reviewOpen, setReviewOpen] = useState(false);
   const [emailExists, setEmailExists] = useState(false);
   const [phoneExists, setPhoneExists] = useState(false);
   const emailDebounce = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -1193,8 +1195,8 @@ const CreateManagementForm = () => {
           <Button
             variant='contained'
             size='small'
-            onClick={handleSubmit}
-            disabled={(submitted && !canSubmit) || isSubmitting}
+            onClick={() => { setSubmitted(true); if (canSubmit) setReviewOpen(true); }}
+            disabled={isSubmitting}
             sx={{
               height: '40px',
               padding: '0 16px',
@@ -1208,7 +1210,7 @@ const CreateManagementForm = () => {
               '&:disabled': { opacity: 0.45 },
             }}
           >
-            {isSubmitting ? 'Creating…' : 'Submit'}
+            Review & Submit
           </Button>
         </Box>
       </Box>
@@ -1228,6 +1230,19 @@ const CreateManagementForm = () => {
           {snackbar.message}
         </Alert>
       </Snackbar>
+
+      <ManagementReviewDialog
+        open={reviewOpen}
+        onClose={() => setReviewOpen(false)}
+        onConfirm={async () => { setReviewOpen(false); await handleSubmit(); }}
+        isSubmitting={isSubmitting}
+        managementType={managementType}
+        form={form}
+        userId={userId}
+        referredBy={referredBy}
+        reportingManager={reportingManager}
+        attachmentCount={attachments.length}
+      />
     </Box>
   );
 };

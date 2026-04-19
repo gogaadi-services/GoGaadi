@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useAuthActionMutation } from '@gogaadi/services';
-import { CustomerOnboardingRow } from '../../UserManagement/types/userManagement.types';
 
 interface GenericRequest {
   status?: string;
@@ -46,7 +45,7 @@ const fmtLabel = (s: string) => s.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.t
 
 export const useDashboard = () => {
   const [authAction] = useAuthActionMutation();
-  const [onboardings, setOnboardings] = useState<CustomerOnboardingRow[]>([]);
+  const [onboardings, setOnboardings] = useState<any[]>([]);
   const [driverHireRequests, setDriverHireRequests] = useState<GenericRequest[]>([]);
   const [vehicleRentalRequests, setVehicleRentalRequests] = useState<GenericRequest[]>([]);
   const [parcelRequests, setParcelRequests] = useState<GenericRequest[]>([]);
@@ -69,7 +68,7 @@ export const useDashboard = () => {
           .unwrap()
           .catch(() => ({ data: [] })),
       ]);
-      setOnboardings((onboardingsRes.data || []) as CustomerOnboardingRow[]);
+      setOnboardings((onboardingsRes.data || []) as any[]);
       setDriverHireRequests((driverHireRes.data || []) as GenericRequest[]);
       setVehicleRentalRequests((vehicleRentalRes.data || []) as GenericRequest[]);
       setParcelRequests((parcelRes.data || []) as ParcelRequest[]);
@@ -249,7 +248,7 @@ export const useDashboard = () => {
       createdAt: r.createdAt,
     }));
 
-  // ── Top captains ───────────────────────────────────────────────────────────
+  // ── Top consultant ───────────────────────────────────────────────────────────
   const topConsultantsList = approvedConsultants
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 5);
@@ -257,7 +256,7 @@ export const useDashboard = () => {
   return {
     isLoading,
     // Counts
-    captainsOnline: approvedConsultants.length,
+    consultantOnline: approvedConsultants.length,
     totalOnboardings: onboardings.length,
     mobilityCount: mobilityOnboardings.length,
     logisticsCount: logisticsOnboardings.length,
@@ -297,7 +296,7 @@ export const useDashboard = () => {
     healthMetrics,
     // Recent activity
     recentOnboardings,
-    // Top captains
+    // Top consultant
     topConsultantsList,
   };
 };

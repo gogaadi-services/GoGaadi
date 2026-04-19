@@ -16,7 +16,7 @@ Go Gaadi is a mobility-as-a-service platform where:
 
 - **Users** request rides, hire drivers, or rent vehicles
 - **Consultants** are verified drivers who fulfill ride and service requests
-- **Admins** manage the entire platform — users, captains, bookings, and content
+- **Admins** manage the entire platform — users, consultant, bookings, and content
 
 Think of it as the backend operations layer for a company like Rapido or Ola — where admins control who can drive, approve requests, manage fleets, and monitor platform activity.
 
@@ -43,7 +43,7 @@ Think of it as the backend operations layer for a company like Rapido or Ola —
 
 | Role | Who They Are | What They Can Do |
 |------|-------------|-----------------|
-| **Admin** | Platform operator | Full control — manage users, captains, bookings, content, approvals |
+| **Admin** | Platform operator | Full control — manage users, consultant, bookings, content, approvals |
 | **Consultant** | Driver / service provider | Accept trips, manage their profile and availability |
 | **User** | Passenger / customer | Request rides, hire drivers, rent vehicles |
 
@@ -81,7 +81,7 @@ Think of it as the backend operations layer for a company like Rapido or Ola —
 
 **People & Organizations**
 - Customer Management — create, edit, activate/deactivate users
-- Consultant Management — approve captains, view consultant profiles
+- Consultant Management — approve consultant, view consultant profiles
 - Driver Hire requests — match users with available drivers
 - Vehicle Rental requests — assign vehicles to rental requests
 - Organizations — manage partner or corporate accounts
@@ -273,7 +273,7 @@ docker-compose logs -f
 | `/admin/events` | Platform events |
 | `/admin/access-request` | Role change approvals |
 | `/admin/users` | All registered users |
-| `/admin/captains` | Consultant profiles |
+| `/admin/consultant` | Consultant profiles |
 | `/admin/driver-hire` | Driver hire requests |
 | `/admin/vehicle-rental` | Vehicle rental requests |
 | `/admin/user-management` | Create/edit/deactivate users |

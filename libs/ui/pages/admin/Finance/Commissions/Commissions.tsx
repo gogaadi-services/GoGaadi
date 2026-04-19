@@ -1,7 +1,7 @@
 import { Box } from '@gogaadi/component';
 import { Typography } from '@mui/material';
 import PercentIcon from '@mui/icons-material/Percent';
-import { useStyles } from './styles';
+import { useStyles } from './Commissions.styles';
 
 const Commissions = () => {
   const { classes } = useStyles();
