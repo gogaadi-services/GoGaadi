@@ -3,7 +3,7 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import { constants } from '@gogaadi/utils';
-import { useStyles } from './styles';
+import { useStyles } from './ForgotPassword.styles';
 import useForgotPassword from './hooks/useForgotPassword';
 import StepProgress from './components/StepProgress';
 import EmailStep from './components/EmailStep';

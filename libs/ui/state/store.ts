@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query/react';
 
-import { counterReducer, userReducer, notificationReducer } from '../slices';
+import { notificationReducer } from '../slices';
 import authReducer from '../store/authStore';
 import uiReducer from '../store/uiStore';
 import { baseApi } from '@gogaadi/services';
@@ -9,12 +9,10 @@ import { baseApi } from '@gogaadi/services';
 // Configure the store with all reducers and RTK Query middleware
 export const store = configureStore({
   reducer: {
-    [baseApi.reducerPath]: baseApi.reducer, //  RTK Query API Admin slice
-    auth: authReducer, // Auth slice
-    ui: uiReducer, // UI slice (global loader, etc.)
-    counter: counterReducer, // Counter slice
-    user: userReducer, // User slice
-    notification: notificationReducer, // Notification slice
+    [baseApi.reducerPath]: baseApi.reducer,
+    auth: authReducer,
+    ui: uiReducer,
+    notification: notificationReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(baseApi.middleware),
 });

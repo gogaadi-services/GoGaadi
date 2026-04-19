@@ -59,10 +59,10 @@ import { Loader } from '@gogaadi/component';
 import { useAuthActionMutation, useUploadUserAttachmentsMutation } from '@gogaadi/services';
 import { useNotification } from '@gogaadi/hooks';
 import { constants } from '@gogaadi/utils';
-import { useStyles } from './styles';
+import { useStyles } from './CustomerDetail.styles';
 import { useCustomerDetailData } from './hooks/useCustomerDetailData';
 import { useUserDetailData } from './hooks/useUserDetailData';
-import { CustomerApprovalRow, CustomerOnboardingRow } from '../types';
+import { CustomerApprovalRow } from '../types';
 import { ChangeLogEntry, ResetPwErrors } from '../../../admin/People/PeopleManagement/types/peopleManagement.types';
 import ActionDialog from '../CustomerAccess/dialogs/ActionDialog';
 import ChangesLogDialog from './dialogs/ChangesLogDialog/ChangesLogDialog';
@@ -796,10 +796,10 @@ const CustomerDetail = () => {
     try {
       const ef = editForm;
       // Upload any new doc files
-      if (newDocFiles.length > 0 && row.userId) {
+      if (newDocFiles.length > 0 && row.customerId) {
         try {
           await uploadAttachments({
-            userId: Number(row.userId),
+            userId: Number(row.customerId),
             files: newDocFiles.map((f) => f.file),
           }).unwrap();
         } catch {
@@ -1140,19 +1140,6 @@ const CustomerDetail = () => {
   };
 
   // ── Adapters ───────────────────────────────────────────────────────────────
-  const rowAsOnboarding = useMemo<CustomerOnboardingRow | null>(
-    () =>
-      row
-        ? ({
-            ...row,
-            sno: 0,
-            bundleTypes: Array.isArray(row.bundleTypes)
-              ? JSON.stringify(row.bundleTypes)
-              : (row.bundleTypes ?? null),
-          } as unknown as CustomerOnboardingRow)
-        : null,
-    [row],
-  );
   const rowAsUserRow = useMemo(
     () =>
       row
@@ -1197,11 +1184,8 @@ const CustomerDetail = () => {
   const canAct = row.status === 'pending' || row.status === 'under_review';
   const fullName = `${row.firstName} ${row.lastName}`.trim();
   const initials = `${row.firstName?.[0] ?? ''}${row.lastName?.[0] ?? ''}`.toUpperCase() || '?';
-  const heroGradient = isMobility
-    ? 'linear-gradient(135deg,#1a237e 0%,#283593 40%,#1565c0 100%)'
-    : 'linear-gradient(135deg,#4e1d07 0%,#78350f 40%,#b45309 100%)';
   const bundleTypes = Array.isArray(row.bundleTypes) ? row.bundleTypes : [];
-  const availableBundles = BUNDLES_BY_SERVICE[row.serviceCategory] ?? [];
+  const availableBundles = BUNDLES_BY_SERVICE[row.serviceCategory ?? ''] ?? [];
   const iconSm = { fontSize: '1rem' };
   const iconMd = { fontSize: '1.1rem' };
   const isAdminCreated = !row.isSelfRegistered && (!!row.createdByName || !!row.createdByEmail);
@@ -3013,7 +2997,6 @@ const CustomerDetail = () => {
         open={changesLogOpen}
         onClose={() => setChangesLogOpen(false)}
         selectedRow={rowAsUserRow}
-        selectedOnboarding={rowAsOnboarding}
         changeLog={changeLog}
         isLoadingLog={isLoadingLog}
         logSearch={logSearch}
@@ -3055,14 +3038,12 @@ const CustomerDetail = () => {
         open={loginDataOpen}
         onClose={() => setLoginDataOpen(false)}
         selectedRow={rowAsUserRow}
-        selectedOnboarding={rowAsOnboarding}
       />
 
       <ResetPasswordDialog
         open={resetPwOpen}
         onClose={() => setResetPwOpen(false)}
         selectedRow={rowAsUserRow}
-        selectedOnboarding={rowAsOnboarding}
         resetPwMode={resetPwMode}
         onModeChange={setResetPwMode}
         autoResetPw={autoResetPw}

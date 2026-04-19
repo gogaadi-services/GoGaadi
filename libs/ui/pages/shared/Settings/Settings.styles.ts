@@ -1,7 +1,7 @@
+import { makeStyles } from 'tss-react/mui';
 import { Theme } from '@mui/material/styles';
-import { CSSObject } from 'tss-react';
 
-export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   container: {
     padding: theme.spacing(2),
     minHeight: '100%',
@@ -308,4 +308,4 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     fontSize: '0.82rem',
     fontWeight: 500,
   },
-});
+}));

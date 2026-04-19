@@ -16,7 +16,7 @@ import SecurityIcon from '@mui/icons-material/Security';
 import TuneIcon from '@mui/icons-material/Tune';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useThemeContext } from '@gogaadi/theme';
-import { useStyles } from './styles';
+import { useStyles } from './Settings.styles';
 
 // ── Theme Configs ─────────────────────────────────────────────────────────────
 interface ThemeConfig {

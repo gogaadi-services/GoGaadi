@@ -1,7 +1,7 @@
 import { Box, Typography, Divider } from '@mui/material';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import { constants } from '@gogaadi/utils';
-import { useStyles } from './styles';
+import { useStyles } from './SignIn.styles';
 import useSignIn from './hooks/useSignIn';
 import SignInForm from './components/SignInForm';
 import LeftPanel from './components/LeftPanel';

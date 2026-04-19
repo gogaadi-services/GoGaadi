@@ -11,7 +11,7 @@ import {
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Link, useLocation } from 'react-router-dom';
-import { useStyles } from './styles';
+import { useStyles } from './SideNav.styles';
 import { useAdminMenuItems, useConsultantMenuItems } from './components/MenuItems';
 import { Tooltip } from '../../../components';
 import { useCollapse, useAuth } from '@gogaadi/hooks';

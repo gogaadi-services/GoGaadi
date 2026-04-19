@@ -13,7 +13,7 @@ import {
   InputAdornment,
   Stack,
 } from '@mui/material';
-import { useStyles } from './styles';
+import { useStyles } from './Profile.styles';
 import { useAuth, useNotification } from '@gogaadi/hooks';
 import { useAuthActionMutation } from '@gogaadi/services';
 import { useAppDispatch } from '../../../hooks/useAppDispatch';

@@ -1,7 +1,7 @@
+import { makeStyles } from 'tss-react/mui';
 import { Theme } from '@mui/material/styles';
-import { CSSObject } from 'tss-react';
 
-export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   container: {
     padding: theme.spacing(3),
     background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 50%, #f0f4ff 100%)',
@@ -10,14 +10,16 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     [theme.breakpoints.between('sm', 'md')]: { padding: theme.spacing(2) },
   },
 
-  // ── Page header (gradient overridden per-page via sx) ────────────────────────
   pageHeader: {
     marginBottom: theme.spacing(2.5),
+    background: 'linear-gradient(135deg, #0f172a 0%, #134e4a 30%, #0f766e 65%, #14b8a6 100%)',
     backgroundSize: '300% 300%',
     borderRadius: 18,
     padding: theme.spacing(3.5, 4),
     position: 'relative',
     overflow: 'hidden',
+    boxShadow:
+      '0 24px 64px rgba(15,118,110,0.28), 0 8px 24px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.1)',
     '&::before': {
       content: '""',
       position: 'absolute',
@@ -26,6 +28,8 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
       width: 350,
       height: 350,
       borderRadius: '50%',
+      background:
+        'radial-gradient(circle at center, rgba(20,184,166,0.38) 0%, rgba(15,118,110,0.12) 50%, transparent 70%)',
       pointerEvents: 'none',
     },
     '&::after': {
@@ -36,6 +40,7 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
       width: 280,
       height: 280,
       borderRadius: '50%',
+      background: 'radial-gradient(circle at center, rgba(94,234,212,0.3) 0%, transparent 70%)',
       pointerEvents: 'none',
     },
     [theme.breakpoints.down('sm')]: { padding: theme.spacing(2.5, 2), borderRadius: 12 },
@@ -87,7 +92,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     zIndex: 1,
   },
 
-  // ── Stat cards ───────────────────────────────────────────────────────────────
   statsGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(2, 1fr)',
@@ -121,7 +125,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     [theme.breakpoints.down('sm')]: { padding: theme.spacing(1), borderRadius: 12 },
   },
 
-  // CustomerManagement variants (teal theme)
   statCard0: {
     '&::before': { background: 'linear-gradient(90deg, #0f766e, #14b8a6)' },
     '&:hover': { boxShadow: '0 18px 48px rgba(15,118,110,0.16), 0 4px 16px rgba(15,118,110,0.08)' },
@@ -137,23 +140,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
   statCard3: {
     '&::before': { background: 'linear-gradient(90deg, #b45309, #d97706)' },
     '&:hover': { boxShadow: '0 18px 48px rgba(180,83,9,0.16), 0 4px 16px rgba(180,83,9,0.08)' },
-  },
-  // CustomerApprovals extra variants (blue theme)
-  statCard4: {
-    '&::before': { background: 'linear-gradient(90deg, #7c3aed, #a855f7)' },
-    '&:hover': { boxShadow: '0 18px 48px rgba(124,58,237,0.16), 0 4px 16px rgba(124,58,237,0.08)' },
-  },
-  statCard5: {
-    '&::before': { background: 'linear-gradient(90deg, #0f766e, #0ea5e9)' },
-    '&:hover': { boxShadow: '0 18px 48px rgba(15,118,110,0.16), 0 4px 16px rgba(15,118,110,0.08)' },
-  },
-  statCard6: {
-    '&::before': { background: 'linear-gradient(90deg, #4338ca, #6366f1)' },
-    '&:hover': { boxShadow: '0 18px 48px rgba(99,102,241,0.16), 0 4px 16px rgba(99,102,241,0.08)' },
-  },
-  statCard7: {
-    '&::before': { background: 'linear-gradient(90deg, #c2410c, #ea580c)' },
-    '&:hover': { boxShadow: '0 18px 48px rgba(234,88,12,0.16), 0 4px 16px rgba(234,88,12,0.08)' },
   },
 
   statCardTop: {
@@ -226,7 +212,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     [theme.breakpoints.down('sm')]: { fontSize: '0.6rem' },
   },
 
-  // ── Tabs + search ─────────────────────────────────────────────────────────────
   tabsBox: {
     display: 'flex',
     alignItems: 'center',
@@ -235,7 +220,7 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     borderRadius: 14,
     padding: theme.spacing(0.75),
     marginBottom: theme.spacing(1.5),
-    border: '1px solid rgba(0,0,0,0.06)',
+    border: '1px solid rgba(15,118,110,0.08)',
     boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
     '& .MuiTabs-root': { minHeight: 44 },
     '& .MuiTabs-scrollButtons.Mui-disabled': { opacity: 0, width: 0 },
@@ -247,6 +232,11 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
       color: theme.palette.text.secondary,
       transition: 'all 0.22s ease',
       position: 'relative',
+      '&.Mui-selected': {
+        color: '#0f766e',
+        background: 'rgba(15,118,110,0.09)',
+        boxShadow: '0 2px 10px rgba(15,118,110,0.14)',
+      },
       '&:not(:last-of-type)::after': {
         content: '""',
         position: 'absolute',
@@ -279,6 +269,17 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
       borderRadius: 40,
       color: theme.palette.text.primary,
       transition: 'all 0.22s ease',
+      '& .MuiOutlinedInput-notchedOutline': {
+        border: '1px solid rgba(15,118,110,0.18)',
+        borderRadius: 40,
+      },
+      '&:hover .MuiOutlinedInput-notchedOutline': {
+        border: '1px solid rgba(15,118,110,0.4)',
+      },
+      '&.Mui-focused': {
+        boxShadow: '0 0 0 3px rgba(15,118,110,0.1)',
+        '& .MuiOutlinedInput-notchedOutline': { border: '1px solid #0f766e' },
+      },
     },
     '& .MuiInputBase-input': {
       padding: '4px 4px 4px 12px',
@@ -286,16 +287,19 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
       color: theme.palette.text.primary,
       '&::placeholder': { color: theme.palette.text.secondary, opacity: 1 },
     },
-    '& .MuiInputAdornment-root .MuiSvgIcon-root': { fontSize: '1.1rem' },
+    '& .MuiInputAdornment-root .MuiSvgIcon-root': {
+      fontSize: '1.1rem',
+      color: 'rgba(15,118,110,0.6)',
+    },
     [theme.breakpoints.down('sm')]: { marginLeft: 0, marginTop: theme.spacing(1), width: '100%' },
   },
 
-  // ── Table ────────────────────────────────────────────────────────────────────
   tableContainer: {
     backgroundColor: theme.palette.background.paper,
     borderRadius: 14,
     overflowX: 'auto' as const,
     boxShadow: '0 2px 16px rgba(0,0,0,0.05)',
+    border: '1px solid rgba(15,118,110,0.06)',
   },
 
   emptyState: {
@@ -303,6 +307,7 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
     border: '2px dashed',
+    borderColor: 'rgba(15,118,110,0.15)',
     borderRadius: 16,
     marginTop: theme.spacing(2),
     background: 'rgba(255,255,255,0.7)',
@@ -310,6 +315,7 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
 
   emptyIcon: {
     fontSize: '48px !important',
+    color: 'rgba(15,118,110,0.3) !important',
     marginBottom: '8px !important',
   },
-});
+}));

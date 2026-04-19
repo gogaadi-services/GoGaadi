@@ -26,14 +26,7 @@ import { useAuthActionMutation } from '@gogaadi/services';
 import { useAuth } from '@gogaadi/hooks';
 import { AdminPageShell } from '@gogaadi/pages/shared/PageShell';
 import { CUSTOMER_ACCESS_CONFIG, CustomerCategory } from '../CustomerAccess/hooks/useCustomerAccess';
-
-// ── Shared ────────────────────────────────────────────────────────────────────
-
-interface CustomerApprovalRow {
-  id: number | string;
-  status: 'pending' | 'under_review' | 'approved' | 'rejected';
-  serviceCategory: string;
-}
+import { CustomerApprovalRow } from '../types';
 
 function getVisuals(color: string) {
   return {
@@ -121,9 +114,73 @@ const AccessCard = ({
     >
       <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: gradient, borderRadius: '16px 16px 0 0' }} />
       {hasNotif && (
-        <Box sx={{ position: 'absolute', top: 10, right: 12, display: 'flex', alignItems: 'center', gap: 0.5, bgcolor: '#ef4444', color: '#fff', borderRadius: '20px', px: 1, py: '2px', minWidth: 22, justifyContent: 'center', zIndex: 1 }}>
-          <NotificationsActiveIcon sx={{ fontSize: '0.7rem' }} />
-          <Typography sx={{ fontSize: '0.7rem', fontWeight: 800, lineHeight: 1 }}>{total > 99 ? '99+' : total}</Typography>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 10,
+            right: 12,
+            zIndex: 2,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {/* Bell icon container */}
+          <Box
+            sx={{
+              position: 'relative',
+              width: 34,
+              height: 34,
+              borderRadius: '10px',
+              bgcolor: alpha('#ef4444', 0.1),
+              border: `1.5px solid ${alpha('#ef4444', 0.28)}`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: `0 2px 8px ${alpha('#ef4444', 0.18)}`,
+              '@keyframes bellRing': {
+                '0%,100%': { transform: 'rotate(0deg)' },
+                '15%': { transform: 'rotate(14deg)' },
+                '30%': { transform: 'rotate(-12deg)' },
+                '45%': { transform: 'rotate(8deg)' },
+                '60%': { transform: 'rotate(-6deg)' },
+                '75%': { transform: 'rotate(3deg)' },
+              },
+              '& .bell-icon': {
+                animation: 'bellRing 2.4s ease-in-out infinite',
+                transformOrigin: '50% 4px',
+              },
+            }}
+          >
+            <NotificationsActiveIcon
+              className='bell-icon'
+              sx={{ fontSize: '1.1rem', color: '#ef4444' }}
+            />
+            {/* Count badge */}
+            <Box
+              sx={{
+                position: 'absolute',
+                top: -7,
+                right: -7,
+                minWidth: 18,
+                height: 18,
+                borderRadius: '9px',
+                bgcolor: '#ef4444',
+                color: '#fff',
+                fontSize: '0.6rem',
+                fontWeight: 800,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                px: '3px',
+                border: '2px solid #fff',
+                boxShadow: '0 2px 6px rgba(239,68,68,0.45)',
+                lineHeight: 1,
+              }}
+            >
+              {total > 99 ? '99+' : total}
+            </Box>
+          </Box>
         </Box>
       )}
       <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, mt: 0.5 }}>
@@ -236,31 +293,28 @@ const AccessView = () => {
   }, [fetchCounts]);
 
   return (
-    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, px: 3, py: 2.5, background: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #0ea5e9 100%)', boxShadow: '0 8px 32px rgba(14,165,233,0.3)', borderRadius: '16px', mb: 3 }}>
-        <Box sx={{ width: 48, height: 48, borderRadius: '14px', background: 'linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 24px rgba(14,165,233,0.4)', flexShrink: 0 }}>
-          <PendingActionsIcon sx={{ fontSize: 24, color: '#fff' }} />
+    <AdminPageShell
+      mode='hero'
+      heroIcon={PendingActionsIcon}
+      heroTitle='Customer Access'
+      heroSubtitle='Select a service type to review and approve onboarding requests'
+      heroGradient='linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #0ea5e9 100%)'
+      heroBoxShadow='0 8px 32px rgba(14,165,233,0.3)'
+      heroIconBg='linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%)'
+      heroIconShadow='0 8px 24px rgba(14,165,233,0.4)'
+    >
+      {totalPending > 0 && (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2.5, px: 1.5, py: 1, borderRadius: '12px', bgcolor: alpha('#ef4444', 0.07), border: `1px solid ${alpha('#ef4444', 0.18)}`, width: 'fit-content' }}>
+          <NotificationsActiveIcon sx={{ fontSize: '0.95rem', color: '#ef4444' }} />
+          <Typography sx={{ fontSize: '0.8rem', fontWeight: 700, color: '#ef4444' }}>{totalPending} requests awaiting review</Typography>
         </Box>
-        <Box sx={{ flex: 1 }}>
-          <Typography sx={{ color: '#f1f5f9', fontWeight: 800, fontSize: '1.25rem', letterSpacing: '-0.01em' }}>Customer Access</Typography>
-          <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.82rem' }}>Select a service type to review and approve onboarding requests</Typography>
-        </Box>
-        {totalPending > 0 && (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, bgcolor: alpha('#ef4444', 0.2), border: '1px solid rgba(239,68,68,0.4)', borderRadius: '12px', px: 2, py: 1, flexShrink: 0 }}>
-            <NotificationsActiveIcon sx={{ fontSize: '1rem', color: '#fca5a5' }} />
-            <Box>
-              <Typography sx={{ color: '#fff', fontWeight: 800, fontSize: '1.1rem', lineHeight: 1 }}>{totalPending}</Typography>
-              <Typography sx={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.68rem' }}>awaiting review</Typography>
-            </Box>
-          </Box>
-        )}
-      </Box>
+      )}
       <AccessSection label='Consultant Onboarding' keys={ONBOARDING_KEYS} counts={counts} navigate={navigate} accessTypes={ACCESS_TYPES} />
       <AccessSection label='On-Demand Services' keys={ON_DEMAND_KEYS} counts={counts} navigate={navigate} accessTypes={ACCESS_TYPES} />
       <AccessSection label='Automotive Partners' keys={AUTOMOTIVE_KEYS} counts={counts} navigate={navigate} accessTypes={ACCESS_TYPES} />
       <AccessSection label='Finance Partners' keys={FINANCE_KEYS} counts={counts} navigate={navigate} accessTypes={ACCESS_TYPES} />
       <AccessSection label='Platform' keys={PLATFORM_KEYS} counts={counts} navigate={navigate} accessTypes={ACCESS_TYPES} />
-    </Box>
+    </AdminPageShell>
   );
 };
 

@@ -57,8 +57,12 @@ export const LazyMenuItems = {
   ),
 
   // Customer landing pages (sidebar entry points)
-  AdminCustomerAccessLandingPage: lazy(() => import('@gogaadi/pages/shared/Customer/LandingPage')),
-  AdminCustomerManagementLandingPage: lazy(() => import('@gogaadi/pages/shared/Customer/LandingPage')),
+  AdminCustomerAccessLandingPage: lazy(() =>
+    import('@gogaadi/pages/shared/Customer/LandingPage/AccessLanding'),
+  ),
+  AdminCustomerManagementLandingPage: lazy(() =>
+    import('@gogaadi/pages/shared/Customer/LandingPage/ManagementLanding'),
+  ),
 
   // Customer unified pages (individual service type views)
   AdminCustomerAccessPage: lazy(() => import('@gogaadi/pages/shared/Customer/CustomerAccess')),

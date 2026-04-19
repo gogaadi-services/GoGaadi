@@ -13,7 +13,7 @@ import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { useLocation } from 'react-router-dom';
 import { useAdminKeyframes } from '@gogaadi/hooks';
-import { useStyles } from './styles';
+import { useStyles } from './CustomerAccess.styles';
 import { useCustomerAccess, getCategoryFromPath } from './hooks/useCustomerAccess';
 import TabPanel from './components/TabPanel';
 import CustomerPersonDetailDialog from './dialogs/CustomerPersonDetailDialog';

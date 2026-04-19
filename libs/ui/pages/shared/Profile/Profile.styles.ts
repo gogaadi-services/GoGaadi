@@ -1,7 +1,7 @@
+import { makeStyles } from 'tss-react/mui';
 import { Theme } from '@mui/material/styles';
-import { CSSObject } from 'tss-react';
 
-export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   // ── Page wrapper ────────────────────────────────────────────────────────────
   container: {
     minHeight: '100vh',
@@ -427,4 +427,4 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
       '& button': { width: '100%' },
     },
   },
-});
+}));

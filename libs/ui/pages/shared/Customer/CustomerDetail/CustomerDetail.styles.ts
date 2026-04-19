@@ -1,7 +1,8 @@
+import { makeStyles } from 'tss-react/mui';
 import { Theme } from '@mui/material/styles';
 import { CSSObject } from 'tss-react';
 
-export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
+export const useStyles = makeStyles()((theme: Theme) => ({
   container: {
     padding: theme.spacing(2),
     background: 'linear-gradient(145deg, #eef2ff 0%, #f8faff 50%, #eff6ff 100%)',
@@ -16,7 +17,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     },
   },
 
-  // Mobile-only compact header bar
   mobileHeaderBar: {
     display: 'none',
 
@@ -85,7 +85,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     minWidth: 0,
   },
 
-  // Header (desktop)
   headerRow: {
     display: 'flex',
     alignItems: 'center',
@@ -202,7 +201,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     },
   },
 
-  // NavButton disabled state
   navButtonDisabled: {
     display: 'inline-flex',
     alignItems: 'center',
@@ -213,7 +211,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     opacity: 0.4,
   },
 
-  // Incident number badge in desktop header
   headerIncidentNumber: {
     fontSize: '1rem',
     color: 'inherit',
@@ -226,7 +223,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     fontWeight: 800,
   },
 
-  // Small copy icon button inside header
   headerSmallIconButton: {
     padding: '2px',
     color: 'rgba(255,255,255,0.85)',
@@ -236,7 +232,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     },
   },
 
-  // Mobile draft expiry banner — visible only on mobile (below mobile header bar)
   mobileDraftTimer: {
     display: 'flex',
     alignItems: 'center',
@@ -278,7 +273,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     },
   },
 
-  // Sub-header info row (compact cards)
   infoRow: {
     display: 'flex',
     alignItems: 'stretch',
@@ -414,14 +408,12 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     },
   },
 
-  // InfoRow: caller avatar box
   infoCallerBox: {
     display: 'flex',
     alignItems: 'center',
     gap: theme.spacing(0.75),
   },
 
-  // InfoRow: ETA edit icon
   etaEditIcon: {
     fontSize: '0.875rem',
     color: '#999',
@@ -429,13 +421,11 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     transition: 'opacity 0.2s',
   },
 
-  // InfoRow: ETA text field
   etaTextField: {
     maxWidth: 130,
     '& .MuiInputBase-root': { height: 28 },
   },
 
-  // InfoRow: caller value text
   infoCallerText: {
     fontSize: '0.8rem',
     color: '#1e293b',
@@ -447,7 +437,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     minWidth: 0,
   },
 
-  // SLA progress bar
   slaBar: {
     display: 'flex',
     alignItems: 'center',
@@ -484,7 +473,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     textAlign: 'right' as const,
   },
 
-  // Action buttons (stunning toolbar)
   actionButtonsRow: {
     display: 'flex',
     alignItems: 'stretch',
@@ -575,7 +563,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     },
   },
 
-  // ActionBar: icon pill (colored icon background)
   iconPill: {
     width: 36,
     height: 36,
@@ -589,7 +576,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     },
   },
 
-  // Timer
   timerContainer: {
     display: 'flex',
     alignItems: 'center',
@@ -610,7 +596,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     padding: '3px',
   },
 
-  // Draft expiry banner — tablet & desktop (below headerRow)
   draftTimerBadge: {
     display: 'none',
 
@@ -672,7 +657,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     },
   },
 
-  // Header title (pipe separator + truncated title)
   headerTitle: {
     fontSize: '1.05rem',
     color: 'rgba(255,255,255,0.95)',
@@ -695,14 +679,12 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     userSelect: 'none' as const,
   },
 
-  // Support plan note + Timer/Summary row
   noteAndTimerRow: {
     display: 'flex',
     alignItems: 'stretch',
     gap: theme.spacing(1.5),
     marginBottom: theme.spacing(1.5),
 
-    // Stack vertically on anything below full desktop (< 1280px)
     [theme.breakpoints.down('lg')]: {
       flexDirection: 'column' as const,
       gap: theme.spacing(1),
@@ -765,7 +747,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     },
   },
 
-  // Time Summary card
   timerAndSummaryRow: {
     display: 'flex',
     flexDirection: 'column' as const,
@@ -796,7 +777,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     letterSpacing: '0.8px',
   },
 
-  // Time Summary 2×2 grid cells
   timeSummaryWrap: {
     display: 'flex',
     flexWrap: 'wrap' as const,
@@ -838,7 +818,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     marginTop: '1px',
   },
 
-  // ETA editable field
   etaEditable: {
     cursor: 'pointer',
     display: 'flex',
@@ -856,7 +835,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     },
   },
 
-  // Description Section
   descriptionCard: {
     marginBottom: theme.spacing(1.5),
     background: '#ffffff',
@@ -907,7 +885,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     '& .MuiOutlinedInput-root': { borderRadius: '10px' },
   },
 
-  // Tabs Section
   tabsSectionCard: {
     background: '#ffffff',
     borderRadius: '16px',
@@ -1099,7 +1076,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     textAlign: 'center' as const,
   },
 
-  // Main layout
   mainLayout: {
     display: 'flex',
     alignItems: 'flex-start',
@@ -1111,7 +1087,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     },
   },
 
-  // Left sidebar
   sidebar: {
     position: 'sticky' as const,
     top: theme.spacing(2),
@@ -1120,8 +1095,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     overflow: 'visible',
     flexShrink: 0,
 
-    // On mobile: disable sticky so the sidebar stays in document flow
-    // and never floats over the content below when scrolling
     [theme.breakpoints.down('md')]: {
       position: 'relative' as const,
       top: 'auto',
@@ -1194,7 +1167,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     marginBottom: '12px',
   },
 
-  // Right content area — flex: 1 auto-stretches as sidebar opens/closes
   contentArea: {
     flex: 1,
     minWidth: 0,
@@ -1206,7 +1178,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     },
   },
 
-  // Section styles
   section: {
     marginBottom: theme.spacing(2),
   },
@@ -1235,7 +1206,6 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     fontWeight: 500,
   },
 
-  // ── Mobile toggle row (Ticket Info / Details) ──────────────────────────
   mobileToggleRow: {
     display: 'flex',
     alignItems: 'center',
@@ -1317,8 +1287,7 @@ export const getBaseStyles = (theme: Theme): Record<string, CSSObject> => ({
     color: '#6366f1',
   },
 
-  // Mobile timer row wrapper (adds bottom margin)
   mobileTimerWrapper: {
     marginBottom: theme.spacing(1.5),
   },
-});
+}));
