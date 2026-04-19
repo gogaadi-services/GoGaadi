@@ -20,10 +20,9 @@ export default defineConfig({
       '@gogaadi/pages': path.resolve(root, 'libs/ui/pages'),
       '@gogaadi/constants': path.resolve(root, 'libs/shared/constants/index.ts'),
       '@gogaadi/services': path.resolve(root, 'libs/services/index.ts'),
-      '@gogaadi/store': path.resolve(root, 'libs/ui/store/index.ts'),
-      '@gogaadi/slices': path.resolve(root, 'libs/ui/slices/index.ts'),
-      '@gogaadi/state': path.resolve(root, 'libs/ui/state/index.ts'),
-'libs/ui/state': path.resolve(root, 'libs/ui/state/index.ts'),
+      '@gogaadi/store': path.resolve(root, 'libs/services/store/index.ts'),
+      '@gogaadi/slices': path.resolve(root, 'libs/services/slices/index.ts'),
+      '@gogaadi/state': path.resolve(root, 'libs/services/state/index.ts'),
     },
   },
 

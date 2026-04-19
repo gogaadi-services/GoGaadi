@@ -33,9 +33,9 @@
       "@gogaadi/database": ["libs/core/database/index.ts"],
       "@gogaadi/core": ["libs/core/index.ts"],
       "@gogaadi/services": ["libs/services/index.ts"],
-      "@gogaadi/store": ["libs/ui/store/index.ts"],
-      "@gogaadi/slices": ["libs/ui/slices/index.ts"],
-      "@gogaadi/state": ["libs/ui/state/index.ts"]
+      "@gogaadi/store": ["libs/services/store/index.ts"],
+      "@gogaadi/slices": ["libs/services/slices/index.ts"],
+      "@gogaadi/state": ["libs/services/state/index.ts"]
     }
   },
   "exclude": ["dist", "node_modules", "temp"]

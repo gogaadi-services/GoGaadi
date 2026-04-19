@@ -255,7 +255,7 @@ const AccessSection = ({
   );
 };
 
-const AccessView = () => {
+export const AccessView = () => {
   const navigate = useNavigate();
   const [authAction] = useAuthActionMutation();
   const [counts, setCounts] = useState<Record<string, NotifCounts>>({});
@@ -413,7 +413,7 @@ const ManagementSection = ({
   </>
 );
 
-const ManagementView = () => {
+export const ManagementView = () => {
   const navigate = useNavigate();
   const { isConsultantMode, isConsultant } = useAuth();
   const consultantMode = isConsultantMode || isConsultant;

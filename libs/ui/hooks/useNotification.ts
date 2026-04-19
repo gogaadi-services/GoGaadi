@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useAppDispatch } from './useAppDispatch';
-import { showNotification, hideNotification } from '../slices';
+import { showNotification, hideNotification } from '@gogaadi/slices';
 
 export const useNotification = () => {
   const dispatch = useAppDispatch();

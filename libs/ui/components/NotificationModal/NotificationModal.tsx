@@ -6,7 +6,7 @@ import WarningIcon from '@mui/icons-material/Warning';
 import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { hideNotification, NotificationSeverity } from '../../slices';
+import { hideNotification, NotificationSeverity } from '@gogaadi/slices';
 import { useStyles } from './NotificationModal.styles';
 
 const severityConfig: Record<

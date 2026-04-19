@@ -17,7 +17,7 @@ import { useStyles } from './Profile.styles';
 import { useAuth, useNotification } from '@gogaadi/hooks';
 import { useAuthActionMutation } from '@gogaadi/services';
 import { useAppDispatch } from '../../../hooks/useAppDispatch';
-import { updateUser } from '../../../store/authStore';
+import { updateUser } from '../../../../services/store/authStore';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';

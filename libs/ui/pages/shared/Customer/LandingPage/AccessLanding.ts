@@ -1,1 +1,1 @@
-export { CustomerAccessLanding as default } from './LandingPage';
+export { AccessView as default } from './LandingPage';

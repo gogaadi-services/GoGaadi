@@ -1,6 +1,6 @@
 import { useAppDispatch } from './useAppDispatch';
 import { useAppSelector } from './useAppSelector';
-import { showLoader, hideLoader } from '../store/uiStore';
+import { showLoader, hideLoader } from '../../services/store/uiStore';
 
 export const useLoader = () => {
   const dispatch = useAppDispatch();

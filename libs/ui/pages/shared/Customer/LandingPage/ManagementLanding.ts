@@ -1,1 +1,1 @@
-export { CustomerManagementLanding as default } from './LandingPage';
+export { ManagementView as default } from './LandingPage';

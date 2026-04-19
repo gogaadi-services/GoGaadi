@@ -1,6 +1,6 @@
 import { useAppDispatch } from './useAppDispatch';
 import { useAppSelector } from './useAppSelector';
-import { setCredentials, logout as logoutAction, enterConsultantMode as enterConsultantModeAction, exitConsultantMode as exitConsultantModeAction } from '../store/authStore';
+import { setCredentials, logout as logoutAction, enterConsultantMode as enterConsultantModeAction, exitConsultantMode as exitConsultantModeAction } from '../../services/store/authStore';
 import { useAuthActionMutation } from '@gogaadi/services';
 import { UserRole, ISignInResponse } from '@gogaadi/interfaces';
 
