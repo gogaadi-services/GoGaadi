@@ -112,7 +112,8 @@ const corsOptions: cors.CorsOptions = {
     allowedOrigins.length > 0
       ? (origin, callback) => {
           // Mobile apps (no Origin header) and configured origins are allowed
-          if (!origin || allowedOrigins.includes(origin)) callback(null, true);
+          const isVercelPreview = origin?.endsWith('.vercel.app');
+          if (!origin || allowedOrigins.includes(origin) || isVercelPreview) callback(null, true);
           else callback(new Error(`CORS: origin ${origin} not allowed`));
         }
       : true, // allow all in dev
