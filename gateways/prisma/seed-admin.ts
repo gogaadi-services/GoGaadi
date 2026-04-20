@@ -2,11 +2,12 @@ import { Pool } from 'pg';
 import bcrypt from 'bcryptjs';
 import 'dotenv/config';
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const connectionString = process.env.DATABASE_DIRECT_URL || process.env.DATABASE_URL;
+const pool = new Pool({ connectionString });
 
 async function upsertAdmin() {
   console.log('Upserting admin user...');
-  console.log('Database URL:', process.env.DATABASE_URL?.replace(/:[^:@]+@/, ':****@'));
+  console.log('Database URL:', connectionString?.replace(/:[^:@]+@/, ':****@'));
 
   const adminPassword = await bcrypt.hash('admin123', 10);
 
