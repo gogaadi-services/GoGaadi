@@ -465,4 +465,141 @@ export const useStyles = makeStyles()((theme: Theme) => ({
       '& .MuiButton-root': { width: '100%' },
     },
   },
+
+  // ─── Doc section ─────────────────────────────────────────────────────────────
+  docSectionRoot: {
+    borderRadius: '14px',
+    overflow: 'hidden',
+    border: '1.5px solid',
+    marginBottom: theme.spacing(2),
+    backgroundColor: theme.palette.background.paper,
+    transition: 'border-color 0.3s, box-shadow 0.3s',
+    '&:last-child': { marginBottom: 0 },
+  },
+
+  docSectionHeader: {
+    display: 'flex',
+    flexWrap: 'nowrap' as const,
+    alignItems: 'center',
+    gap: theme.spacing(1.5),
+    paddingLeft: theme.spacing(2.5),
+    paddingRight: theme.spacing(2.5),
+    paddingTop: theme.spacing(1.5),
+    paddingBottom: theme.spacing(1.5),
+    borderBottom: '1px solid',
+    [theme.breakpoints.down('sm')]: {
+      flexWrap: 'wrap' as const,
+    },
+  },
+
+  docSectionIconBadge: {
+    width: 34,
+    height: 34,
+    borderRadius: '9px',
+    flexShrink: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  docSectionLabel: {
+    fontWeight: 700,
+    fontSize: '0.86rem',
+    lineHeight: 1.2,
+  },
+
+  docSectionSlotsRow: {
+    display: 'flex',
+    gap: theme.spacing(1),
+    alignItems: 'center',
+    flexShrink: 0,
+    marginLeft: 'auto' as const,
+    [theme.breakpoints.down('sm')]: {
+      flexBasis: '100%',
+      marginLeft: '0',
+      marginTop: theme.spacing(0.5),
+    },
+  },
+
+  docSectionBody: {
+    padding: theme.spacing(2, 2.5, 2.5),
+  },
+
+  // ─── Upload field ─────────────────────────────────────────────────────────────
+  uploadFieldRoot: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    alignItems: 'flex-start',
+    gap: theme.spacing(0.5),
+    [theme.breakpoints.down('sm')]: {
+      alignItems: 'stretch',
+      width: '100%',
+    },
+  },
+
+  uploadFieldButton: {
+    textTransform: 'none' as const,
+    fontSize: '0.75rem',
+    borderRadius: '8px',
+    whiteSpace: 'nowrap' as const,
+    [theme.breakpoints.down('sm')]: {
+      whiteSpace: 'normal' as const,
+      width: '100%',
+      justifyContent: 'flex-start',
+    },
+  },
+
+  // ─── File thumb ───────────────────────────────────────────────────────────────
+  fileThumbRoot: {
+    borderRadius: '10px',
+    overflow: 'hidden',
+    border: '2px solid',
+    cursor: 'zoom-in',
+    flexShrink: 0,
+    position: 'relative' as const,
+    boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+    transition: 'all 0.2s ease',
+    '&:hover': { transform: 'translateY(-3px)', boxShadow: '0 8px 24px rgba(0,0,0,0.22)' },
+  },
+
+  fileThumbOverlay: {
+    position: 'fixed' as const,
+    inset: 0,
+    zIndex: 9999,
+    backgroundColor: 'rgba(0,0,0,0.82)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'zoom-out',
+    backdropFilter: 'blur(4px)',
+  },
+
+  fileThumbContent: {
+    position: 'relative' as const,
+    maxWidth: '90vw',
+    maxHeight: '88vh',
+  },
+
+  fileThumbCloseBtn: {
+    position: 'absolute' as const,
+    top: -16,
+    right: -16,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    color: '#fff',
+    backdropFilter: 'blur(8px)',
+    '&:hover': { backgroundColor: 'rgba(255,255,255,0.25)' },
+  },
+
+  // ─── Doc slot ─────────────────────────────────────────────────────────────────
+  docSlotRoot: {
+    borderRadius: '10px',
+    border: '2px dashed',
+    display: 'flex',
+    flexDirection: 'column' as const,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: theme.spacing(0.4),
+    flexShrink: 0,
+    transition: 'all 0.15s ease',
+  },
 }));

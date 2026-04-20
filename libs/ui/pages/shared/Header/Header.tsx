@@ -73,113 +73,116 @@ const Header = () => {
   const colors = consultantMode ? CONSULTANT_COLORS : ADMIN_COLORS;
 
   return (
-    <AppBar position='fixed' className={classes.headerAppbar} sx={{ background: colors.appBarBg }}>
-      <Toolbar className={classes.headerToolbar}>
-        {/* Logo */}
-        <Box className={classes.desktopLogoArea} onClick={handleLogoClick}>
-          <LogoMark compact={isMobile} />
-        </Box>
-
-        <Box className={classes.logoDivider} />
-
-        {/* Left: mode chip + notifications + add new */}
-        <Box className={classes.headerLeft}>
-          <Chip
-            className={classes.adminChip}
-            icon={
-              consultantMode ? (
-                <BadgeIcon sx={{ fontSize: '15px !important' }} />
-              ) : (
-                <AdminPanelSettingsIcon sx={{ fontSize: 15 }} />
-              )
-            }
-            label={consultantMode ? 'CONSULTANT' : 'ADMIN'}
-            size='small'
-            sx={{
-              background: `${colors.chipBg} !important`,
-              color: `${colors.chipColor} !important`,
-              border: `1px solid ${colors.chipBorder} !important`,
-              '& .MuiChip-icon': { color: `${colors.chipIconColor} !important` },
-            }}
-          />
-
-          <Tooltip title='Notifications' placement='bottom'>
-            <IconButton onClick={handleNotifOpen} size='small' className={classes.iconBtnBase}>
-              <Badge badgeContent={notifications.length} color='error'>
-                <NotificationsIcon sx={{ fontSize: '1.25rem' }} />
-              </Badge>
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title='Create New User' placement='bottom'>
-            <IconButton onClick={handleAddNew} size='small' className={classes.iconBtnBase}>
-              <AddCircleOutlineIcon sx={{ fontSize: '1.25rem' }} />
-            </IconButton>
-          </Tooltip>
-        </Box>
-
-        <NotificationsMenu
-          anchorEl={notifAnchorEl}
-          onClose={handleNotifClose}
-          onViewAll={handleNotifClick}
-          onItemClick={handleNotifItemClick}
-          notifications={notifications}
-        />
-
-        {/* Center: mobile search */}
-        <Box className={classes.centerSearchWrap}>
-          <Box className={classes.mobileSearch}>
-            <SearchBar
-              value={ticketSearch}
-              onChange={handleTicketSearchChange}
-              onClickAway={handleCloseSearchResults}
-              showResults={showSearchResults}
-              incidents={filteredIncidents}
-              onSelectIncident={handleSelectIncident}
-              className={classes.mobileSearchField}
-              wrapperClassName={classes.ticketSearchWrapper}
-              dropdownClassName={classes.searchDropdown}
-              noResultsClassName={classes.searchNoResults}
-            />
-          </Box>
-        </Box>
-
-        {/* Right: desktop search + settings */}
-        <Box className={classes.headerRight}>
-          <Box className={classes.headerFields}>
-            <SearchBar
-              value={ticketSearch}
-              onChange={handleTicketSearchChange}
-              onClickAway={handleCloseSearchResults}
-              showResults={showSearchResults}
-              incidents={filteredIncidents}
-              onSelectIncident={handleSelectIncident}
-              className={classes.textField}
-              wrapperClassName={classes.ticketSearchWrapper}
-              dropdownClassName={classes.searchDropdown}
-              noResultsClassName={classes.searchNoResults}
-            />
+    <>
+      <AppBar position='fixed' className={classes.headerAppbar} sx={{ background: colors.appBarBg }}>
+        <Toolbar className={classes.headerToolbar}>
+          {/* Logo */}
+          <Box className={classes.desktopLogoArea} onClick={handleLogoClick}>
+            <LogoMark compact={isMobile} />
           </Box>
 
-          <Tooltip title='Settings' placement='bottom'>
-            <IconButton size='small' className={classes.iconBtnBase} onClick={handleSettingsOpen}>
-              <SettingsIcon className={classes.icon} />
-            </IconButton>
-          </Tooltip>
+          <Box className={classes.logoDivider} />
 
-          <UserMenu
-            anchorEl={anchorEl}
-            onClose={handleSettingsClose}
-            onProfile={handleProfile}
-            onConsultantPage={handleConsultantPage}
-            onAdminPage={handleAdminPage}
-            onLogout={handleLogout}
-            isAdmin={isAdmin}
-            isConsultantMode={isConsultantMode}
+          {/* Left: mode chip + notifications + add new */}
+          <Box className={classes.headerLeft}>
+            <Chip
+              className={classes.adminChip}
+              icon={
+                consultantMode ? (
+                  <BadgeIcon sx={{ fontSize: '15px !important' }} />
+                ) : (
+                  <AdminPanelSettingsIcon sx={{ fontSize: 15 }} />
+                )
+              }
+              label={consultantMode ? 'CONSULTANT' : 'ADMIN'}
+              size='small'
+              sx={{
+                background: `${colors.chipBg} !important`,
+                color: `${colors.chipColor} !important`,
+                border: `1px solid ${colors.chipBorder} !important`,
+                '& .MuiChip-icon': { color: `${colors.chipIconColor} !important` },
+              }}
+            />
+
+            <Tooltip title='Notifications' placement='bottom'>
+              <IconButton onClick={handleNotifOpen} size='small' className={classes.iconBtnBase}>
+                <Badge badgeContent={notifications.length} color='error'>
+                  <NotificationsIcon sx={{ fontSize: '1.25rem' }} />
+                </Badge>
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title='Create New User' placement='bottom'>
+              <IconButton onClick={handleAddNew} size='small' className={classes.iconBtnBase}>
+                <AddCircleOutlineIcon sx={{ fontSize: '1.25rem' }} />
+              </IconButton>
+            </Tooltip>
+          </Box>
+
+          <NotificationsMenu
+            anchorEl={notifAnchorEl}
+            onClose={handleNotifClose}
+            onViewAll={handleNotifClick}
+            onItemClick={handleNotifItemClick}
+            notifications={notifications}
           />
-        </Box>
-      </Toolbar>
-    </AppBar>
+
+          {/* Center: mobile search */}
+          <Box className={classes.centerSearchWrap}>
+            <Box className={classes.mobileSearch}>
+              <SearchBar
+                value={ticketSearch}
+                onChange={handleTicketSearchChange}
+                onClickAway={handleCloseSearchResults}
+                showResults={showSearchResults}
+                incidents={filteredIncidents}
+                onSelectIncident={handleSelectIncident}
+                className={classes.mobileSearchField}
+                wrapperClassName={classes.ticketSearchWrapper}
+                dropdownClassName={classes.searchDropdown}
+                noResultsClassName={classes.searchNoResults}
+              />
+            </Box>
+          </Box>
+
+          {/* Right: desktop search + settings */}
+          <Box className={classes.headerRight}>
+            <Box className={classes.headerFields}>
+              <SearchBar
+                value={ticketSearch}
+                onChange={handleTicketSearchChange}
+                onClickAway={handleCloseSearchResults}
+                showResults={showSearchResults}
+                incidents={filteredIncidents}
+                onSelectIncident={handleSelectIncident}
+                className={classes.textField}
+                wrapperClassName={classes.ticketSearchWrapper}
+                dropdownClassName={classes.searchDropdown}
+                noResultsClassName={classes.searchNoResults}
+              />
+            </Box>
+
+            <Tooltip title='Settings' placement='bottom'>
+              <IconButton size='small' className={classes.iconBtnBase} onClick={handleSettingsOpen}>
+                <SettingsIcon className={classes.icon} />
+              </IconButton>
+            </Tooltip>
+
+            <UserMenu
+              anchorEl={anchorEl}
+              onClose={handleSettingsClose}
+              onProfile={handleProfile}
+              onConsultantPage={handleConsultantPage}
+              onAdminPage={handleAdminPage}
+              onLogout={handleLogout}
+              isAdmin={isAdmin}
+              isConsultantMode={isConsultantMode}
+            />
+          </Box>
+        </Toolbar>
+      </AppBar>
+
+    </>
   );
 };
 

@@ -644,7 +644,7 @@ const CreateCustomerForm = () => {
               accentColor='#2e7d32'
               required
             >
-              <Box className={classes.formGrid}>
+              <Box className={classes.docFormGrid}>
                 <TextField
                   label='Vehicle Registration Number'
                   value={form.vehicleNumber}
@@ -669,7 +669,7 @@ const CreateCustomerForm = () => {
                 { label: 'RC Back', file: files['rcBack'] },
               ]}
             >
-              <Box className={classes.formGrid}>
+              <Box className={classes.docFormGrid}>
                 <TextField
                   label='RC Number'
                   value={form.rc.number}
@@ -699,7 +699,7 @@ const CreateCustomerForm = () => {
                   }}
                 />
               </Box>
-              <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mt: 1 }}>
+              <Box className={classes.uploadRow}>
                 <UploadField
                   label='RC Front'
                   file={files['rcFront']}
@@ -726,7 +726,7 @@ const CreateCustomerForm = () => {
               required
               filePreviews={[{ label: 'Insurance Doc', file: files['insuranceFront'] }]}
             >
-              <Box className={classes.formGrid}>
+              <Box className={classes.docFormGrid}>
                 <TextField
                   label='Policy Number'
                   value={form.insurance.number}
@@ -774,7 +774,7 @@ const CreateCustomerForm = () => {
               accentColor='#0e7490'
               filePreviews={[{ label: 'PUC Certificate', file: files['pucFront'] }]}
             >
-              <Box className={classes.formGrid}>
+              <Box className={classes.docFormGrid}>
                 <TextField
                   label='PUC Number'
                   value={form.puc.number}
@@ -818,7 +818,7 @@ const CreateCustomerForm = () => {
               required
               filePreviews={[{ label: 'Fitness Doc', file: files['fitnessFront'] }]}
             >
-              <Box className={classes.formGrid}>
+              <Box className={classes.docFormGrid}>
                 <TextField
                   label='Fitness Number'
                   value={form.fitness.number}
@@ -867,7 +867,7 @@ const CreateCustomerForm = () => {
               required
               filePreviews={[{ label: 'Permit Doc', file: files['permitFront'] }]}
             >
-              <Box className={classes.formGrid}>
+              <Box className={classes.docFormGrid}>
                 <TextField
                   label='Permit Number'
                   value={form.permit.number}
@@ -959,7 +959,7 @@ const CreateCustomerForm = () => {
                   }}
                 />
               )}
-              <Box className={classes.formGrid}>
+              <Box className={classes.docFormGrid}>
                 <TextField
                   label='DL Number'
                   value={form.drivingLicense.number}
@@ -989,7 +989,7 @@ const CreateCustomerForm = () => {
                   }}
                 />
               </Box>
-              <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mt: 1 }}>
+              <Box className={classes.uploadRow}>
                 <UploadField
                   label='DL Front'
                   file={files['dlFront']}
@@ -1019,7 +1019,7 @@ const CreateCustomerForm = () => {
                 { label: 'ID Back', file: files['idBack'] },
               ]}
             >
-              <Box className={classes.formGrid}>
+              <Box className={classes.docFormGrid}>
                 <InlineSelect
                   label='ID Proof Type'
                   value={form.idProofType}
@@ -1066,7 +1066,7 @@ const CreateCustomerForm = () => {
                   />
                 )}
               </Box>
-              <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mt: 1 }}>
+              <Box className={classes.uploadRow}>
                 <UploadField
                   label='ID Front'
                   file={files['idFront']}

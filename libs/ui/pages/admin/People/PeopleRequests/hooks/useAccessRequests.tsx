@@ -22,7 +22,8 @@ export const usePeopleRequests = () => {
   const [tabValue, setTabValue] = useState(0);
   const [tableSearch, setTableSearch] = useState('');
   const [actionInProgress, setActionInProgress] = useState<number | null>(null);
-  const [selectedPerson, setSelectedPerson] = useState<AccessRequestRow | null>(null);
+  const [actionTarget, setActionTarget] = useState<{ user: AccessRequestRow; type: ActionType } | null>(null);
+  const [actionNotes, setActionNotes] = useState('');
 
   const fetchRequests = useCallback(async () => {
     try {
@@ -91,14 +92,13 @@ export const usePeopleRequests = () => {
   } = getTabLists(allRows);
   const tabLists = [all, adminRows, consultantRows, pendingRows];
 
-  const handleDirectAction = async (row: AccessRequestRow, type: ActionType) => {
-    const label = type === 'approve' ? 'Approve' : 'Reject';
-    if (!window.confirm(`${label} access request for ${row.name}?`)) return;
+  const handleDirectAction = async (row: AccessRequestRow, type: ActionType, notes?: string) => {
     setActionInProgress(row.id as number);
     try {
       await authAction({
         action: type === 'approve' ? 'approve-role-request' : 'reject-role-request',
         userId: row.id,
+        data: notes ? { adminNotes: notes } : undefined,
       }).unwrap();
       notify.success(
         type === 'approve'
@@ -113,6 +113,22 @@ export const usePeopleRequests = () => {
     }
   };
 
+  const handleOpenAction = (row: AccessRequestRow, type: ActionType) => {
+    setActionNotes('');
+    setActionTarget({ user: row, type });
+  };
+
+  const handleCloseAction = () => {
+    setActionTarget(null);
+    setActionNotes('');
+  };
+
+  const handleConfirmAction = async () => {
+    if (!actionTarget) return;
+    await handleDirectAction(actionTarget.user, actionTarget.type, actionNotes);
+    handleCloseAction();
+  };
+
   const columns: Column<AccessRequestRow>[] = [
     { id: 'sno', label: 'S.No', minWidth: 60, align: 'center', sortable: false },
     {
@@ -124,7 +140,7 @@ export const usePeopleRequests = () => {
           variant='body2'
           fontWeight={500}
           sx={{ color: 'primary.main', cursor: 'pointer', '&:hover': { textDecoration: 'underline' } }}
-          onClick={(e) => { e.stopPropagation(); setSelectedPerson(row); }}
+          onClick={(e) => { e.stopPropagation(); }}
         >
           {String(row.name || '-')}
         </Typography>
@@ -226,7 +242,7 @@ export const usePeopleRequests = () => {
               disabled={isProcessing}
               onClick={(e) => {
                 e.stopPropagation();
-                handleDirectAction(row, 'approve');
+                handleOpenAction(row, 'approve');
               }}
             >
               Approve
@@ -239,7 +255,7 @@ export const usePeopleRequests = () => {
               disabled={isProcessing}
               onClick={(e) => {
                 e.stopPropagation();
-                handleDirectAction(row, 'reject');
+                handleOpenAction(row, 'reject');
               }}
             >
               Reject
@@ -268,9 +284,12 @@ export const usePeopleRequests = () => {
     columns,
     tabs,
     getFilteredData: (list: AccessRequestRow[]) => getFilteredData(list, tableSearch),
-    selectedPerson,
-    setSelectedPerson,
     actionInProgress,
-    handleDirectAction,
+    actionTarget,
+    actionNotes,
+    handleOpenAction,
+    handleCloseAction,
+    handleConfirmAction,
+    setActionNotes,
   };
 };

@@ -125,6 +125,27 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     },
   },
 
+  // 2-column grid for doc sections (number + expiry pairs)
+  docFormGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: theme.spacing(2),
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '1fr',
+    },
+  },
+
+  // Equal-width upload button row
+  uploadRow: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 0fr)',
+    gap: theme.spacing(1.5),
+    marginTop: theme.spacing(1.5),
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '1fr',
+    },
+  },
+
   // ─── Form root ────────────────────────────────────────────────────────────────
   formRoot: {
     width: '100%',

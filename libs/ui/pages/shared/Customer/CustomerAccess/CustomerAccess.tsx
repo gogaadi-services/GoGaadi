@@ -16,7 +16,7 @@ import { useAdminKeyframes } from '@gogaadi/hooks';
 import { useStyles } from './CustomerAccess.styles';
 import { useCustomerAccess, getCategoryFromPath } from './hooks/useCustomerAccess';
 import TabPanel from './components/TabPanel';
-import CustomerPersonDetailDialog from './dialogs/CustomerPersonDetailDialog';
+import ActionDialog from './dialogs/ActionDialog';
 
 const CustomerAccess = () => {
   const { classes } = useStyles();
@@ -41,10 +41,12 @@ const CustomerAccess = () => {
     getFilteredData,
     isMultiType,
     vehicleSubTypes,
-    selectedPerson,
-    setSelectedPerson,
     actionInProgress,
-    handleDirectAction,
+    actionTarget,
+    actionNotes,
+    handleCloseAction,
+    handleConfirmAction,
+    setActionNotes,
   } = useCustomerAccess(category);
 
   if (isLoading) {
@@ -182,7 +184,6 @@ const CustomerAccess = () => {
               const pendingCount = sub1Label === 'pending' ? sub1 : 0;
               return (
                 <Box key={label} sx={{ position: 'relative' }}>
-                  {/* Notification bell — sits outside overflow:hidden card */}
                   <Tooltip title={pendingCount > 0 ? `${pendingCount} pending approval` : 'No pending requests'} arrow>
                     <Box
                       sx={{
@@ -273,7 +274,6 @@ const CustomerAccess = () => {
                 const pendingCount = sub1Label === 'pending' || sub1Label === 'awaiting' ? sub1 : 0;
                 return (
                   <Box key={label} sx={{ position: 'relative' }}>
-                    {/* Notification bell — sits outside overflow:hidden card */}
                     <Tooltip title={pendingCount > 0 ? `${pendingCount} pending approval` : 'No pending requests'} arrow>
                       <Box
                         sx={{
@@ -409,12 +409,13 @@ const CustomerAccess = () => {
         ))}
       </Box>
 
-      <CustomerPersonDetailDialog
-        open={!!selectedPerson}
-        row={selectedPerson}
+      <ActionDialog
+        actionTarget={actionTarget}
+        actionNotes={actionNotes}
         actionInProgress={actionInProgress}
-        onClose={() => setSelectedPerson(null)}
-        onAction={(row, type) => { setSelectedPerson(null); handleDirectAction(row, type); }}
+        onClose={handleCloseAction}
+        onNotesChange={setActionNotes}
+        onConfirm={handleConfirmAction}
       />
     </>
   );

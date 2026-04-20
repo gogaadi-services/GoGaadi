@@ -1,12 +1,13 @@
 import path from 'node:path';
-import { defineConfig } from 'prisma/config';
-import 'dotenv/config';
+import { fileURLToPath } from 'node:url';
+import { defineConfig, env } from 'prisma/config';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   schema: path.join(__dirname, 'gateways/prisma/schema.prisma'),
 
   datasource: {
-    url: process.env.DATABASE_URL,
-    directUrl: process.env.DATABASE_DIRECT_URL,
+    url: env('DATABASE_URL'),
   },
 });

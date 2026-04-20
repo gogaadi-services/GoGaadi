@@ -15,7 +15,6 @@ const CustomerManagement = () => {
   const {
     cfg,
     isLoading,
-    categoryRows,
     approvedRows,
     pendingRows,
     rejectedRows,
@@ -39,33 +38,31 @@ const CustomerManagement = () => {
     isMultiType && vehicleSubTypes
       ? [
           {
-            label: 'All',
-            value: categoryRows.length,
+            label: 'Approved',
+            value: approvedRows.length,
             Icon: cfg.Icon,
             color: cfg.color,
             tabIndex: 0,
             sub1: approvedRows.length,
-            sub1Label: 'approved',
+            sub1Label: 'active',
             sub1Color: '#10b981',
-            sub2: pendingRows.length,
-            sub2Label: 'pending',
-            sub2Color: '#d97706',
+            sub2: rejectedRows.length,
+            sub2Label: 'rejected',
+            sub2Color: '#dc2626',
           },
           ...vehicleSubTypes.map((st, idx) => {
             const rows = tabLists[idx + 1];
-            const approved = rows.filter((r) => r.status === 'approved').length;
-            const pending = rows.filter((r) => r.status === 'pending' || r.status === 'under_review').length;
             return {
               label: st.label,
               value: rows.length,
               Icon: st.Icon,
               color: st.color,
               tabIndex: idx + 1,
-              sub1: approved,
-              sub1Label: 'approved',
+              sub1: rows.length,
+              sub1Label: 'active',
               sub1Color: '#10b981',
-              sub2: pending,
-              sub2Label: 'pending',
+              sub2: 0,
+              sub2Label: '',
               sub2Color: '#d97706',
             };
           }),
@@ -102,13 +99,13 @@ const CustomerManagement = () => {
   // ── Stat cards: single-category ──────────────────────────────────────────────
   const singleStatCards: ShellStatCard[] = [
     {
-      label: 'All',
-      value: categoryRows.length,
+      label: 'Approved',
+      value: approvedRows.length,
       Icon: cfg.Icon,
       color: cfg.color,
       tabIndex: 0,
       sub1: approvedRows.length,
-      sub1Label: 'approved',
+      sub1Label: 'active',
       sub1Color: '#10b981',
       sub2: rejectedRows.length,
       sub2Label: 'rejected',

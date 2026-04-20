@@ -25,9 +25,12 @@ const PeopleRequests = () => {
     columns,
     tabs,
     getFilteredData,
-    selectedPerson,
-    setSelectedPerson,
     actionInProgress,
+    actionTarget,
+    actionNotes,
+    handleCloseAction,
+    handleConfirmAction,
+    setActionNotes,
     handleDirectAction,
   } = usePeopleRequests();
 
@@ -209,11 +212,12 @@ const PeopleRequests = () => {
       </Box>
 
       <PersonDetailDialog
-        open={!!selectedPerson}
-        row={selectedPerson}
+        actionTarget={actionTarget}
+        actionNotes={actionNotes}
         actionInProgress={actionInProgress}
-        onClose={() => setSelectedPerson(null)}
-        onAction={(row, type) => { setSelectedPerson(null); handleDirectAction(row, type); }}
+        onClose={handleCloseAction}
+        onNotesChange={setActionNotes}
+        onConfirm={handleConfirmAction}
       />
     </>
   );

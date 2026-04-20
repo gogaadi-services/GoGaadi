@@ -67,8 +67,10 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import SecurityIcon from '@mui/icons-material/Security';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuthActionMutation } from '@gogaadi/services';
 import { useNotification } from '@gogaadi/hooks';
+import { constants } from '@gogaadi/utils';
 import {
   CustomerApprovalRow,
   ApprovalStatus,
@@ -310,6 +312,12 @@ const fmtDate = (v: unknown) => {
 export const useCustomerAccess = (category: CustomerCategory) => {
   const [authAction] = useAuthActionMutation();
   const notify = useNotification();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const isConsultantPath = pathname.startsWith('/app/consultant');
+  const customerDetailPath = isConsultantPath
+    ? constants.ConsultantPath.CUSTOMER_DETAIL
+    : constants.AdminPath.CUSTOMER_DETAIL;
   const cfg = CUSTOMER_ACCESS_CONFIG[category];
   const isMultiType = category === 'mobility' || category === 'logistics';
   const vehicleSubTypes = isMultiType ? VEHICLE_SUB_TYPES[category as 'mobility' | 'logistics'] : null;
@@ -319,7 +327,13 @@ export const useCustomerAccess = (category: CustomerCategory) => {
   const [tabValue, setTabValue] = useState(0);
   const [tableSearch, setTableSearch] = useState('');
   const [actionInProgress, setActionInProgress] = useState<number | string | null>(null);
-  const [selectedPerson, setSelectedPerson] = useState<CustomerApprovalRow | null>(null);
+  const [actionTarget, setActionTarget] = useState<{ row: CustomerApprovalRow; type: ApprovalAction } | null>(null);
+  const [actionNotes, setActionNotes] = useState('');
+
+  const navigateToDetail = (row: CustomerApprovalRow) => {
+    const uid = (row as any).customerId ?? String(row.id);
+    navigate(customerDetailPath.replace(':id', uid));
+  };
 
   const fetchData = useCallback(async () => {
     try {
@@ -367,10 +381,7 @@ export const useCustomerAccess = (category: CustomerCategory) => {
     );
   };
 
-  const handleDirectAction = async (row: CustomerApprovalRow, type: ApprovalAction) => {
-    const label = type === 'approve' ? 'Approve' : type === 'reject' ? 'Reject' : 'Mark Under Review';
-    const name = `${row.firstName} ${row.lastName}`.trim();
-    if (!window.confirm(`${label} request for ${name}?`)) return;
+  const handleDirectAction = async (row: CustomerApprovalRow, type: ApprovalAction, notes?: string) => {
     setActionInProgress(row.id);
     try {
       const newStatus =
@@ -378,7 +389,7 @@ export const useCustomerAccess = (category: CustomerCategory) => {
       await authAction({
         action: 'update-customer-onboarding',
         onboardingId: row.id,
-        data: { status: newStatus },
+        data: { status: newStatus, adminNotes: notes || undefined },
       }).unwrap();
       const resultLabel =
         type === 'approve' ? 'approved' : type === 'reject' ? 'rejected' : 'moved to under review';
@@ -389,6 +400,22 @@ export const useCustomerAccess = (category: CustomerCategory) => {
     } finally {
       setActionInProgress(null);
     }
+  };
+
+  const handleOpenAction = (row: CustomerApprovalRow, type: ApprovalAction) => {
+    setActionNotes('');
+    setActionTarget({ row, type });
+  };
+
+  const handleCloseAction = () => {
+    setActionTarget(null);
+    setActionNotes('');
+  };
+
+  const handleConfirmAction = async () => {
+    if (!actionTarget) return;
+    await handleDirectAction(actionTarget.row, actionTarget.type, actionNotes);
+    handleCloseAction();
   };
 
   const tabs = isMultiType && vehicleSubTypes
@@ -425,8 +452,8 @@ export const useCustomerAccess = (category: CustomerCategory) => {
       format: (_v: unknown, row: CustomerApprovalRow) => (
         <Typography
           component='span'
-          sx={{ fontWeight: 700, fontSize: '0.84rem', color: 'primary.main', cursor: 'pointer', '&:hover': { textDecoration: 'underline' } }}
-          onClick={(e) => { e.stopPropagation(); setSelectedPerson(row); }}
+          sx={{ fontWeight: 700, fontSize: '0.84rem', color: '#1d4ed8', cursor: 'pointer', textDecoration: 'underline', textDecorationColor: 'rgba(29,78,216,0.35)', textUnderlineOffset: '3px', '&:hover': { color: '#1e40af' } }}
+          onClick={(e) => { e.stopPropagation(); navigateToDetail(row); }}
         >
           {`${row.firstName} ${row.lastName}`.trim() || '—'}
         </Typography>
@@ -617,7 +644,7 @@ export const useCustomerAccess = (category: CustomerCategory) => {
                 variant='contained'
                 color='success'
                 disabled={isProcessing}
-                onClick={() => handleDirectAction(row, 'approve')}
+                onClick={() => handleOpenAction(row, 'approve')}
                 startIcon={<CheckCircleOutlineIcon sx={{ fontSize: '0.9rem !important' }} />}
                 sx={{ fontSize: '0.7rem', textTransform: 'none', borderRadius: 1.5, minWidth: 0, px: 1 }}
               >
@@ -630,7 +657,7 @@ export const useCustomerAccess = (category: CustomerCategory) => {
                 variant='outlined'
                 color='error'
                 disabled={isProcessing}
-                onClick={() => handleDirectAction(row, 'reject')}
+                onClick={() => handleOpenAction(row, 'reject')}
                 startIcon={<CancelOutlinedIcon sx={{ fontSize: '0.9rem !important' }} />}
                 sx={{ fontSize: '0.7rem', textTransform: 'none', borderRadius: 1.5, minWidth: 0, px: 1 }}
               >
@@ -659,9 +686,13 @@ export const useCustomerAccess = (category: CustomerCategory) => {
     getFilteredData,
     isMultiType,
     vehicleSubTypes,
-    selectedPerson,
-    setSelectedPerson,
     actionInProgress,
     handleDirectAction,
+    actionTarget,
+    actionNotes,
+    handleOpenAction,
+    handleCloseAction,
+    handleConfirmAction,
+    setActionNotes,
   };
 };

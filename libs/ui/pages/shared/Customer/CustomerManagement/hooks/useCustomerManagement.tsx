@@ -363,10 +363,10 @@ export const useCustomerManagement = (category: CustomerManagementCategory) => {
   const pendingRows = categoryRows.filter((r) => r.status === 'pending' || r.status === 'under_review');
   const rejectedRows = categoryRows.filter((r) => r.status === 'rejected');
 
-  // tabLists: multi-type → [All, ...perSubType, Rejected, Draft(pending)]; single → [All, Rejected, Draft(pending)]
+  // tabLists: All tab shows only approved; Rejected and Draft remain separate
   const tabLists: CustomerApprovalRow[][] = isMultiType && vehicleSubTypes
-    ? [categoryRows, ...vehicleSubTypes.map((st) => categoryRows.filter(st.filterFn)), rejectedRows, pendingRows]
-    : [categoryRows, rejectedRows, pendingRows];
+    ? [approvedRows, ...vehicleSubTypes.map((st) => approvedRows.filter(st.filterFn)), rejectedRows, pendingRows]
+    : [approvedRows, rejectedRows, pendingRows];
 
   const getFilteredData = (rows: CustomerApprovalRow[]) => {
     if (!tableSearch.trim()) return rows;
@@ -400,7 +400,7 @@ export const useCustomerManagement = (category: CustomerManagementCategory) => {
 
   const tabs = isMultiType && vehicleSubTypes
     ? [
-        <Tab key='all' icon={<cfg.Icon sx={{ fontSize: '1rem' }} />} iconPosition='start' label='All' />,
+        <Tab key='approved' icon={<cfg.Icon sx={{ fontSize: '1rem' }} />} iconPosition='start' label='Approved' />,
         ...vehicleSubTypes.map((st) => (
           <Tab key={st.key} icon={<st.Icon sx={{ fontSize: '1rem' }} />} iconPosition='start' label={st.label} />
         )),
@@ -408,7 +408,7 @@ export const useCustomerManagement = (category: CustomerManagementCategory) => {
         <Tab key='draft' icon={<PendingActionsIcon sx={{ fontSize: '1rem' }} />} iconPosition='start' label='Draft' />,
       ]
     : [
-        <Tab key='all' icon={<GroupIcon sx={{ fontSize: '1rem' }} />} iconPosition='start' label='All' />,
+        <Tab key='approved' icon={<HowToRegIcon sx={{ fontSize: '1rem' }} />} iconPosition='start' label='Approved' />,
         <Tab key='rejected' icon={<CancelOutlinedIcon sx={{ fontSize: '1rem' }} />} iconPosition='start' label='Rejected' />,
         <Tab key='draft' icon={<PendingActionsIcon sx={{ fontSize: '1rem' }} />} iconPosition='start' label='Draft' />,
       ];
