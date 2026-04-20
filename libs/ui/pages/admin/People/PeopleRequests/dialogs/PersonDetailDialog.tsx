@@ -93,7 +93,7 @@ const ActionDialog = ({
                 : `You are about to reject the request from ${actionTarget.user.name}.`}
             </Typography>
             <TextField
-              label='Admin Notes (optional)'
+              label='Admin Notes'
               multiline
               rows={3}
               fullWidth
@@ -105,6 +105,7 @@ const ActionDialog = ({
               value={actionNotes}
               onChange={(e) => onNotesChange(e.target.value)}
               className={classes.notesTextField}
+              helperText='These notes will be saved and visible in the user review details.'
             />
           </DialogContent>
 

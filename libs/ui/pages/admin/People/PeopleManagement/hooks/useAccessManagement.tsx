@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
-import { Chip, Switch, Link } from '@mui/material';
+import { Chip, Switch, Link, Tooltip, Typography } from '@mui/material';
 import { useAuthActionMutation } from '@gogaadi/services';
 import { constants } from '@gogaadi/utils';
 import { useAuth, useNotification, useMediaQuery } from '@gogaadi/hooks';
@@ -304,6 +304,23 @@ const usePeopleManagement = () => {
         label: 'Access End Date',
         minWidth: 180,
         format: (v) => fmtDate(v as string),
+      },
+      {
+        id: 'adminNotes' as keyof UserRow,
+        label: 'Review Notes',
+        minWidth: 180,
+        sortable: false,
+        format: (v): React.ReactNode => {
+          const note = String(v || '');
+          if (!note || note === 'null') return <Typography variant='body2' sx={{ color: '#94a3b8', fontStyle: 'italic', fontSize: '0.78rem' }}>—</Typography>;
+          return (
+            <Tooltip title={note} placement='top' arrow>
+              <Typography variant='body2' sx={{ fontSize: '0.78rem', color: '#475569', maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', cursor: 'help' }}>
+                {note}
+              </Typography>
+            </Tooltip>
+          );
+        },
       },
       {
         id: 'source' as keyof UserRow,

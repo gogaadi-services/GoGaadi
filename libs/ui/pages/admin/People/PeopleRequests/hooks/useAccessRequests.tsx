@@ -98,7 +98,7 @@ export const usePeopleRequests = () => {
       await authAction({
         action: type === 'approve' ? 'approve-role-request' : 'reject-role-request',
         userId: row.id,
-        data: notes ? { adminNotes: notes } : undefined,
+        adminNotes: notes || undefined,
       }).unwrap();
       notify.success(
         type === 'approve'
@@ -114,7 +114,7 @@ export const usePeopleRequests = () => {
   };
 
   const handleOpenAction = (row: AccessRequestRow, type: ActionType) => {
-    setActionNotes('');
+    setActionNotes(row.adminNotes ?? '');
     setActionTarget({ user: row, type });
   };
 

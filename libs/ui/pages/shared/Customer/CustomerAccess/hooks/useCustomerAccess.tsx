@@ -403,7 +403,7 @@ export const useCustomerAccess = (category: CustomerCategory) => {
   };
 
   const handleOpenAction = (row: CustomerApprovalRow, type: ApprovalAction) => {
-    setActionNotes('');
+    setActionNotes(row.adminNotes ?? '');
     setActionTarget({ row, type });
   };
 

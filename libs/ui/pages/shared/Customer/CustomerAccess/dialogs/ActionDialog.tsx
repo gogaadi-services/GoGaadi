@@ -117,7 +117,7 @@ const ActionDialog = ({
                   : `You are about to mark ${actionTarget.row.firstName}'s request as under review.`}
             </Typography>
             <TextField
-              label='Notes (optional)'
+              label='Admin Notes'
               multiline
               rows={3}
               fullWidth
@@ -130,6 +130,7 @@ const ActionDialog = ({
               }
               value={actionNotes}
               onChange={(e) => onNotesChange(e.target.value)}
+              helperText='These notes will be saved and visible in the customer review details.'
               className={classes.notesTextField}
             />
           </DialogContent>
