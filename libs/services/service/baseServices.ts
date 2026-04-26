@@ -26,9 +26,12 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
   const result = await rawBaseQuery(args, api, extraOptions);
 
   if (result.error?.status === 401) {
-    localStorage.removeItem('gogaadi_token');
-    localStorage.removeItem('gogaadi_user');
-    window.location.href = '/signin';
+    const token = localStorage.getItem('gogaadi_token');
+    if (token) {
+      localStorage.removeItem('gogaadi_token');
+      localStorage.removeItem('gogaadi_user');
+      window.location.href = '/signin';
+    }
   }
 
   return result;
